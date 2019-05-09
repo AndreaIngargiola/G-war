@@ -12,7 +12,9 @@
 
 	<!-- Checks whether files end with a new line. -->
 	<!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
-	<module name="NewlineAtEndOfFile" />
+	<module name="NewlineAtEndOfFile">
+ 		<property name="lineSeparator" value="LF"/>
+	</module>
 
 	<property name="severity" value="warning" />
 
@@ -45,11 +47,6 @@
 	</module>
 
 	<module name="TreeWalker">
-		<module name="SuppressionCommentFilter">
-			<property name="offCommentFormat" value="CHECKSTYLE: ([\w\|]+) OFF" />
-			<property name="onCommentFormat" value="CHECKSTYLE: ([\w\|]+) ON" />
-			<property name="checkFormat" value="$1" />
-		</module>
 		<!-- Checks for Javadoc comments. -->
 		<!-- See http://checkstyle.sf.net/config_javadoc.html -->
 		<module name="JavadocMethod">

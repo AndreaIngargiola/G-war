@@ -1,6 +1,7 @@
 package model.levelsgenerator;
 
 import java.util.Optional;
+import java.awt.Point;
 
 /**
  * 
@@ -23,7 +24,10 @@ public interface Grid {
 
     /**
      * try to place the block b in the matrix with spawnPoint as its center.
-     * @param spawnPoint is the "center" of the block where the absolute coordinates of the block are translated in relative coordinates in the matrix.
+     * @param spawnPoint is the "center" of the block where the absolute coordinates 
+     * of the block are translated in relative coordinates in the matrix.
+     * 
+     * @param b is the block to place.
      * @return true if the block is placed, false if the placing is failed.
      */
     Boolean tryToPlace(Point spawnPoint, Block b);

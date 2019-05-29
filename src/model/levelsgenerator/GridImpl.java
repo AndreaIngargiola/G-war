@@ -3,6 +3,7 @@ package model.levelsgenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.awt.Point;
 
 /**
  * implement the logic interface using a list of list of integer where the value of the 
@@ -16,7 +17,7 @@ public class GridImpl implements Grid {
      * initialize the matrix.
      * @param bounds is the width (and consequentially the height) of the squared matrix.
      */
-    public LogicsImpl(final int bounds) {
+    public GridImpl(final int bounds) {
         for (int i = 0; i < bounds; i++) {
             this.matrix.add(new ArrayList<>());
             for (int j = 0; j < bounds; j++) {
@@ -30,9 +31,8 @@ public class GridImpl implements Grid {
         if (this.checkOccupation(spawnPoint, b).equals(false)) {
             return false;
         } else {
-            b.getAbsoluteCoordinates().stream()
-            .forEach(p -> this.setElement(new Point(spawnPoint.getX() + p.getX(), 
-                                          spawnPoint.getY() + p.getY()), 1));
+            b.getRelativeCoordinates().stream()
+            .forEach(p -> this.setElement(new Point(p.x + spawnPoint.x, p.y + spawnPoint.y), 1));
             return true;
         }
     }
@@ -45,7 +45,7 @@ public class GridImpl implements Grid {
     @Override
     public final Optional<Integer> getElement(final Point elemCoordinates) {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            return Optional.of(this.matrix.get(elemCoordinates.getX()).get(elemCoordinates.getY()));
+            return Optional.of(this.matrix.get(elemCoordinates.x).get(elemCoordinates.y));
         } else {
             return Optional.empty();
         }
@@ -58,14 +58,14 @@ public class GridImpl implements Grid {
 
     private void setElement(final Point elemCoordinates, final Integer value) {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            this.matrix.get(elemCoordinates.getX()).set(elemCoordinates.getY(), value);
+            this.matrix.get(elemCoordinates.x).set(elemCoordinates.y, value);
         }
     }
 
     private Boolean checkOccupation(final Point spawnPoint, final Block b) {
-        final Integer freeTilesOnMatrix = (int) b.getAbsoluteCoordinates().stream()
-                                                 .filter(p -> this.getElement(new Point(spawnPoint.getX() + p.getX(), 
-                                                                                        spawnPoint.getY() + p.getY()))
+        final Integer freeTilesOnMatrix = (int) b.getRelativeCoordinates().stream()
+                                                 .filter(p -> this.getElement(new Point(spawnPoint.x + p.x, 
+                                                                                        spawnPoint.y + p.y))
                                                                   .equals(Optional.of(0)))
                                                  .count();
         return freeTilesOnMatrix.equals(b.getOccupation());

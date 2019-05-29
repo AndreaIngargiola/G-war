@@ -2,6 +2,7 @@ package test;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,12 @@ import java.util.Optional;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import model.levelsgenerator.Block;
+import model.levelsgenerator.BlockImpl;
+import model.levelsgenerator.Grid;
+import model.levelsgenerator.GridImpl;
+
 import javax.swing.JFrame;
 
 /**
@@ -20,7 +27,7 @@ public class TestGrid extends JFrame {
      * 
      */
     private static final long serialVersionUID = 1886141971648582402L;
-    private final Map<JButton, Pair<Integer, Integer>> buttons = new HashMap<>();
+    private final Map<JButton, Point> buttons = new HashMap<>();
 
     /**
      * The empty constructor for the view of the test.
@@ -34,13 +41,13 @@ public class TestGrid extends JFrame {
 
             final JPanel panel = new JPanel(new GridLayout(size, size));
             this.getContentPane().add(BorderLayout.CENTER, panel);
-            final Logics logic = new LogicsImpl(size);
-            final BlockFactory bf = new BlockFactoryImpl();
-            final Block b = bf.getLake(2);
+            final Grid logic = new GridImpl(size);
+            //final BlockFactory bf = new BlockFactoryImpl();
+            final Block b = new BlockImpl(new Point(1, 1)); 
 
             ActionListener al = (e) -> {
                    final JButton bt = (JButton) e.getSource();
-                   final Point spawnPoint = new Point(this.buttons.get(bt).getX(), this.buttons.get(bt).getY());
+                   final Point spawnPoint = new Point(this.buttons.get(bt).x, this.buttons.get(bt).y);
 
                    logic.tryToPlace(spawnPoint, b);
                    this.redraw(logic);
@@ -51,7 +58,7 @@ public class TestGrid extends JFrame {
                    String buttonText = "X:" + j + " Y:" + i;
                     final JButton jb = new JButton(buttonText);
                     jb.addActionListener(al);
-                    this.buttons.put(jb, new Pair<Integer, Integer>(j, i));
+                    this.buttons.put(jb, new Point(j, i));
                     panel.add(jb);
                 }
 
@@ -64,9 +71,9 @@ public class TestGrid extends JFrame {
     * @param logic
     *         is the model instance of the test
     */
-    private void redraw(final Logics logic) {
+    private void redraw(final Grid logic) {
         for (final JButton jb : this.buttons.keySet()) {
-            final Point currentPoint = new Point(this.buttons.get(jb).getX(), this.buttons.get(jb).getY());
+            final Point currentPoint = new Point(this.buttons.get(jb).x, this.buttons.get(jb).y);
             jb.setBackground(logic.getElement(currentPoint).equals(Optional.of(1)) ? Color.yellow : jb.getBackground());
         }
     }

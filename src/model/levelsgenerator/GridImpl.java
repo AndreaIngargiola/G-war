@@ -11,7 +11,7 @@ import java.awt.Point;
  */
 public class GridImpl implements Grid {
 
-    private List<List<Integer>> matrix = new ArrayList<>();
+    private final List<List<Integer>> matrix = new ArrayList<>();
 
     /**
      * initialize the matrix.

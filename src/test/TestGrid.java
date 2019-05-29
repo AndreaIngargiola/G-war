@@ -23,9 +23,6 @@ import javax.swing.JFrame;
  */
 public class TestGrid extends JFrame {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1886141971648582402L;
     private final Map<JButton, Point> buttons = new HashMap<>();
 
@@ -36,34 +33,38 @@ public class TestGrid extends JFrame {
      */
     public TestGrid(final int size) {
 
-            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            this.setSize(1000, 1000);
+        super();
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setSize(1000, 1000);
 
-            final JPanel panel = new JPanel(new GridLayout(size, size));
-            this.getContentPane().add(BorderLayout.CENTER, panel);
-            final Grid logic = new GridImpl(size);
-            //final BlockFactory bf = new BlockFactoryImpl();
-            final Block b = new BlockImpl(new Point(1, 1)); 
+        final JPanel panel = new JPanel(new GridLayout(size, size));
+        this.getContentPane().add(BorderLayout.CENTER, panel);
+        final Grid logic = new GridImpl(size);
+        //final BlockFactory bf = new BlockFactoryImpl();
+        final Block b = new BlockImpl(new Point(1, 1));
+        for (int i = 0; i < 4; i++) {
+            b.addPoint(new Point(1, i)); 
+        }
 
-            ActionListener al = (e) -> {
-                   final JButton bt = (JButton) e.getSource();
-                   final Point spawnPoint = new Point(this.buttons.get(bt).x, this.buttons.get(bt).y);
+        final ActionListener al = (e) -> {
+               final JButton bt = (JButton) e.getSource();
+               final Point spawnPoint = new Point(this.buttons.get(bt).x, this.buttons.get(bt).y);
 
-                   logic.tryToPlace(spawnPoint, b);
-                   this.redraw(logic);
-            };
+               logic.tryToPlace(spawnPoint, b);
+               this.redraw(logic);
+        };
 
-            for (int i = size - 1; i >= 0; i--) {
-                for (int j = 0; j < size; j++) {
-                   String buttonText = "X:" + j + " Y:" + i;
-                    final JButton jb = new JButton(buttonText);
-                    jb.addActionListener(al);
-                    this.buttons.put(jb, new Point(j, i));
-                    panel.add(jb);
-                }
-
+        for (int i = size - 1; i >= 0; i--) {
+            for (int j = 0; j < size; j++) {
+                final String buttonText = "X:" + j + " Y:" + i;
+                final JButton jb = new JButton(buttonText);
+                jb.addActionListener(al);
+                this.buttons.put(jb, new Point(j, i));
+                panel.add(jb);
             }
-            this.setVisible(true);
+
+        }
+        this.setVisible(true);
     }
 
     /**

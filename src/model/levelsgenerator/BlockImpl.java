@@ -26,7 +26,7 @@ public class BlockImpl implements Block {
     }
 
     @Override
-    public void addPoint(final Point p) {
+    public final void addPoint(final Point p) {
         this.vertex.add(p);
     }
 
@@ -39,7 +39,7 @@ public class BlockImpl implements Block {
     }
 
     @Override
-    public Integer getOccupation() {
+    public final Integer getOccupation() {
         return this.vertex.size();
     }
 }

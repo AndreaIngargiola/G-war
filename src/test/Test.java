@@ -1,9 +1,14 @@
 package test;
 
 /**
- * The main class for the grid test.
+ * The main class tests.
  */
-abstract class Test {
+public final class Test {
+
+    private Test() {
+        //nothing
+    }
+
     /**
      * 
      * @param args

@@ -3,7 +3,6 @@ package model.levelsgenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.awt.Point;
 
 /**
  * implement the logic interface using a list of list of integer where the value of the 
@@ -27,12 +26,14 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final Boolean tryToPlace(final Point spawnPoint, final Block b) {
+    public final Boolean tryToPlace(final Coordinate spawnPoint, final Block b) {
         if (this.checkOccupation(spawnPoint, b).equals(false)) {
             return false;
         } else {
             b.getRelativeCoordinates().stream()
-            .forEach(p -> this.setElement(new Point(p.x + spawnPoint.x, p.y + spawnPoint.y), 1));
+            .map(c -> c.getPoint())
+            .forEach(p -> this.setElement(new Coordinate(p.x + spawnPoint.getPoint().x, 
+                                                         p.y + spawnPoint.getPoint().y), 1));
             return true;
         }
     }
@@ -43,29 +44,36 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final Optional<Integer> getElement(final Point elemCoordinates) {
+    public final Optional<Integer> getElement(final Coordinate elemCoordinates) {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            return Optional.of(this.matrix.get(elemCoordinates.x).get(elemCoordinates.y));
+            return Optional.of(this.matrix.get(elemCoordinates.getPoint().x).get(elemCoordinates.getPoint().y));
         } else {
             return Optional.empty();
         }
     }
 
-    private Boolean isInMatrixBounds(final Point elemCoordinates) {
-        return (elemCoordinates.getX() >= 0 &&  elemCoordinates.getX() < this.matrix.size() 
-               && elemCoordinates.getY() >= 0 && elemCoordinates.getY() < this.matrix.size());
+    private Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
+        return (elemCoordinates.getPoint().x >= 0 &&  elemCoordinates.getPoint().x < this.matrix.size() 
+               && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y  < this.matrix.size());
     }
 
-    private void setElement(final Point elemCoordinates, final Integer value) {
+    private void setElement(final Coordinate elemCoordinates, final Integer value) {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            this.matrix.get(elemCoordinates.x).set(elemCoordinates.y, value);
+            this.matrix.get(elemCoordinates.getPoint().x).set(elemCoordinates.getPoint().y, value);
         }
     }
 
-    private Boolean checkOccupation(final Point spawnPoint, final Block b) {
+    /**
+     * Given a certain Block and a spawn point on the matrix, check if the requested tiles that we'll trying to occupy are free. 
+     * @param spawnPoint is the entering point on the matrix.
+     * @param b is the block that i'm trying to place.
+     * @return a boolean: true if all the tiles are free, false if the tiles are occupied.
+     */
+    private Boolean checkOccupation(final Coordinate spawnPoint, final Block b) {
         final Integer freeTilesOnMatrix = (int) b.getRelativeCoordinates().stream()
-                                                 .filter(p -> this.getElement(new Point(spawnPoint.x + p.x, 
-                                                                                        spawnPoint.y + p.y))
+                                                 .map(c -> c.getPoint())
+                                                 .filter(p -> this.getElement(new Coordinate(spawnPoint.getPoint().x + p.x, 
+                                                                                             spawnPoint.getPoint().y + p.y))
                                                                   .equals(Optional.of(0)))
                                                  .count();
         return freeTilesOnMatrix.equals(b.getOccupation());

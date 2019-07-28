@@ -1,5 +1,4 @@
 package model.levelsgenerator;
-import java.awt.Point;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,8 +9,8 @@ import java.util.stream.Collectors;
  */
 public class BlockImpl implements Block {
 
-    private final Set<Point> vertex;
-    private final Point spawnPoint;
+    private final Set<Coordinate> vertex;
+    private final Coordinate spawnPoint;
 
     /**
      * the block cannot be empty, so when the block is created the first point will be the "center" of the block or, in other
@@ -19,22 +18,23 @@ public class BlockImpl implements Block {
      * @param spawnPoint is the initial point and the point in which the relative coordinates of the other points 
      * will be calculated
      */
-    public BlockImpl(final Point spawnPoint) {
+    public BlockImpl(final Coordinate spawnPoint) {
         vertex = new HashSet<>();
         this.vertex.add(spawnPoint);
         this.spawnPoint = spawnPoint;
     }
 
     @Override
-    public final void addPoint(final Point p) {
+    public final void addPoint(final Coordinate p) {
         this.vertex.add(p);
     }
 
     @Override
-    public final List<Point> getRelativeCoordinates() {
+    public final List<Coordinate> getRelativeCoordinates() {
        return this.vertex.stream()
-                         .map(p -> new Point(p.x - this.spawnPoint.x, 
-                                             p.y - this.spawnPoint.y))
+                         .map(c -> c.getPoint())
+                         .map(p -> new Coordinate(p.x - this.spawnPoint.getPoint().x, 
+                                                  p.y - this.spawnPoint.getPoint().y))
                          .collect(Collectors.toList());
     }
 

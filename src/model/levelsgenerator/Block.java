@@ -1,7 +1,6 @@
 package model.levelsgenerator;
 
 import java.util.List;
-import java.awt.Point;
 
 /**
  * Block is a class that represent the occupational space of an entity in the grid level construction, is a list of point
@@ -11,15 +10,15 @@ public interface Block {
 
     /**
      * add a point to the block.
-     * @param p is the point to add to the block.
+     * @param c is the point to add to the block.
      */
-    void addPoint(Point p);
+    void addPoint(Coordinate c);
 
     /**
      * get the relative coordinates of the points that form the block based on the spawn point.
      * @return the list of relative coordinates.
      */
-    List<Point> getRelativeCoordinates();
+    List<Coordinate> getRelativeCoordinates();
 
     /**
      * get the number of points that compose the block.

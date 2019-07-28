@@ -1,7 +1,6 @@
 package model.levelsgenerator;
 
 import java.util.Optional;
-import java.awt.Point;
 
 /**
  * 
@@ -20,7 +19,7 @@ public interface Grid {
      * @param elemCoordinates are the integer coordinates of the desired element.
      * @return an Optional<Integer> of the matrix element at elemCoordinates if exist.
      */
-    Optional<Integer> getElement(Point elemCoordinates);
+    Optional<Integer> getElement(Coordinate elemCoordinates);
 
     /**
      * try to place the block b in the matrix with spawnPoint as its center.
@@ -30,5 +29,5 @@ public interface Grid {
      * @param b is the block to place.
      * @return true if the block is placed, false if the placing is failed.
      */
-    Boolean tryToPlace(Point spawnPoint, Block b);
+    Boolean tryToPlace(Coordinate spawnPoint, Block b);
 }

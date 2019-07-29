@@ -15,8 +15,7 @@ public class MenuGeneralViewImpl extends Parent implements MenuGeneralView {
     private final Group menuView = new Group();
     private final GeneralButton jbNewGame;
     private final GeneralButton jbExit;
-    private MenuUpdate observer;
-    //private final GeneralButton jbBack;
+    private MenuUpdate controller;
 
     /**
      * Constructors of MenuGeneralView.
@@ -26,40 +25,38 @@ public class MenuGeneralViewImpl extends Parent implements MenuGeneralView {
     public MenuGeneralViewImpl(final Stage stage) {
 
         super();
-        final VBox layout0 = new VBox(8);
+        final VBox layout = new VBox(8);
         jbNewGame = new GeneralButton("New Game");
         jbNewGame.setOnMouseClicked(event -> {
-            observer.newGame();
+            controller.newGame();
         });
 
         jbExit = new GeneralButton("Exit");
         jbExit.setOnMouseClicked(exit -> {
-            observer.quit();
+            controller.quit();
         });
 
-        /*jbBack = new GeneralButton("Back");
-         *jbBack.setOnMouseClicked(event ->{
-              menuView.getChildren.add(layout0);
-          }
-        */
-        layout0.getChildren().addAll(jbNewGame, jbExit);
+        layout.getChildren().addAll(jbNewGame, jbExit);
     }
 
     @Override
-    public final void setObserver(final MenuUpdate observer) {
-        // TODO Auto-generated method stub
-        this.observer = observer;
+    public final void setController(final MenuUpdate controller) {
+        this.controller = controller;
 }
     @Override
     public final void quit() {
-        // TODO Auto-generated method stub
         Platform.exit();
 
     }
     @Override
     public final Node getNode() {
-        // TODO Auto-generated method stub
         return menuView;
+    }
+
+    @Override
+    public final void updateView() {
+        jbNewGame.updateBtn("New Game");
+        jbExit.updateBtn("Exit");
     }
 
 }

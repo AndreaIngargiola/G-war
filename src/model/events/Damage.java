@@ -3,7 +3,8 @@ package model.events;
 import model.entities.Entity;
 
 /**
- * Models an event Damage (when an entity loses health points).
+ * Models a Damage event.
+ * When an entity loses health points.
  *
  */
 

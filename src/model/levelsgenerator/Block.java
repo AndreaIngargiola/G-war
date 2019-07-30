@@ -2,6 +2,8 @@ package model.levelsgenerator;
 
 import java.util.List;
 
+import model.utility.Pair;
+
 /**
  * Block is a class that represent the occupational space of an entity in the grid level construction, is a list of point
  * that will be converted in relative coordinates in the matrix based on the "spawn point".
@@ -25,5 +27,4 @@ public interface Block {
      * @return the number of points that compose the block.
      */
     Integer getOccupation();
-
 }

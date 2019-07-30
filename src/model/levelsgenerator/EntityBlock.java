@@ -1,7 +1,7 @@
 package model.levelsgenerator;
 import java.util.List;
 import java.util.Set;
-import model.entities.Component;
+import model.components.Component;
 import model.entities.Entity;
 
 public class EntityBlock<X extends Entity> extends BlockImpl {

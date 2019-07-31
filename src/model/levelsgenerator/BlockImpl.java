@@ -40,13 +40,17 @@ public class BlockImpl implements Block {
         this.vertex.add(p);
         this.updateMinMax();
     }
-    
+
+    /**
+     * update the min and max properties of this block. 
+     * Ugly but extremely effective in the grid block manipulation. 
+     */
     private final void updateMinMax() {
         for(Coordinate p : this.getRelativeCoordinates()){
             this.xMax = (p.getPoint().x > this.xMax) ?  p.getPoint().x : this.xMax;
             this.xMin = (p.getPoint().x < this.xMin) ?  p.getPoint().x : this.xMin;
             this.yMax = (p.getPoint().y > this.yMax) ?  p.getPoint().y : this.yMax;
-            this.yMin = (p.getPoint().y < this.yMin) ?  p.getPoint().y : this.yMin;       
+            this.yMin = (p.getPoint().y < this.yMin) ?  p.getPoint().y : this.yMin;
         }
     }
 

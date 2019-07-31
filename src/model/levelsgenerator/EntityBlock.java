@@ -4,17 +4,23 @@ import java.util.Set;
 import model.components.Component;
 import model.entities.Entity;
 
-public class EntityBlock<X extends Entity> extends BlockImpl {
+public class EntityBlock extends BlockImpl {
 
-    private List<Condition<? extends Component>> placingConditions;
+    private List<Condition> placingConditions;
+    private LevelGenerationEntity entity;
 
-    public EntityBlock(Coordinate spawnPoint, X e) {
+    public EntityBlock(Coordinate spawnPoint,  e) {
         super(spawnPoint);
-        this.BuildConditions(e.getComponents());
+        this.BuildConditions(this.entity.getComponentsSet());
     }
 
-    private void BuildConditions(Set<Component> c) {
+    private void BuildConditions(Set<String> componentNames) {
 
+    }
+
+    public LevelGenerationEntity getEntity() {
+        
+        return null;
     }
 
 }

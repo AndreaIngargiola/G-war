@@ -10,14 +10,14 @@ import model.utility.Pair;
 public class ConditionFactoryImpl implements ConditionFactory {
 
     @Override
-    public final Condition<Feet> getConditionFeet() {
-        Condition<Feet> prov = new ConditionImpl<Feet>();
-        prov.addCondition(new Function<Pair<EntityBlock<?>, ? extends GridImpl>, Boolean>(){
+    public final Condition getMustBeOnGround() {
+        Condition prov = new ConditionImpl();
+        prov.addCondition(new Function<Pair<EntityBlock, ? extends GridImpl>, Boolean>(){
 
-            public Boolean apply(Pair<EntityBlock<?>, ? extends GridImpl> i) {
+            public Boolean apply(Pair<EntityBlock, ? extends GridImpl> i) {
 
                 GridImpl context = i.getY();
-                EntityBlock<?> block = i.getX();               
+                EntityBlock block = i.getX();
                 return (block.getRelativeCoordinates().stream()
                                                   .filter(p -> p.equals(block.getYmin()))
                                                   .allMatch());
@@ -25,6 +25,4 @@ public class ConditionFactoryImpl implements ConditionFactory {
    });
         prov.addCondition(b -> b.stream);
     }
-
-
 }

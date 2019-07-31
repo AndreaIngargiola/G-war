@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public class GridImpl implements Grid {
 
-    private final List<List<Integer>> matrix = new ArrayList<>();
+    private final List<List<LevelGenerationEntity>> matrix = new ArrayList<>();
 
     /**
      * initialize the matrix.
@@ -20,20 +20,20 @@ public class GridImpl implements Grid {
         for (int i = 0; i < bounds; i++) {
             this.matrix.add(new ArrayList<>());
             for (int j = 0; j < bounds; j++) {
-                this.matrix.get(i).add(0);
+                this.matrix.get(i).add(new LevelGenerationEntity());
             }
         }
     }
 
     @Override
-    public final Boolean tryToPlace(final Coordinate spawnPoint, final Block b) {
+    public final Boolean place(final Coordinate spawnPoint, final EntityBlock<?> b) {
         if (this.checkOccupation(spawnPoint, b).equals(false)) {
             return false;
         } else {
             b.getRelativeCoordinates().stream()
             .map(c -> c.getPoint())
             .forEach(p -> this.setElement(new Coordinate(p.x + spawnPoint.getPoint().x, 
-                                                         p.y + spawnPoint.getPoint().y), 1));
+                                                         p.y + spawnPoint.getPoint().y), b.getEntity()));
             return true;
         }
     }
@@ -44,7 +44,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final Optional<Integer> getElement(final Coordinate elemCoordinates) {
+    public final Optional<LevelGenerationEntity> getElement(final Coordinate elemCoordinates) {
         if (this.isInMatrixBounds(elemCoordinates)) {
             return Optional.of(this.matrix.get(elemCoordinates.getPoint().x).get(elemCoordinates.getPoint().y));
         } else {
@@ -57,7 +57,7 @@ public class GridImpl implements Grid {
                && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y  < this.matrix.size());
     }
 
-    private void setElement(final Coordinate elemCoordinates, final Integer value) {
+    private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity value) {
         if (this.isInMatrixBounds(elemCoordinates)) {
             this.matrix.get(elemCoordinates.getPoint().x).set(elemCoordinates.getPoint().y, value);
         }

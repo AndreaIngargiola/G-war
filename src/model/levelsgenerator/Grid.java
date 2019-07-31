@@ -19,7 +19,7 @@ public interface Grid {
      * @param elemCoordinates are the integer coordinates of the desired element.
      * @return an Optional<Integer> of the matrix element at elemCoordinates if exist.
      */
-    Optional<Integer> getElement(Coordinate elemCoordinates);
+    Optional<LevelGenerationEntity> getElement(Coordinate elemCoordinates);
 
     /**
      * try to place the block b in the matrix with spawnPoint as its center.
@@ -29,5 +29,5 @@ public interface Grid {
      * @param b is the block to place.
      * @return true if the block is placed, false if the placing is failed.
      */
-    Boolean tryToPlace(Coordinate spawnPoint, Block b);
+    Boolean place(Coordinate spawnPoint, Block b);
 }

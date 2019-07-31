@@ -1,8 +1,10 @@
 package model.entities;
 
+import enumerators.Faction;
 import model.components.EntityComponent;
 import model.events.EntityEvent;
 import model.events.EntityEventSubscriber;
+import utils.Translator;
 
 
 /**
@@ -10,6 +12,18 @@ import model.events.EntityEventSubscriber;
  */
 
 public interface Entity {
+
+    /**
+     * 
+     * @return components
+     */
+    Translator<EntityComponent> getComponents();
+
+    /**
+     * 
+     * @return type
+     */
+    Faction getType();
 
     /**
      * @return the related {@link EntityBody} object.
@@ -54,7 +68,7 @@ public interface Entity {
     /**
      * Destroys this entity.
      */
-//    void destroy();
+    void destroy();
 
     /**
      * Registers a listener for {@link EntityEvent} objects.

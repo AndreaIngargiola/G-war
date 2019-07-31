@@ -1,6 +1,7 @@
 package utils;
 
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -28,6 +29,12 @@ public interface Translator<T> {
     <C extends T> C get(Class<C> interf) throws IllegalArgumentException;
 
     /**
+     * 
+     * @return a list of elements' name
+     */
+    List<String> getNames();
+
+    /**
      * Puts an element in the collection.
      * 
      * @param element
@@ -35,7 +42,7 @@ public interface Translator<T> {
      * @throws IllegalArgumentException
      *             - if the element or its interfaces are already present in the collection
      *             - if you try to insert an element implementing the parent interface only
-     */
+     */ 
     void put(T element) throws IllegalArgumentException;
 
     /**

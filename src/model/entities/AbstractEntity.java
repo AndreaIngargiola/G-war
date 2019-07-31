@@ -2,7 +2,9 @@ package model.entities;
 
 import com.google.common.eventbus.EventBus;
 
+import enumerators.Faction;
 import model.components.EntityComponent;
+import model.events.Death;
 import model.events.EntityEvent;
 import model.events.EntityEventSubscriber;
 import utils.Translator;
@@ -17,15 +19,28 @@ public abstract class AbstractEntity implements Entity {
     private final EventBus eventBus = new EventBus();
     //private final EntityBody body;
     private final Translator<EntityComponent> components = new TranslatorImpl<>(EntityComponent.class);
+    private final Faction type;
+
 
     /** 
      * @param body
      *            An {@link EntityBody} object is the only required component for an entity.
      */
-//    public AbstractEntity(final EntityBody body) {
-//        this.body = body;
-//        body.attach(this);
-//    }
+    public AbstractEntity(final Faction type /*,final EntityBody body*/) {
+        this.type = type;
+        //this.body = body;
+        //body.attach(this);
+    }
+
+    @Override
+    public final Translator<EntityComponent> getComponents() {
+        return components;
+    }
+
+    @Override
+    public final Faction getType() {
+        return type;
+    }
 
 //    @Override
 //    public final EntityBody getBody() {
@@ -41,12 +56,13 @@ public abstract class AbstractEntity implements Entity {
     /**
      * Generates a @DestructionEvent and then detaches all components.
      */
-//    @Override
-//    public void destroy() {
-//        post(new DestructionEvent(this));
-//        components.forEach(this::remove);
+    @Override
+    public void destroy() {
+        post(new Death(this));
+        //components.forEach(this::remove); //?? Da un'exception
+        components.clear();
 //        remove(body);
-//    }
+    }
 
     /**
      * An {@link EntityEventListener} object declares wanted events with the @Subscribe annotation.

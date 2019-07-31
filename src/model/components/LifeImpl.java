@@ -26,10 +26,18 @@ public class LifeImpl extends AbstractEntityComponent implements Life {
     @Override
     public final void demageListener(final Damage damage) {
         this.current -= damage.getLoss();
+        if (this.current <= 0) {
+            damage.getSource().destroy();
+        }
     }
 
     @Override
     public final int getCurrent() {
         return this.current;
+    }
+
+    @Override
+    public final String toString() {
+        return "Life";
     }
 }

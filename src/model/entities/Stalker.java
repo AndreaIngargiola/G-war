@@ -2,31 +2,33 @@ package model.entities;
 
 import enumerators.Faction;
 import model.components.AttackImpl;
-import model.components.CollisionHandlerImpl;
 import model.components.LifeImpl;
+import model.components.TimerJumpImpl;
 
 /**
- * Models the player.
+ * Models the enemy Stalker.
+ * He jumps every tot time and follow the player.
  */
+public final class Stalker extends AbstractEntity {
 
-public final class Player extends AbstractEntity {
+    private static final Faction TYPE = Faction.PSYCO_MORTAL;
 
-    private static final Faction TYPE = Faction.NEUTRAL_MORTAL;
     /**
      * @param health
      *            Health level to begin with.
      * @param damage
      *            the damage he inflict when attack
      */
-    public Player(final int health, final int damage) {
+    public Stalker(final int health, final int damage) {
         super(TYPE);
         add(new LifeImpl(health));
         add(new AttackImpl(damage));
-        add(new CollisionHandlerImpl());
+        add(new TimerJumpImpl());
     }
 
     @Override
     public String toString() {
-        return "Player";
+        return "Stalker";
     }
+
 }

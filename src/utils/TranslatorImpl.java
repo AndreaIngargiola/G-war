@@ -1,6 +1,8 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ import com.google.common.reflect.TypeToken;
 public final class TranslatorImpl<T> implements Translator<T> {
     private final Map<Class<?>, T> elements = new LinkedHashMap<>();
     private final Class<T> elementsInterface;
+    private final List<String> names = new ArrayList<>();
 
     /**
      * @param elementsInterface
@@ -41,6 +44,11 @@ public final class TranslatorImpl<T> implements Translator<T> {
     }
 
     @Override
+    public List<String> getNames() {
+        return this.names;
+    }
+
+    @Override
     public void put(final T element) throws IllegalArgumentException {
         final Set<Class<?>> interfaces = allInterfaces(element.getClass());
         if (interfaces.isEmpty()) {
@@ -56,12 +64,15 @@ public final class TranslatorImpl<T> implements Translator<T> {
                 });
 
         interfaces.forEach(in -> elements.put(in, element));
+        names.add(element.toString());
     }
 
     @Override
     public <C extends T> C remove(final Class<C> type) {
         if (elements.containsKey(type)) {
+            names.remove(elements.get(type).toString());			//devo controllare se è giusto
             return type.cast(elements.remove(type));
+
         } else {
             throw new IllegalArgumentException("This class is not included into the set: " + type.toString());
         }
@@ -69,6 +80,7 @@ public final class TranslatorImpl<T> implements Translator<T> {
 
     @Override
     public void remove(final T element) {
+    	names.remove(element.toString());
         elements.values().remove(element);
     }
 
@@ -79,6 +91,7 @@ public final class TranslatorImpl<T> implements Translator<T> {
 
     @Override
     public void clear() {
+    	names.clear();
         elements.clear();
     }
 

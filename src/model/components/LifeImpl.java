@@ -35,4 +35,9 @@ public class LifeImpl extends AbstractEntityComponent implements Life {
     public final int getCurrent() {
         return this.current;
     }
+
+    @Override
+    public final String toString() {
+        return "Life";
+    }
 }

@@ -22,4 +22,9 @@ public class AttackImpl extends AbstractEntityComponent implements Attack {
     public final int getDamage() {
         return this.damage;
     }
+
+    @Override
+    public final String toString() {
+        return "Attack";
+    }
 }

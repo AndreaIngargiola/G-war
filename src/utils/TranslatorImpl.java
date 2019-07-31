@@ -21,7 +21,6 @@ import com.google.common.reflect.TypeToken;
 public final class TranslatorImpl<T> implements Translator<T> {
     private final Map<Class<?>, T> elements = new LinkedHashMap<>();
     private final Class<T> elementsInterface;
-    private final List<String> names = new ArrayList<>();
 
     /**
      * @param elementsInterface
@@ -44,8 +43,8 @@ public final class TranslatorImpl<T> implements Translator<T> {
     }
 
     @Override
-    public List<String> getNames() {
-        return this.names;
+    public Set<Class<?>> getInterfaces() {
+        return elements.keySet();
     }
 
     @Override
@@ -64,13 +63,11 @@ public final class TranslatorImpl<T> implements Translator<T> {
                 });
 
         interfaces.forEach(in -> elements.put(in, element));
-        names.add(element.toString());
     }
 
     @Override
     public <C extends T> C remove(final Class<C> type) {
-        if (elements.containsKey(type)) {
-            names.remove(elements.get(type).toString());			//devo controllare se è giusto
+        if (elements.containsKey(type)) {			//devo controllare se è giusto
             return type.cast(elements.remove(type));
 
         } else {
@@ -80,7 +77,6 @@ public final class TranslatorImpl<T> implements Translator<T> {
 
     @Override
     public void remove(final T element) {
-    	names.remove(element.toString());
         elements.values().remove(element);
     }
 
@@ -91,7 +87,6 @@ public final class TranslatorImpl<T> implements Translator<T> {
 
     @Override
     public void clear() {
-    	names.clear();
         elements.clear();
     }
 

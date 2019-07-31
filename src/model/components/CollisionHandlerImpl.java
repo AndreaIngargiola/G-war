@@ -4,6 +4,7 @@ package model.components;
 import enumerators.CollisionSide;
 import model.events.CollisionEvent;
 import model.events.Damage;
+import model.events.Death;
 
 /**
  * Implementation class for the interface {@link CollisionHandler} .
@@ -25,11 +26,15 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
             break;
 
         case PSYCO_IMMORTAL:
-            if (collision.getSide() == CollisionSide.SIDE || collision.getSide() == CollisionSide.TOP) {
+            if(collision.getOther().toString() == "Grill") {
                 if (collision.getOther().get(TimerGrillImpl.class).getIsDangerous()) {
                     collision.getSource().post(new Damage(collision.getSource(), collision.getOther().get(Attack.class).getDamage()));
-                }
+                } 
+            } else {
+                collision.getSource().post(new Death(collision.getSource()));
             }
+                	
+      
             break;
 
         default:

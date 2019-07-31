@@ -1,7 +1,7 @@
 package model.entities;
 
 import enumerators.Faction;
-import model.components.TimerImpl;
+import model.components.TimerGrillImpl;
 
 /**
  * Models a Grill.
@@ -16,7 +16,7 @@ public final class Grill extends AbstractEntity {
      */
     public Grill() {
         super(TYPE);
-        add(new TimerImpl());
+        add(new TimerGrillImpl());
     }
 
     @Override

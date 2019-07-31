@@ -26,7 +26,7 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
 
         case PSYCO_IMMORTAL:
             if (collision.getSide() == CollisionSide.SIDE || collision.getSide() == CollisionSide.TOP) {
-                if (collision.getOther().get(TimerImpl.class).getIsDangerous()) {
+                if (collision.getOther().get(TimerGrillImpl.class).getIsDangerous()) {
                     collision.getSource().post(new Damage(collision.getSource(), collision.getOther().get(Attack.class).getDamage()));
                 }
             }

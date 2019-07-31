@@ -1,17 +1,17 @@
 package model.components;
 
 /**
- * Implementation class for the interface {@link Timer} .
+ * Implementation class for the interface {@link TimerGrill} .
  */
-public class TimerImpl extends AbstractEntityComponent implements Timer {
+public class TimerGrillImpl extends AbstractEntityComponent implements TimerGrill {
 
 	private int TIME = 3000;
 	private boolean isDangerous = false;
 
 	/**
-	 * Every TIME time chance the boolean isDangerour from true to false or viceversa.
+	 * Every TIME time chance the boolean isDangerour from true to false or vice versa.
 	 */
-	public TimerImpl() {
+	public TimerGrillImpl() {
 		super();
 
 		while (true) {
@@ -20,7 +20,6 @@ public class TimerImpl extends AbstractEntityComponent implements Timer {
 		    } catch (InterruptedException e) {
 		    e.printStackTrace();
 		    }
-		    System.out.println("hh");
 		    if (this.isDangerous) {
 			    this.isDangerous = false;
 		    } else {
@@ -36,6 +35,6 @@ public class TimerImpl extends AbstractEntityComponent implements Timer {
 
     @Override
     public final String toString() {
-        return "Timer";
+        return "TimerGrill";
     }
 }

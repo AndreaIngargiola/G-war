@@ -4,7 +4,7 @@ package model.components;
  * Models a timer for {@link Grill}.
  *
  */
-public interface Timer extends EntityComponent {
+public interface TimerGrill extends EntityComponent {
 
     /**
      * 

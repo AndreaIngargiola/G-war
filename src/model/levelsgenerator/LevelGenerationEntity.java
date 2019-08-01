@@ -2,30 +2,41 @@ package model.levelsgenerator;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import model.entities.AbstractEntity;
+import enumerators.Faction;
 
 /**
- * represents an abstraction of an Entity in the level generation.
+ * 
+ * represents an abstraction of an Entity in the level generation. 
+ * This is needed because different entities are casted as different classes that extends AbstractEntity.
+ * @param <X> is a class that extends an AbstractEntity.
  */
-public class LevelGenerationEntity {
+public class LevelGenerationEntity<X extends AbstractEntity> {
     private final String entityName;
     private final Set<String> componentsSet;
+    private final Faction type;
 
     /**
-     * @param entityName is the name of the entity.
-     * @param componentsSet is the set of names of the components possessed by the entity.
+     * a void constructor.
      */
     public LevelGenerationEntity() {
         this.entityName = "VOID";
         this.componentsSet = new HashSet<>();
+        this.type = Faction.NEUTRAL_IMMORTAL;
     }
-    
+
     /**
-     * @param entityName is the name of the entity.
-     * @param componentsSet is the set of names of the components possessed by the entity.
+     * A constructor that import an entity class and convert it in a Level Generation Entity.
+     * @param e is the entity class to convert.
      */
-    public LevelGenerationEntity(final String entityName, final Set<String> componentsSet) {
-        this.entityName = entityName;
-        this.componentsSet = componentsSet;
+    public LevelGenerationEntity(final X e) {
+        this.entityName = e.getClass().getSimpleName();
+        this.type = e.getType();
+        this.componentsSet = e.getComponents().getInterfaces().stream()
+                                                              .map(i -> i.getSimpleName())
+                                                              .collect(Collectors.toSet());
     }
 
     /**
@@ -42,5 +53,13 @@ public class LevelGenerationEntity {
      */
     public Set<String> getComponentsSet() {
         return componentsSet;
+    }
+
+    /**
+     * a getter for the entity type.
+     * @return the Enum Type field.
+     */
+    public Faction getType() {
+        return type;
     }
 }

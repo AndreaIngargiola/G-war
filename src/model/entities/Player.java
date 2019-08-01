@@ -4,6 +4,7 @@ import enumerators.Faction;
 import model.components.AttackImpl;
 import model.components.CollisionHandlerImpl;
 import model.components.LifeImpl;
+import model.components.PointsImpl;
 
 /**
  * Models the player.
@@ -12,17 +13,18 @@ import model.components.LifeImpl;
 public final class Player extends AbstractEntity {
 
     private static final Faction TYPE = Faction.NEUTRAL_MORTAL;
+    private static final int DEFAULT_HEALTH = 10;
+    private static final int DEFAULT_ATTACK = 1;
+
     /**
-     * @param health
-     *            Health level to begin with.
-     * @param damage
-     *            the damage he inflict when attack
+     * 
      */
-    public Player(final int health, final int damage) {
+    public Player() {
         super(TYPE);
-        add(new LifeImpl(health));
-        add(new AttackImpl(damage));
+        add(new LifeImpl(DEFAULT_HEALTH));
+        add(new AttackImpl(DEFAULT_ATTACK));
         add(new CollisionHandlerImpl());
+        add(new PointsImpl());
     }
 
     @Override

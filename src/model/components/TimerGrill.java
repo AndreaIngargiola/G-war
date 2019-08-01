@@ -1,5 +1,9 @@
 package model.components;
 
+import com.google.common.eventbus.Subscribe;
+
+import model.events.TimerEvent;
+
 /**
  * Models a timer for {@link Grill}.
  *
@@ -13,4 +17,11 @@ public interface TimerGrill extends EntityComponent {
      */
     boolean getIsDangerous();
 
+    /**
+     * 
+     * @param timerEvent
+     *                 an event
+     */
+    @Subscribe
+    void timerListener(TimerEvent timerEvent);
 }

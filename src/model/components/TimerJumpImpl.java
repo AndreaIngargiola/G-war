@@ -1,5 +1,8 @@
 package model.components;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import model.events.JumpEvent;
 
 /**
@@ -14,17 +17,15 @@ public class TimerJumpImpl extends AbstractEntityComponent implements TimerJump 
 	 */
 	public TimerJumpImpl() {
 		super();
-
-		while (true) {
-		    try {
-		    Thread.sleep(TIME);
-		    } catch (InterruptedException e) {
-		    e.printStackTrace();
-		    }
-		   this.getOwner().get().post(new JumpEvent(this.getOwner().get()));
-		}
-	}
-
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                getOwner().get().post(new JumpEvent(getOwner().get()));
+            }
+	    };
+	    timer.schedule(task, TIME, TIME);
+    }
 
     @Override
     public final String toString() {

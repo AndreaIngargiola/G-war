@@ -14,6 +14,7 @@ public class JumpEvent extends AbstractEntityEvent {
      */
     public JumpEvent(final Entity source) {
         super(source);
+        System.out.println("f");
     }
 
 }

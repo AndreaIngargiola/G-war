@@ -7,10 +7,10 @@ package view;
  */
 public interface ContrMenuView<T> extends ScreenFX {
     /**
-     * @param observer
-     *          The observer.
+     * @param controller
+     *          The controller.
      */
-    void setObserver(T observer);
+    void setController(T controller);
 
     /**
      * Quits the application.

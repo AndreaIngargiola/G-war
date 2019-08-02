@@ -10,7 +10,7 @@
    <children>
       <HBox prefHeight="200.0" prefWidth="355.0">
          <children>
-            <Label text="Ranking points">
+            <Label text="Leaderboard">
                <font>
                   <Font size="48.0" />
                </font>

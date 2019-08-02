@@ -11,7 +11,7 @@
       <VBox alignment="CENTER" layoutX="78.0" layoutY="122.0" prefWidth="200.0" spacing="25.0">
          <children>
             <Button mnemonicParsing="false" onAction="#newGame" prefWidth="200.0" text="New Game" textAlignment="CENTER" />
-            <Button mnemonicParsing="false" onAction="#rankingPoints" prefWidth="200.0" text="Ranking points" />
+            <Button mnemonicParsing="false" onAction="#leaderboard" prefWidth="200.0" text="Leaderboard" />
             <Button mnemonicParsing="false" onAction="#exit" prefWidth="200.0" text="Exit" />
          </children>
       </VBox>

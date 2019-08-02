@@ -25,7 +25,7 @@ public class MainMenuGameController {
     }
 
     @FXML
-    private void rankingPoints() {
+    private void leaderboard() {
         try {
             this.mainMenuGame.showLeaderboard();
         } catch (Exception e) { }

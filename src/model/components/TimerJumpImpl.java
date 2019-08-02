@@ -10,7 +10,7 @@ import model.events.JumpEvent;
  */
 public class TimerJumpImpl extends AbstractEntityComponent implements TimerJump {
 
-	private int TIME = 3000;
+	private final int TIME = 3000;
 
 	/**
 	 * Every TIME time it calls the Jump event.
@@ -21,7 +21,7 @@ public class TimerJumpImpl extends AbstractEntityComponent implements TimerJump 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                getOwner().get().post(new JumpEvent(getOwner().get()));
+                post(new JumpEvent(getEntity()));
             }
 	    };
 	    timer.schedule(task, TIME, TIME);

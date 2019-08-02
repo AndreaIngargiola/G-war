@@ -5,4 +5,8 @@ package model.components;
  */
 public class ArchitectureImpl extends AbstractEntityComponent implements Architecture {
 
+    @Override
+    public final String toString() {
+        return "Architecture";
+    }
 }

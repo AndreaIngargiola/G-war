@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="296.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LeaderboardController">
+   <children>
+      <HBox prefHeight="200.0" prefWidth="355.0">
+         <children>
+            <Label text="Ranking points">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Button layoutX="264.0" layoutY="244.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="264.0" layoutY="200.0" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="31.0" prefWidth="65.0" text="Menu" />
+   </children>
+</AnchorPane>

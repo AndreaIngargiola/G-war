@@ -13,7 +13,7 @@ import model.utility.Pair;
  */
 public class ConditionImpl implements Condition {
 
-    private final List<Function<Pair<EntityBlock, ? extends GridImpl>, Boolean>> mapper;
+    private final List<Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean>> mapper;
 
     /**
      * Initialize the condition list.
@@ -23,7 +23,7 @@ public class ConditionImpl implements Condition {
     }
 
     @Override
-    public final boolean verify(final Pair<EntityBlock, ? extends GridImpl> c) {
+    public final boolean verify(final Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>> c) {
         return this.mapper.stream()
                           .map(f -> f.apply(c))
                           .allMatch(f -> f.equals(Boolean.FALSE));
@@ -34,7 +34,7 @@ public class ConditionImpl implements Condition {
      * Add a function in this condition.
      * @param newFunction is the new function to add.
      */
-    public void addCondition(final Function<Pair<EntityBlock, ? extends GridImpl>, Boolean> newFunction) {
+    public void addCondition(final Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean> newFunction) {
         mapper.add(newFunction);
     }
 }

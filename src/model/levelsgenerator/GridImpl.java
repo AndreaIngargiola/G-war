@@ -2,7 +2,7 @@ package model.levelsgenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * implement the logic interface using a list of list of integer where the value of the 
@@ -10,45 +10,65 @@ import java.util.Optional;
  */
 public class GridImpl implements Grid {
 
-    private final List<List<LevelGenerationEntity>> matrix = new ArrayList<>();
+    private static final LevelGenerationEntity<?> VOID = new LevelGenerationEntity<>();
+    private final List<List<LevelGenerationEntity<?>>> matrix = new ArrayList<>();
 
     /**
-     * initialize the matrix.
+     * Initialize the matrix.
      * @param bounds is the width (and consequentially the height) of the squared matrix.
      */
     public GridImpl(final int bounds) {
         for (int i = 0; i < bounds; i++) {
             this.matrix.add(new ArrayList<>());
             for (int j = 0; j < bounds; j++) {
-                this.matrix.get(i).add(new LevelGenerationEntity());
+                this.matrix.get(i).add(GridImpl.VOID);
             }
         }
     }
 
+    /**
+     * Get the absolute matrix coordinates given a certain block shape (list of coordinates) and a origin point on the matrix. 
+     * @param b is the block to overlap.
+     * @param mOriginPoint is the point in the matrix that corresponds to the spawn point of the block and in which 
+     * the relative coordinates of the block will be converted in absolute coordinates of the matrix.
+     * @return a list of matrix coordinates that are in matrix bounds and corresponds to the points 
+     * occupied by that block if is placed with that point of origin.
+     */
+    public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final EntityBlock b) {
+        return b.getRelativeCoordinates().stream()
+                                         .map(p -> mOriginPoint.sum(p))
+                                         .filter(p -> this.isInMatrixBounds(p))
+                                         .collect(Collectors.toList());
+    }
+
     @Override
-    public final Boolean place(final Coordinate spawnPoint, final EntityBlock<?> b) {
-        if (this.checkOccupation(spawnPoint, b).equals(false)) {
+    public final Boolean place(final Coordinate mOriginPoint, final EntityBlock b) {
+        List<Coordinate> overlap = this.getOverlap(mOriginPoint, b);
+
+        /*if part of the block is out of bounds (so the overlap size is lesser than the size of the block)
+         * or not every requested tile in the matrix is free (VOID), return false */
+        if (overlap.size() < b.getOccupation() || !(overlap.stream().map(c -> this.getElement(c)).allMatch(e -> e.equals(GridImpl.VOID)))) {
             return false;
         } else {
-            b.getRelativeCoordinates().stream()
-            .map(c -> c.getPoint())
-            .forEach(p -> this.setElement(new Coordinate(p.x + spawnPoint.getPoint().x, 
-                                                         p.y + spawnPoint.getPoint().y), b.getEntity()));
-            return true;
+            for (Coordinate c : overlap) {
+                this.setElement(c, b.getEntity());
+            }
         }
-    }
+            return true;
+     }
 
     @Override
     public final void reset() {
-        this.matrix.stream().forEach(row -> row.stream().forEach(element -> element = 0));
+        this.matrix.stream()
+                   .forEach(row -> row.stream().forEach(element -> element = new LevelGenerationEntity<>()));
     }
 
     @Override
-    public final Optional<LevelGenerationEntity> getElement(final Coordinate elemCoordinates) {
+    public final LevelGenerationEntity<?> getElement(final Coordinate elemCoordinates) {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            return Optional.of(this.matrix.get(elemCoordinates.getPoint().x).get(elemCoordinates.getPoint().y));
+            return this.matrix.get(elemCoordinates.getPoint().x).get(elemCoordinates.getPoint().y);
         } else {
-            return Optional.empty();
+            throw new IllegalArgumentException();
         }
     }
 
@@ -57,25 +77,9 @@ public class GridImpl implements Grid {
                && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y  < this.matrix.size());
     }
 
-    private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity value) {
+    private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity<?> value) {
         if (this.isInMatrixBounds(elemCoordinates)) {
             this.matrix.get(elemCoordinates.getPoint().x).set(elemCoordinates.getPoint().y, value);
         }
-    }
-
-    /**
-     * Given a certain Block and a spawn point on the matrix, check if the requested tiles that we'll trying to occupy are free. 
-     * @param spawnPoint is the entering point on the matrix.
-     * @param b is the block that i'm trying to place.
-     * @return a boolean: true if all the tiles are free, false if the tiles are occupied.
-     */
-    private Boolean checkOccupation(final Coordinate spawnPoint, final Block b) {
-        final Integer freeTilesOnMatrix = (int) b.getRelativeCoordinates().stream()
-                                                 .map(c -> c.getPoint())
-                                                 .filter(p -> this.getElement(new Coordinate(spawnPoint.getPoint().x + p.x, 
-                                                                                             spawnPoint.getPoint().y + p.y))
-                                                                  .equals(Optional.of(0)))
-                                                 .count();
-        return freeTilesOnMatrix.equals(b.getOccupation());
     }
 }

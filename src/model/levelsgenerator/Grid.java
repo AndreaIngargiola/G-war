@@ -1,10 +1,7 @@
 package model.levelsgenerator;
 
-import java.util.Optional;
-
 /**
- * 
- * a class for the matrix generation and blocks insertion.
+ * A class for the matrix generation and blocks insertion.
  *
  */
 public interface Grid {
@@ -19,15 +16,15 @@ public interface Grid {
      * @param elemCoordinates are the integer coordinates of the desired element.
      * @return an Optional<Integer> of the matrix element at elemCoordinates if exist.
      */
-    Optional<LevelGenerationEntity> getElement(Coordinate elemCoordinates);
+    LevelGenerationEntity<?> getElement(Coordinate elemCoordinates);
 
     /**
      * try to place the block b in the matrix with spawnPoint as its center.
-     * @param spawnPoint is the "center" of the block where the absolute coordinates 
-     * of the block are translated in relative coordinates in the matrix.
+     * @param mOriginPoint is the point in the matrix that corresponds to the spawn point of the block and in which 
+     * the relative coordinates of the block will be converted in absolute coordinates of the matrix.
      * 
      * @param b is the block to place.
      * @return true if the block is placed, false if the placing is failed.
      */
-    Boolean place(Coordinate spawnPoint, Block b);
+    Boolean place(Coordinate mOriginPoint, EntityBlock b);
 }

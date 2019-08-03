@@ -2,6 +2,7 @@ package model.entities;
 
 import enumerators.Faction;
 import model.components.ArchitectureImpl;
+import model.components.EntityBody;
 
 /**
  * Models a Lake.
@@ -14,8 +15,8 @@ public final class Lake extends AbstractEntity {
     /**
      * 
      */
-    public Lake() {
-        super(TYPE);
+    public Lake(final EntityBody body) {
+        super(TYPE, body);
         add(new ArchitectureImpl());
     }
 

@@ -1,6 +1,9 @@
 package model.entities;
 
+import org.jbox2d.common.Vec2;
+
 import enumerators.Faction;
+import model.components.EntityBody;
 import model.components.EntityComponent;
 import model.events.EntityEvent;
 import model.events.EntityEventSubscriber;
@@ -28,7 +31,7 @@ public interface Entity {
     /**
      * @return the related {@link EntityBody} object.
      */
-    //EntityBody getBody();
+    EntityBody getBody();
 
     /**
      * Gets a component by its interface.
@@ -93,5 +96,31 @@ public interface Entity {
      *            The event to publish
      */
     void post(EntityEvent event);
+    
+    /**
+     * @return the top side position of the entity
+     */
+    float getTopSide();
+
+    /**
+     * @return the left side position of the entity
+     */
+    float getLeftSide();
+
+    /**
+     * @return the bottom side position of the entity
+     */
+    float getBottomSide();
+
+    /**
+     * @return the right side position of the entity
+     */
+    float getRightSide();
+
+    /**
+     * @return the center of the entity box
+     */
+    Vec2 getCenter();
+
 
 }

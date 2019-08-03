@@ -2,6 +2,7 @@ package model.entities;
 
 import enumerators.Faction;
 import model.components.ArchitectureImpl;
+import model.components.EntityBody;
 import model.components.TimerGrillImpl;
 import model.engine.TimerTaskGrill;
 
@@ -20,8 +21,8 @@ public final class Grill extends AbstractEntity {
      * @param timerTask
      *                it contains a list of all the Grills created, so he knows witch entities must post the {@link TimerEvent}
      */
-    public Grill(final TimerTaskGrill timerTask) {
-        super(TYPE);
+    public Grill(final TimerTaskGrill timerTask, final EntityBody body) {
+        super(TYPE, body);
         timerTask.add(this);
         register(timerTask);
         add(new TimerGrillImpl());

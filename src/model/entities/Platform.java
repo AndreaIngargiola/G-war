@@ -2,6 +2,7 @@ package model.entities;
 
 import enumerators.Faction;
 import model.components.ArchitectureImpl;
+import model.components.EntityBody;
 
 /**
  * Models a Platform.
@@ -13,8 +14,8 @@ public final class Platform extends AbstractEntity {
     /**
      * 
      */
-    public Platform() {
-        super(TYPE);
+    public Platform(final EntityBody body) {
+        super(TYPE, body);
         add(new ArchitectureImpl());
     }
 

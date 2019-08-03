@@ -3,6 +3,7 @@ package model.entities;
 import enumerators.Faction;
 import model.components.AttackImpl;
 import model.components.CollisionHandlerImpl;
+import model.components.EntityBody;
 import model.components.LifeImpl;
 import model.components.PointsImpl;
 
@@ -19,8 +20,8 @@ public final class Player extends AbstractEntity {
     /**
      * 
      */
-    public Player() {
-        super(TYPE);
+    public Player(final EntityBody body) {
+        super(TYPE, body);
         add(new LifeImpl(DEFAULT_HEALTH));
         add(new AttackImpl(DEFAULT_ATTACK));
         add(new CollisionHandlerImpl());

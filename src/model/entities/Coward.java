@@ -2,6 +2,7 @@ package model.entities;
 
 import enumerators.Faction;
 import model.components.AttackImpl;
+import model.components.EntityBody;
 import model.components.LifeImpl;
 
 /**
@@ -9,7 +10,7 @@ import model.components.LifeImpl;
  * He doesn't follow the player but goes his way and change direction when he cannot go ahead anymore.
  */
 
-public final class Coward extends AbstractEntity {
+public final class Coward extends Enemy {
 
     private static final Faction TYPE = Faction.PSYCO_MORTAL;
     private static final int DEFAULT_HEALTH = 1;
@@ -17,8 +18,8 @@ public final class Coward extends AbstractEntity {
     /**
      *
      */
-    public Coward() {
-        super(TYPE);
+    public Coward(final EntityBody body) {
+        super(TYPE, body);
         add(new LifeImpl(DEFAULT_HEALTH));
         add(new AttackImpl(DEFAULT_ATTACK));
     }

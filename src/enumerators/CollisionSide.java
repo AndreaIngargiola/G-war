@@ -12,13 +12,8 @@ public enum CollisionSide {
     BOTTOM,
 
     /**
-     * When another entity collided with the top of the player.
+     * Other sides of the player except bottom.
      */
-    TOP,
-
-    /**
-     * When the player collides with another entity on the side.
-     */
-    SIDE;
+    OTHERS;
 
 }

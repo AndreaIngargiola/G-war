@@ -34,8 +34,9 @@ public class MainMenuGameController {
     /**
      * Sets main menu.
      * @param mainMenu
+     *         The main menu.
      */
-    public void setMainMenuGame(MainMenuGame mainMenu) {
+    public void setMainMenuGame(final MainMenuGame mainMenu) {
         this.mainMenuGame = mainMenu;
     }
 }

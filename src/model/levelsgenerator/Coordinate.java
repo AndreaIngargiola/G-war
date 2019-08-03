@@ -25,4 +25,23 @@ public class Coordinate {
         return this.p;
     }
 
+    /**
+     * Get a new coordinate that is the vector sum of two points (this, and the argument toSum).
+     * @param toSum is the second addend.
+     * @return the vector sum of this coordinate and the toSum.
+     */
+    public Coordinate sum(final Coordinate toSum) {
+        return new Coordinate(this.p.x + toSum.getPoint().x, this.p.y + toSum.getPoint().y);
+    }
+
+    /**
+     * Get a new coordinate that is the vector sum of two points (this, and the argument toSubtract with inverted signs).
+     * @param toSubtract is the coordinate to subtract.
+     * @return the vector sum of this coordinate and the toSum.
+     */
+    public Coordinate sub(final Coordinate toSubtract) {
+        Coordinate toSub = new Coordinate(-toSubtract.getPoint().x, -toSubtract.getPoint().y);
+        return this.sum(toSub);
+    }
+
 }

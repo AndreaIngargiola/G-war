@@ -40,7 +40,7 @@ public class Coordinate {
      * @return the vector sum of this coordinate and the toSum.
      */
     public Coordinate sub(final Coordinate toSubtract) {
-        Coordinate toSub = new Coordinate(-toSubtract.getPoint().x, -toSubtract.getPoint().y);
+        final Coordinate toSub = new Coordinate(-toSubtract.getPoint().x, -toSubtract.getPoint().y);
         return this.sum(toSub);
     }
 

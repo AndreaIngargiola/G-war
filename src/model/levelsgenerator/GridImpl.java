@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * implement the logic interface using a list of list of integer where the value of the 
- * element represent an entity type (example 1=enemy, 2=platform etc).
+ * Implements the Grid interface using the LevelGenerationEntity abstraction for entities placing.
+ * The static private entity VOID represents a empty block of the grid. 
  */
 public class GridImpl implements Grid {
 
@@ -43,14 +43,14 @@ public class GridImpl implements Grid {
 
     @Override
     public final Boolean place(final Coordinate mOriginPoint, final EntityBlock b) {
-        List<Coordinate> overlap = this.getOverlap(mOriginPoint, b);
+        final List<Coordinate> overlap = this.getOverlap(mOriginPoint, b);
 
         /*if part of the block is out of bounds (so the overlap size is lesser than the size of the block)
          * or not every requested tile in the matrix is free (VOID), return false */
         if (overlap.size() < b.getOccupation() || !(overlap.stream().map(c -> this.getElement(c)).allMatch(e -> e.equals(GridImpl.VOID)))) {
             return false;
         } else {
-            for (Coordinate c : overlap) {
+            for (final Coordinate c : overlap) {
                 this.setElement(c, b.getEntity());
             }
         }
@@ -72,14 +72,34 @@ public class GridImpl implements Grid {
         }
     }
 
+    /**
+     * Check if a coordinate is in matrix bounds.
+     * @param elemCoordinates is the coordinates to check.
+     * @return true if the coordinate is in matrix bounds, false otherwise.
+     */
     private Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
         return (elemCoordinates.getPoint().x >= 0 &&  elemCoordinates.getPoint().x < this.matrix.size() 
                && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y  < this.matrix.size());
     }
 
-    private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity<?> value) {
+    /**
+     * Get the entity that the grid uses as placeholder for empty blocks.
+     * @return the entity that the grid uses as placeholder for empty blocks.
+     */
+    public LevelGenerationEntity<?> getVoid() {
+        return GridImpl.VOID;
+    }
+
+    /**
+     * A setter for a single element of the matrix.
+     * @param elemCoordinates is the element's place in the matrix.
+     * @param value is the LevelGeneration entity that the block will represent from now on.
+     */
+    private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity<?> value) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
             this.matrix.get(elemCoordinates.getPoint().x).set(elemCoordinates.getPoint().y, value);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 }

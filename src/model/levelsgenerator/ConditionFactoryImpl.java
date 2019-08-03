@@ -7,6 +7,9 @@ import enumerators.Faction;
 import model.math.Function;
 import model.utility.Pair;
 
+/**
+ * An implementation of the ConditionFactory interface that uses GridImpl (or a derived class), Coordinate, Pair and LevelGenerationEntity.
+ */
 public class ConditionFactoryImpl implements ConditionFactory {
 
     private static final int VITAL_SPACE = 1;
@@ -62,15 +65,16 @@ public class ConditionFactoryImpl implements ConditionFactory {
                                .peek(p -> vitalSpace.add(c.sub(p)));
                     }
                 }
-                /*if the block is an ally to the player, check if there are enemies around, else check if there are non-enemies (excluding architecture)*/
+                /*if the block is an ally to the player, check if there are enemies around, 
+                 * else check if there are non-enemies (excluding architecture and empty blocks)*/
                 if (block.getEntity().getType().equals(Faction.NEUTRAL_MORTAL)) {
                     return (vitalSpace.stream()
                                       .map(p -> context.getElement(p).getType())
                                       .noneMatch(e -> e.equals(Faction.PSYCO_MORTAL) || e.equals(Faction.PSYCO_IMMORTAL)));
-                }
-                else {
+                } else {
                    return (vitalSpace.stream()
-                                     .filter(c -> !context.getElement(c).getComponentsSet().contains("Architecture"))
+                                     .filter(c -> !context.getElement(c).getComponentsSet().contains("Architecture") 
+                                                  || context.getElement(c).equals(context.getVoid()))
                                      .map(p -> context.getElement(p).getType())
                                      .anyMatch(e -> e.equals(Faction.NEUTRAL_MORTAL) || e.equals(Faction.NEUTRAL_IMMORTAL)));
                 }

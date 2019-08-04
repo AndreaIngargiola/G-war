@@ -1,26 +1,27 @@
 package model.levelsgenerator;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import model.components.Component;
-import model.entities.Entity;
 
 public class EntityBlock extends BlockImpl {
 
     private List<Condition> placingConditions;
-    private LevelGenerationEntity entity;
+    private final LevelGenerationEntity<?> entity;
 
-    public EntityBlock(Coordinate spawnPoint,  e) {
-        super(spawnPoint);
-        this.BuildConditions(this.entity.getComponentsSet());
+    public EntityBlock(final LevelGenerationEntity<?> e) {
+        super();
+        this.entity = e;
+        this.BuildConditions(e.getComponentsSet());
+        /*this.BuildConditions(this.entity.getComponentsSet());*/
     }
 
-    private void BuildConditions(Set<String> componentNames) {
-
+    private void BuildConditions(final Set<String> componentNames) {
+        this.placingConditions = new ArrayList<>();
     }
 
     public LevelGenerationEntity getEntity() {
-        
-        return null;
+        return this.entity;
     }
 
 }

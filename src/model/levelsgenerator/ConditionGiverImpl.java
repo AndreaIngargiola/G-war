@@ -8,13 +8,17 @@ public class ConditionGiverImpl implements ConditionGiver {
         new Function<String, Condition>() {
 
             @Override
-            public Condition apply(String i) {
+            public Condition apply(final String componentInterfaceName) {
                 final ConditionFactoryImpl conditionFactory = new ConditionFactoryImpl();
-                
-                return null;
+                final Condition totalConditions = new ConditionImpl();
+                totalConditions.addCondition(newFunction);
+                switch(componentInterfaceName) {
+                case ("Feet") :
+                     conditionFactory.mustBeOnGround();
+                }
             }
-            
-        }
+
+        };
         return null;
     }
 

@@ -2,6 +2,7 @@ package utils;
 
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -30,9 +31,9 @@ public interface Translator<T> {
 
     /**
      * 
-     * @return a list of elements' name
+     * @return a list of elements' keys
      */
-    List<String> getNames();
+    Set<Class<?>> getInterfaces();
 
     /**
      * Puts an element in the collection.

@@ -44,8 +44,8 @@ public final class TranslatorImpl<T> implements Translator<T> {
     }
 
     @Override
-    public List<String> getNames() {
-        return this.names;
+    public Set<Class<?>> getInterfaces() {
+        return this.elements.keySet();
     }
 
     @Override

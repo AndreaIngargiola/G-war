@@ -2,6 +2,7 @@ package model.entities;
 
 import enumerators.Faction;
 import model.components.AttackImpl;
+import model.components.EntityBody;
 import model.components.LifeImpl;
 import model.components.TimerJumpImpl;
 
@@ -9,20 +10,19 @@ import model.components.TimerJumpImpl;
  * Models the enemy Stalker.
  * He jumps every tot time and follow the player.
  */
-public final class Stalker extends AbstractEntity {
+public final class Stalker extends Enemy {
 
     private static final Faction TYPE = Faction.PSYCO_MORTAL;
+    private static final int DEFAULT_HEALTH = 2;
+    private static final int DEFAULT_ATTACK = 2;
 
     /**
-     * @param health
-     *            Health level to begin with.
-     * @param damage
-     *            the damage he inflict when attack
+     *
      */
-    public Stalker(final int health, final int damage) {
-        super(TYPE);
-        add(new LifeImpl(health));
-        add(new AttackImpl(damage));
+    public Stalker(final EntityBody body) {
+        super(TYPE, body);
+        add(new LifeImpl(DEFAULT_HEALTH));
+        add(new AttackImpl(DEFAULT_ATTACK));
         add(new TimerJumpImpl());
     }
 

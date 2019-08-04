@@ -15,7 +15,7 @@ public class ConditionFactoryImpl implements ConditionFactory {
     private static final int VITAL_SPACE = 1;
     @Override
     public final Condition mustBeOnGround() {
-        Condition mustBeOnGround = new ConditionImpl();
+        final Condition mustBeOnGround = new ConditionImpl();
 
         mustBeOnGround.addCondition(new Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean>() {
 
@@ -40,7 +40,7 @@ public class ConditionFactoryImpl implements ConditionFactory {
 
     @Override
     public final Condition notTooNearRival() {
-        Condition notTooNearRival = new ConditionImpl();
+        final Condition notTooNearRival = new ConditionImpl();
 
         notTooNearRival.addCondition(new Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean>() {
 
@@ -50,12 +50,12 @@ public class ConditionFactoryImpl implements ConditionFactory {
                 final EntityBlock block = i.getX();
                 final Coordinate enteringPoint = i.getY().getX();
 
-                List<Coordinate> vitalSpace = context.getOverlap(enteringPoint, block);
+                final List<Coordinate> vitalSpace = context.getOverlap(enteringPoint, block);
 
-                for (Coordinate c : context.getOverlap(enteringPoint, block)) {
+                for (final Coordinate c : context.getOverlap(enteringPoint, block)) {
                     for (int j = 1; j <= ConditionFactoryImpl.VITAL_SPACE; j++) {
 
-                        List<Coordinate> partial = new ArrayList<>();
+                        final List<Coordinate> partial = new ArrayList<>();
                         partial.add(new Coordinate(0, j));
                         partial.add(new Coordinate(j, 0));
                         partial.add(new Coordinate(j, j));

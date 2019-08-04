@@ -1,6 +1,7 @@
 package model.levelsgenerator;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,19 +22,17 @@ public class LevelGeneratorImpl implements LevelGenerator {
     }
 
     private void importEntities() {
-        try (ScanResult scanResult = new ClassGraph().enableAllInfo().whitelistPackages("model.entities").scan()) {
+        try (ScanResult scanResult = new ClassGraph().enableAllInfo().scan()) {
 
-        ClassInfoList filtered = scanResult.getAllClasses().filter(
-                classInfo -> (classInfo.extendsSuperclass("AbstractEntity") 
-                           && classInfo.getSubclasses().isEmpty()));
+            final ClassInfoList filtered = scanResult.getAllClasses().filter(
+                    classInfo -> (classInfo.extendsSuperclass("AbstractEntity") 
+                               && classInfo.getSubclasses().isEmpty()));
 
-        Class<? extends AbstractEntity> type = AbstractEntity.class;
-        filtered.stream()
-                .map(c -> c.loadClass(type))
-                .forEach(e -> entityList.add(new LevelGenerationEntity<>(type.cast(e))));
+            final Class<? extends AbstractEntity> type = AbstractEntity.class;
+            this.entityList = new ArrayList<>();
+            filtered.stream()
+                    .map(c -> c.loadClass(type))
+                    .forEach(e -> entityList.add(new LevelGenerationEntity<>(type.cast(e))));
         }
     }
-    
-    
-
 }

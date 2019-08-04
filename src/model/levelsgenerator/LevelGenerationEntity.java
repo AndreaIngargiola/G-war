@@ -3,7 +3,6 @@ package model.levelsgenerator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import model.entities.AbstractEntity;
 import enumerators.Faction;
 

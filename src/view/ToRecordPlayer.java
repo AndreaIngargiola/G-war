@@ -18,15 +18,22 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * prova modifica file xml.
+ * Class for add a player in loaderboard.
  */
-public class ToRecordController {
+public class ToRecordPlayer {
     /**
      * main.
      * @param argv
      *         the arg of main.
      */
     public static void main(final String[] argv) {
+        String playerName = "Lorenzo";
+        int scorePlayer = 2500;
+
+        addRecord(playerName, scorePlayer);
+    }
+
+    private static void addRecord(final String playerName, final int scorePlayer) {
         try {
             File inputFile = new File("src/view/CharacterScores.xml"); 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -35,16 +42,16 @@ public class ToRecordController {
             Node characters = doc.getFirstChild();
             //NodeList character = doc.getElementsByTagName("character");  //primo charachter, quindi prende solo i nodi figli del primo
 
-            Node newNode = doc.createElement("chararcter");
-            //Node y = doc.getElementsByTagName("character").item(0);
+            Node newNode = doc.createElement("character");
+
             characters.appendChild(newNode);
             Node lastCharacter = characters.getLastChild();
             Element player = doc.createElement("player");
-            player.appendChild(doc.createTextNode("GianMarco"));
+            player.appendChild(doc.createTextNode(playerName));
             lastCharacter.appendChild(player);
 
             Element score = doc.createElement("score");
-            score.appendChild(doc.createTextNode("2500"));
+            score.appendChild(doc.createTextNode(String.valueOf(scorePlayer)));
             lastCharacter.appendChild(score);
             //NamedNodeMap attr = character.getAttributes();
 
@@ -54,7 +61,7 @@ public class ToRecordController {
             StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
 
-            System.out.println("Done");
+            System.out.println("Done write (add node as last node)");
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
@@ -66,4 +73,5 @@ public class ToRecordController {
             sae.printStackTrace();
         }
     }
+
 }

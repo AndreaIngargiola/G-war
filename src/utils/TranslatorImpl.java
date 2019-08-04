@@ -1,8 +1,6 @@
 package utils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,7 +65,7 @@ public final class TranslatorImpl<T> implements Translator<T> {
 
     @Override
     public <C extends T> C remove(final Class<C> type) {
-        if (elements.containsKey(type)) {			//devo controllare se è giusto
+        if (elements.containsKey(type))  {          //devo controllare se è giusto
             return type.cast(elements.remove(type));
 
         } else {

@@ -1,7 +1,9 @@
 package model.entities;
 
-import com.google.common.eventbus.EventBus;
+import org.jbox2d.common.Vec2;
 
+import com.google.common.eventbus.EventBus;
+import model.components.EntityBody;
 import enumerators.Faction;
 import model.components.EntityComponent;
 import model.events.Death;
@@ -17,7 +19,7 @@ import utils.TranslatorImpl;
 public abstract class AbstractEntity implements Entity {
 
     private final EventBus eventBus = new EventBus();
-    //private final EntityBody body;
+    private final EntityBody body;
     private final Translator<EntityComponent> components = new TranslatorImpl<>(EntityComponent.class);
     private final Faction type;
 
@@ -26,10 +28,10 @@ public abstract class AbstractEntity implements Entity {
      * @param body
      *            An {@link EntityBody} object is the only required component for an entity.
      */
-    public AbstractEntity(final Faction type /*,final EntityBody body*/) {
+    public AbstractEntity(final Faction type ,final EntityBody body) {
         this.type = type;
-        //this.body = body;
-        //body.attach(this);
+        this.body = body;
+        body.attach(this);
     }
 
     @Override
@@ -42,10 +44,10 @@ public abstract class AbstractEntity implements Entity {
         return type;
     }
 
-//    @Override
-//    public final EntityBody getBody() {
-//        return body;
-//    }
+    @Override
+    public final EntityBody getBody() {
+        return body;
+    }
 
 
     @Override
@@ -61,7 +63,7 @@ public abstract class AbstractEntity implements Entity {
         post(new Death(this));
         //components.forEach(this::remove); //?? Da un'exception
         components.clear();
-//        remove(body);
+        remove(body);
     }
 
     /**
@@ -98,5 +100,31 @@ public abstract class AbstractEntity implements Entity {
         components.remove(component);
         component.detach();
     }
+    
+    @Override
+    public final float getTopSide() {
+        return  body.getPosition().y;
+    }
 
+    @Override
+    public final float getLeftSide() {
+        return body.getPosition().x;
+    }
+
+    @Override
+    public final float getBottomSide() {
+        return (body.getPosition().y + body.getDimension().y);
+    }
+
+    @Override
+    public final float getRightSide() {
+        return (body.getPosition().x + body.getDimension().x);
+    }
+
+    @Override
+    public final Vec2 getCenter() {
+        final float halfH = (float) body.getDimension().y / 2;
+        final float halfW = (float) body.getDimension().x / 2;
+        return this.body.getPosition().add(new Vec2(halfW, halfH));
+    }
 }

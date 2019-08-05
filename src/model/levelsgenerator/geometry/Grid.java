@@ -1,4 +1,7 @@
-package model.levelsgenerator;
+package model.levelsgenerator.geometry;
+
+import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.LevelGenerationEntity;
 
 /**
  * A class for the matrix generation and blocks insertion.

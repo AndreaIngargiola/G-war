@@ -1,4 +1,4 @@
-package model.levelsgenerator;
+package model.levelsgenerator.geometry;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,9 +29,7 @@ public class BlockImpl implements Block {
     @Override
     public final List<Coordinate> getRelativeCoordinates() {
        return this.vertex.stream()
-                         .map(c -> c.getPoint())
-                         .map(p -> new Coordinate(p.x - this.spawnPoint.getPoint().x, 
-                                                  p.y - this.spawnPoint.getPoint().y))
+                         .map(p -> p.sub(this.spawnPoint))
                          .collect(Collectors.toList());
     }
 

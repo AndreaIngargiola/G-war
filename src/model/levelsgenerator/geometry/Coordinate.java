@@ -1,4 +1,4 @@
-package model.levelsgenerator;
+package model.levelsgenerator.geometry;
 import java.awt.Point;
 
 /**

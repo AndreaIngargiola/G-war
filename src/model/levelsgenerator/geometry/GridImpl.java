@@ -1,8 +1,11 @@
-package model.levelsgenerator;
+package model.levelsgenerator.geometry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.LevelGenerationEntity;
 
 /**
  * Implements the Grid interface using the LevelGenerationEntity abstraction for entities placing.

@@ -1,25 +1,29 @@
 package model.levelsgenerator;
-import model.math.Function;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+@DefaultConditionGiver
 public class ConditionGiverImpl implements ConditionGiver {
 
     @Override
-    public Condition getConditions(String componentInterfaceName) {
-        new Function<String, Condition>() {
+    public Optional<List<Condition>> getConditions(final String componentInterfaceName) {
 
-            @Override
-            public Condition apply(final String componentInterfaceName) {
-                final ConditionFactoryImpl conditionFactory = new ConditionFactoryImpl();
-                final Condition totalConditions = new ConditionImpl();
-                totalConditions.addCondition(newFunction);
-                switch(componentInterfaceName) {
-                case ("Feet") :
-                     conditionFactory.mustBeOnGround();
-                }
-            }
+        final ConditionFactoryImpl conditionFactory = new ConditionFactoryImpl();
+        List<Condition> conditions = new ArrayList<>();
 
-        };
-        return null;
+        switch (componentInterfaceName) {
+
+        case ("Feet") :
+             conditions.add(conditionFactory.mustBeOnGround());
+        break;
+
+        case ("Life") :
+            conditions.add(conditionFactory.mustBeOnGround());
+        default:
+
+        }
+        return (conditions.isEmpty()) ? Optional.empty() : Optional.of(conditions);
     }
 
 }

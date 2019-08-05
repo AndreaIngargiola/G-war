@@ -1,4 +1,4 @@
-package model.levelsgenerator;
+package model.levelsgenerator.conditions;
 
 import java.util.List;
 import java.util.Optional;

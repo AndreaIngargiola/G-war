@@ -1,4 +1,4 @@
-package model.levelsgenerator;
+package model.levelsgenerator.conditions;
 /**
  * Is a factory for complex block placing conditions that uses the logic of the entities and the abstraction granted from the gird/block system to 
  * check if the block can be placed in that point respecting some basic rules, granting the fairness of the level in the game play,

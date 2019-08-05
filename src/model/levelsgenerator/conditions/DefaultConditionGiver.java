@@ -1,4 +1,4 @@
-package model.levelsgenerator;
+package model.levelsgenerator.conditions;
 
 /**
  * This annotation consent to the default conditions giver to be ignored by a class graph scan 

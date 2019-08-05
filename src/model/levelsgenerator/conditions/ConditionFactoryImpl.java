@@ -1,9 +1,12 @@
-package model.levelsgenerator;
+package model.levelsgenerator.conditions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import enumerators.Faction;
+import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.geometry.Coordinate;
+import model.levelsgenerator.geometry.GridImpl;
 import model.math.Function;
 import model.utility.Pair;
 

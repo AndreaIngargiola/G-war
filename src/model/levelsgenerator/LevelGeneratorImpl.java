@@ -9,6 +9,8 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import model.entities.AbstractEntity;
+import model.levelsgenerator.conditions.ConditionGiver;
+import model.levelsgenerator.conditions.ConditionGiverImpl;
 
 /**
  * An implementation of LevelGenerator interface that uses advanced reflection functions (via ClassGraph library) and modular classes.
@@ -82,7 +84,6 @@ public class LevelGeneratorImpl implements LevelGenerator {
         for (LevelGenerationEntity<?> entity : this.entityList) {
             blockList.add(new EntityBlock(entity, this.cg));
         }
-        
-        
+
     }
 }

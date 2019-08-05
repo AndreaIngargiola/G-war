@@ -11,10 +11,10 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import model.levelsgenerator.Block;
-import model.levelsgenerator.BlockImpl;
-import model.levelsgenerator.Grid;
-import model.levelsgenerator.GridImpl;
+import model.levelsgenerator.geometry.Block;
+import model.levelsgenerator.geometry.BlockImpl;
+import model.levelsgenerator.geometry.Grid;
+import model.levelsgenerator.geometry.GridImpl;
 
 import javax.swing.JFrame;
 

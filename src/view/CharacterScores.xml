@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><characters>
-    <character>
-        <player>Giorgia</player>
-        <score>3000</score>
-    </character>
-    <character>
-        <player>Jacopo</player>
-        <score>9000</score>
-    </character>
-    <character>
+
+<character>
         <player>Lucia</player>
-        <score>5000</score>
-    </character><chararcter><player>GianMarco</player><score>2500</score></chararcter></characters>
+        <score>5500</score>
+    </character><character><player>Gianfranco</player><score>4000</score></character><character><player>Jessica</player><score>3700</score></character><character>
+        <player>Jacopo</player>
+        <score>3000</score>
+    </character><character><player>Lorenzo</player><score>2500</score></character><character>
+        <player>Giorgia</player>
+        <score>2000</score>
+    </character></characters>

@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 public class MainMenuGame extends Application {
 
     private Stage primaryStage;
+
     @Override
     public final void start(final Stage stage) throws Exception {
         this.primaryStage = stage;
@@ -58,7 +59,7 @@ public class MainMenuGame extends Application {
     /**
      * Main.
      * @param args
-     *         The param args.
+     *         The args of main.
      */
     public static void main(final String[] args) {
         launch(args);

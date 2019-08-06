@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 public class MainMenuGame extends Application {
 
     private Stage primaryStage;
+    private OrderFileByScore orderFileByScore = new OrderFileByScore();
 
     @Override
     public final void start(final Stage stage) throws Exception {
@@ -39,6 +40,7 @@ public class MainMenuGame extends Application {
      * @throws IOException when file not found.
      */
     public void showLeaderboard() throws IOException {
+        orderFileByScore.readFile();
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/leaderboard.fxml"));
         Parent newRoot = loader.load();
 
@@ -47,6 +49,8 @@ public class MainMenuGame extends Application {
 
         LeaderboardController controllerLeaderboard = loader.getController();
         controllerLeaderboard.setMainMenuGame(this);
+        /*System.out.print(orderFileByScore.getNumberPlayerInLeaderboard());
+        System.out.print(orderFileByScore.getLastScore());*/
     }
 
     /**

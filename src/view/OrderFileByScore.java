@@ -26,18 +26,10 @@ import org.xml.sax.SAXException;
  * Order file by score.
  */
 public class OrderFileByScore {
-    /**
-     * main.
-     * @param argv
-     *         the arg of main.
-     */
-    public static void main(final String[] argv) {
-        readFile();
-    }
 
-    private static void readFile() {
-        List<Integer> arrayScore = new ArrayList<>();
+    private List<Integer> arrayScore = new ArrayList<>();
 
+    public void readFile() {
         try {
             File inputFile = new File("src/view/CharacterScores.xml"); 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -93,5 +85,13 @@ public class OrderFileByScore {
             sae.printStackTrace();
         }
 
+    }
+
+    public Integer getNumberPlayerInLeaderboard() {
+        return this.arrayScore.size();
+    }
+
+    public Integer getLastScore() {
+        return this.arrayScore.get(this.getNumberPlayerInLeaderboard() - 1);
     }
 }

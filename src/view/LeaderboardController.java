@@ -27,7 +27,7 @@ import javafx.scene.control.TableView;
 import model.PlayerLeaderboard;
 
 /**
- * Controller of rankingPoints view.
+ * Controller of Leaderboard view (and add the information of player in the Leaderboard).
  */
 public class LeaderboardController {
 
@@ -88,7 +88,7 @@ public class LeaderboardController {
             StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
 
-            System.out.println("Add the information of player in the TableView of LoaderBoard");
+            System.out.println("Add the information of player in the TableView of Leaderboard");
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();

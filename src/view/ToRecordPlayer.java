@@ -27,8 +27,8 @@ public class ToRecordPlayer {
      *         the arg of main.
      */
     public static void main(final String[] argv) {
-        String playerName = "Lorenzo";
-        int scorePlayer = 2500;
+        String playerName = "Jessica";
+        int scorePlayer = 3700;
 
         addRecord(playerName, scorePlayer);
     }

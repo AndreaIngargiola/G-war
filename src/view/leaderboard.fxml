@@ -6,18 +6,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="296.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LeaderboardController">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LeaderboardController">
    <children>
-      <HBox prefHeight="200.0" prefWidth="355.0">
-         <children>
-            <Label text="Leaderboard">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <Button layoutX="264.0" layoutY="244.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="264.0" layoutY="200.0" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="31.0" prefWidth="65.0" text="Menu" />
+      <Label layoutX="121.0" layoutY="20.0" text="Leaderboard" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="48.0" />
+         </font>
+      </Label>
+      <Button layoutX="411.0" layoutY="450.0" mnemonicParsing="false" onAction="#exitL" prefHeight="31.0" prefWidth="65.0" text="Exit" />
+      <Button layoutX="337.0" layoutY="450.0" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="31.0" prefWidth="65.0" text="Menu" />
+      <TableView fx:id="playerTable" layoutX="11.0" layoutY="103.0" prefHeight="320.0" prefWidth="480.0">
+        <columns>
+          <TableColumn fx:id="playerNameColumn" prefWidth="120.0" text="Name" />
+          <TableColumn fx:id="playerScoreColumn" prefWidth="120.0" text="Score" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
    </children>
 </AnchorPane>

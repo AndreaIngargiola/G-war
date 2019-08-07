@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 public class OrderFileByScore {
 
     private List<Integer> arrayScore = new ArrayList<>();
+    private final static int MAXPLAYER = 10;
 
     public void readFile() {
         try {
@@ -67,6 +68,14 @@ public class OrderFileByScore {
                     }
                 }
             }
+            nList = doc.getElementsByTagName("character");
+            if (nList.getLength() > MAXPLAYER) {
+                Node nNode = nList.item(MAXPLAYER);
+                characters.removeChild(nNode);
+                arrayScore.remove(10);
+            }
+
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);

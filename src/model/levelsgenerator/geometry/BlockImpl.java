@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- *BlockImpl is the implementation of the block using the List data structure.
+ *BlockImpl is the implementation of the block using the Set data structure.
  */
 public class BlockImpl implements Block {
 
@@ -13,7 +13,7 @@ public class BlockImpl implements Block {
     private final Coordinate spawnPoint;
 
     /**
-     * the block cannot be empty, so when the block is created the first point will be the "center" of the block with absolute coordinates 0,0.
+     * The block cannot be empty, so when the block is created the first point will be the "center" of the block with absolute coordinates 0,0.
      */
     public BlockImpl() {
         vertex = new HashSet<>();

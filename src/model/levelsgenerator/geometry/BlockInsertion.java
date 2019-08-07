@@ -3,12 +3,15 @@ package model.levelsgenerator.geometry;
 /**
  * Is a wrapper created for code clarity that contains all the informations for the block insertion event.
  * This class is very useful for eventual condition evaluation.
+ * @param <X> is an implementation of Grid.
+ * @param <Y> is an implementation of Block.
+ * @param <Z> is a Coordinate or an extension of it.
  */
-public class BlockInsertion {
+public class BlockInsertion<X extends Grid, Y extends Block, Z extends Coordinate> {
 
-    private Grid context;
-    private Block block;
-    private Coordinate insertionPoint;
+    private X context;
+    private Y block;
+    private Z insertionPoint;
 
     /**
      * A public constructor for this wrapper.
@@ -16,7 +19,7 @@ public class BlockInsertion {
      * @param block is the block.
      * @param insertionPoint is the insertion point in the grid of the block.
      */
-    public BlockInsertion(final Grid context, final Block block, final Coordinate insertionPoint) {
+    public BlockInsertion(final X context, final Y block, final Z insertionPoint) {
         super();
         this.context = context;
         this.block = block;
@@ -27,7 +30,7 @@ public class BlockInsertion {
      * A getter for the grid.
      * @return the snapshot of the grid.
      */
-    public Grid getContext() {
+    public X getContext() {
         return context;
     }
 
@@ -35,7 +38,7 @@ public class BlockInsertion {
      * A getter for the block.
      * @return the block.
      */
-    public Block getBlock() {
+    public Y getBlock() {
         return block;
     }
 
@@ -43,7 +46,7 @@ public class BlockInsertion {
      * a getter for the insertion point.
      * @return the insertion point.
      */
-    public Coordinate getInsertionPoint() {
+    public Z getInsertionPoint() {
         return insertionPoint;
     }
 }

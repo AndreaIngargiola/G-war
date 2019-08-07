@@ -13,7 +13,7 @@
             <Font name="System Italic" size="48.0" />
          </font>
       </Label>
-      <Button layoutX="411.0" layoutY="450.0" mnemonicParsing="false" onAction="#exitL" prefHeight="31.0" prefWidth="65.0" text="Exit" />
+      <Button fx:id="exitBtn" layoutX="411.0" layoutY="450.0" mnemonicParsing="false" onAction="#exitL" prefHeight="31.0" prefWidth="65.0" text="Exit" />
       <Button layoutX="337.0" layoutY="450.0" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="31.0" prefWidth="65.0" text="Menu" />
       <TableView fx:id="playerTable" layoutX="11.0" layoutY="103.0" prefHeight="320.0" prefWidth="480.0">
         <columns>

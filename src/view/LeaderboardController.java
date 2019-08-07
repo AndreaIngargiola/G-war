@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import model.PlayerLeaderboard;
@@ -32,11 +33,14 @@ import model.PlayerLeaderboard;
 public class LeaderboardController {
 
     @FXML
+    private Button exitBtn;
+    @FXML
     private TableView<PlayerLeaderboard> playerTable;
     @FXML
     private TableColumn<PlayerLeaderboard, String> playerNameColumn;
     @FXML
     private TableColumn<PlayerLeaderboard, Integer> playerScoreColumn;
+
 
     private MainMenuGame mainMenuGame;
 
@@ -59,6 +63,7 @@ public class LeaderboardController {
         playerScoreColumn.setCellValueFactory(cellData -> cellData.getValue().playerScoreProperty().asObject());
         ObservableList<PlayerLeaderboard> playerList = FXCollections.observableArrayList();
         playerTable.setItems(playerList);
+        exitBtn.setVisible(true);
 
 
         try {

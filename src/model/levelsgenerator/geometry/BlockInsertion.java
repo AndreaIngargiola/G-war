@@ -9,9 +9,9 @@ package model.levelsgenerator.geometry;
  */
 public class BlockInsertion<X extends Grid, Y extends Block, Z extends Coordinate> {
 
-    private X context;
-    private Y block;
-    private Z insertionPoint;
+    private final X context;
+    private final Y block;
+    private final Z insertionPoint;
 
     /**
      * A public constructor for this wrapper.

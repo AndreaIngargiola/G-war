@@ -8,7 +8,6 @@ import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.GridImpl;
 import model.math.Function;
-import model.utility.Pair;
 
 /**
  * ConditionImpl is the implementation of the interface Condition that uses the class Function from a 2013 OOP exam.

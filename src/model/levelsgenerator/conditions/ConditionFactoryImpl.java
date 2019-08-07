@@ -9,10 +9,9 @@ import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.GridImpl;
 import model.math.Function;
-import model.utility.Pair;
 
 /**
- * An implementation of the ConditionFactory interface that uses GridImpl (or a derived class), Coordinate, Pair and LevelGenerationEntity.
+ * An implementation of the ConditionFactory interface that uses GridImpl, Coordinate and LevelGenerationEntity.
  */
 public class ConditionFactoryImpl implements ConditionFactory {
 

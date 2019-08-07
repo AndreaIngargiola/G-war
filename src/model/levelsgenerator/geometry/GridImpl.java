@@ -1,7 +1,8 @@
 package model.levelsgenerator.geometry;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import model.levelsgenerator.EntityBlock;
@@ -14,17 +15,18 @@ import model.levelsgenerator.LevelGenerationEntity;
 public class GridImpl implements Grid {
 
     private static final LevelGenerationEntity<?> VOID = new LevelGenerationEntity<>();
-    private final List<List<LevelGenerationEntity<?>>> matrix = new ArrayList<>();
+    private final Map<Coordinate, LevelGenerationEntity<?>> matrix;
 
     /**
      * Initialize the matrix.
-     * @param bounds is the width (and consequentially the height) of the squared matrix.
+     * @param rows is the number of rows of the matrix.
+     * @param columns is the number of columns of the matrix.
      */
-    public GridImpl(final int bounds) {
-        for (int i = 0; i < bounds; i++) {
-            this.matrix.add(new ArrayList<>());
-            for (int j = 0; j < bounds; j++) {
-                this.matrix.get(i).add(GridImpl.VOID);
+    public GridImpl(final int rows, final int columns) {
+        this.matrix = new HashMap<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                this.matrix.put(new Coordinate(j, i), GridImpl.VOID);
             }
         }
     }
@@ -55,14 +57,13 @@ public class GridImpl implements Grid {
 
     @Override
     public final void reset() {
-        this.matrix.stream()
-                   .forEach(row -> row.stream().forEach(element -> element = new LevelGenerationEntity<>()));
+        this.matrix.keySet().stream().forEach(k -> this.matrix.put(k, GridImpl.VOID));
     }
 
     @Override
-    public final LevelGenerationEntity<?> getElement(final Coordinate elemCoordinates) {
+    public final LevelGenerationEntity<?> getElement(final Coordinate elemCoordinates) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            return this.matrix.get(elemCoordinates.getPoint().x).get(elemCoordinates.getPoint().y);
+            return this.matrix.get(elemCoordinates);
         } else {
             throw new IllegalArgumentException();
         }
@@ -74,8 +75,18 @@ public class GridImpl implements Grid {
      * @return true if the coordinate is in matrix bounds, false otherwise.
      */
     private Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
-        return (elemCoordinates.getPoint().x >= 0 &&  elemCoordinates.getPoint().x < this.matrix.size() 
-               && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y  < this.matrix.size());
+        int maxX = this.matrix.keySet().stream()
+                                       .map(c -> c.getPoint().x)
+                                       .max((x1, x2) -> x1.compareTo(x2))
+                                       .get();
+
+        int maxY = this.matrix.keySet().stream()
+                                       .map(c -> c.getPoint().y)
+                                       .max((y1, y2) -> y1.compareTo(y2))
+                                       .get();
+
+        return (elemCoordinates.getPoint().x >= 0 && elemCoordinates.getPoint().x < maxX 
+                && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y < maxY);
     }
 
     /**
@@ -93,7 +104,7 @@ public class GridImpl implements Grid {
      */
     private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity<?> value) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
-            this.matrix.get(elemCoordinates.getPoint().x).set(elemCoordinates.getPoint().y, value);
+            this.matrix.put(elemCoordinates, value);
         } else {
             throw new IllegalArgumentException();
         }

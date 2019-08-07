@@ -29,14 +29,7 @@ public class GridImpl implements Grid {
         }
     }
 
-    /**
-     * Get the absolute matrix coordinates given a certain block shape (list of coordinates) and a origin point on the matrix. 
-     * @param b is the block to overlap.
-     * @param mOriginPoint is the point in the matrix that corresponds to the spawn point of the block and in which 
-     * the relative coordinates of the block will be converted in absolute coordinates of the matrix.
-     * @return a list of matrix coordinates that are in matrix bounds and corresponds to the points 
-     * occupied by that block if is placed with that point of origin.
-     */
+    @Override
     public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final EntityBlock b) {
         return b.getRelativeCoordinates().stream()
                                          .map(p -> mOriginPoint.sum(p))

@@ -1,5 +1,7 @@
 package model.levelsgenerator.geometry;
 
+import java.util.List;
+
 import model.levelsgenerator.EntityBlock;
 import model.levelsgenerator.LevelGenerationEntity;
 
@@ -13,6 +15,16 @@ public interface Grid {
      * reinitialize the matrix to the starting status.
      */
     void reset();
+
+    /**
+     * Get the absolute matrix coordinates given a certain block shape (list of coordinates) and a origin point on the matrix. 
+     * @param b is the block to overlap.
+     * @param mOriginPoint is the point in the matrix that corresponds to the spawn point of the block and in which 
+     * the relative coordinates of the block will be converted in absolute coordinates of the matrix.
+     * @return a list of matrix coordinates that are in matrix bounds and corresponds to the points 
+     * occupied by that block if is placed with that point of origin.
+     */
+    List<Coordinate> getOverlap(Coordinate mOriginPoint, EntityBlock b);
 
     /**
      * get the matrix element at elemCoordinates.

@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  */
 public class OrderFileByScore {
 
-    private List<Integer> arrayScore = new ArrayList<>();
+    private List<Integer> arrayPlayer;
     private final static int MAXPLAYER = 10;
 
     public void readFile() {
@@ -39,6 +39,8 @@ public class OrderFileByScore {
             Node characters = doc.getFirstChild();
 
             doc.getDocumentElement().normalize();
+            List<Integer> arrayScore = new ArrayList<>();
+
 
             //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList = doc.getElementsByTagName("character");  //Lista di character (ora sono tre) con i loro nodi figli
@@ -72,8 +74,11 @@ public class OrderFileByScore {
             if (nList.getLength() > MAXPLAYER) {
                 Node nNode = nList.item(MAXPLAYER);
                 characters.removeChild(nNode);
-                arrayScore.remove(10);
+                arrayScore.remove(MAXPLAYER);
+                //this.arrayPlayer.addAll(arrayScore);
             }
+            this.arrayPlayer = new ArrayList<>(arrayScore);
+            arrayScore.removeAll(arrayScore);
 
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -95,12 +100,16 @@ public class OrderFileByScore {
         }
 
     }
+    
+    public List<Integer> getArrayList(){
+    	return this.arrayPlayer;
+    }
 
     public Integer getNumberPlayerInLeaderboard() {
-        return this.arrayScore.size();
+        return this.arrayPlayer.size();
     }
 
     public Integer getLastScore() {
-        return this.arrayScore.get(this.getNumberPlayerInLeaderboard() - 1);
+        return this.arrayPlayer.get(this.getNumberPlayerInLeaderboard() - 1);
     }
 }

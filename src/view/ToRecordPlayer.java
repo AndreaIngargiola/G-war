@@ -26,12 +26,12 @@ public class ToRecordPlayer {
      * @param argv
      *         the arg of main.
      */
-    public static void main(final String[] argv) {
-        String playerName = "Jessica";
-        int scorePlayer = 3700;
+    /*public static void main(final String[] argv) {
+        String playerName = "Basso";
+        int scorePlayer = 300;
 
         addRecord(playerName, scorePlayer);
-    }
+    }*/
 
     private static void addRecord(final String playerName, final int scorePlayer) {
         try {

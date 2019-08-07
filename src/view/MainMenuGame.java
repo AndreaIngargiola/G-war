@@ -33,6 +33,10 @@ public class MainMenuGame extends Application {
         primaryStage.show();
         MainMenuGameController controllerMain = loader.getController();
         controllerMain.setMainMenuGame(this);
+        /*GameOverController controllerGameOver = loader.getController();
+        controllerGameOver.setMainMenuGame(this);*/
+        
+
     }
 
     /**
@@ -49,8 +53,9 @@ public class MainMenuGame extends Application {
 
         LeaderboardController controllerLeaderboard = loader.getController();
         controllerLeaderboard.setMainMenuGame(this);
-        /*System.out.print(orderFileByScore.getNumberPlayerInLeaderboard());
-        System.out.print(orderFileByScore.getLastScore());*/
+        System.out.println("Number of player in leaderboard: " + orderFileByScore.getNumberPlayerInLeaderboard());
+        System.out.println("Number of player in leaderboard: " + orderFileByScore.getArrayList());
+        System.out.println("Last score: " + orderFileByScore.getLastScore());
     }
 
     /**

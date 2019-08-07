@@ -5,6 +5,7 @@ import java.util.List;
 
 import enumerators.Faction;
 import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.GridImpl;
 import model.math.Function;
@@ -20,13 +21,13 @@ public class ConditionFactoryImpl implements ConditionFactory {
     public final Condition mustBeOnGround() {
         final Condition mustBeOnGround = new ConditionImpl();
 
-        mustBeOnGround.addCondition(new Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean>() {
+        mustBeOnGround.addCondition(new Function<BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
 
-            public Boolean apply(final Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>> i) {
+            public Boolean apply(final BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate> i) {
 
-                final GridImpl context = i.getY().getY();
-                final EntityBlock block = i.getX();
-                final Coordinate enteringPoint = i.getY().getX();
+                final GridImpl context = i.getContext();
+                final EntityBlock block = i.getBlock();
+                final Coordinate enteringPoint = i.getInsertionPoint();
 
                 final Integer yMin = context.getOverlap(enteringPoint, block).stream()
                                                                              .map(c -> c.getPoint().y)
@@ -45,13 +46,13 @@ public class ConditionFactoryImpl implements ConditionFactory {
     public final Condition notTooNearRival() {
         final Condition notTooNearRival = new ConditionImpl();
 
-        notTooNearRival.addCondition(new Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean>() {
+        notTooNearRival.addCondition(new Function<BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
 
-            public Boolean apply(final Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>> i) {
+            public Boolean apply(final BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate> i) {
 
-                final GridImpl context = i.getY().getY();
-                final EntityBlock block = i.getX();
-                final Coordinate enteringPoint = i.getY().getX();
+                final GridImpl context = i.getContext();
+                final EntityBlock block = i.getBlock();
+                final Coordinate enteringPoint = i.getInsertionPoint();
 
                 final List<Coordinate> vitalSpace = context.getOverlap(enteringPoint, block);
 

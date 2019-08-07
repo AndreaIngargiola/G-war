@@ -1,5 +1,6 @@
 package model.levelsgenerator.conditions;
 import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.GridImpl;
 import model.math.Function;
@@ -17,12 +18,12 @@ public interface Condition {
      * @param newFunction is a function that project a Block and a Context (the grid) in a Boolean, 
      * telling what are the context conditions in which the block can be placed.
      */
-    void addCondition(Function<Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>>, Boolean> newFunction);
+    void addCondition(Function<BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate>, Boolean> newFunction);
 
     /**
      * verify if a block and a context (a snapshot of the grid in which the program want to place the block) respects all the functions.
      * @param c is a pair composed by a block and another pair with a snapshot of the grid and the insertion point of the block.
      * @return true if the block respects all the conditions, false otherwise.
      */
-    boolean verify(Pair<EntityBlock, Pair<Coordinate, ? extends GridImpl>> c); 
+    boolean verify(BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate> c); 
 }

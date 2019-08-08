@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 public class MainMenuGame extends Application {
 
     private Stage primaryStage;
-    private OrderFileByScore orderFileByScore = new OrderFileByScore();
+    private ReadAndOrderFileByScore orderFileByScore = new ReadAndOrderFileByScore();
 
     @Override
     public final void start(final Stage stage) throws Exception {
@@ -35,8 +35,6 @@ public class MainMenuGame extends Application {
         controllerMain.setMainMenuGame(this);
         /*GameOverController controllerGameOver = loader.getController();
         controllerGameOver.setMainMenuGame(this);*/
-        
-
     }
 
     /**
@@ -44,7 +42,7 @@ public class MainMenuGame extends Application {
      * @throws IOException when file not found.
      */
     public void showLeaderboard() throws IOException {
-        orderFileByScore.readFile();
+        orderFileByScore.readFileAndOrder();
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/leaderboard.fxml"));
         Parent newRoot = loader.load();
 
@@ -53,10 +51,16 @@ public class MainMenuGame extends Application {
 
         LeaderboardController controllerLeaderboard = loader.getController();
         controllerLeaderboard.setMainMenuGame(this);
-        System.out.println("Number of player in leaderboard: " + orderFileByScore.getNumberPlayerInLeaderboard());
-        System.out.println("Number of player in leaderboard: " + orderFileByScore.getArrayList());
-        System.out.println("Last score: " + orderFileByScore.getLastScore());
     }
+
+    /*public void setControllerGameOver() throws IOException {
+        FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/mainMenu.fxml"));
+        Parent root = loader.load();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+        GameOverController controllerGameOver = loader.getController();
+        controllerGameOver.setMainMenuGame(this);
+    }*/
 
     /**
      * Method for returns the main stage.

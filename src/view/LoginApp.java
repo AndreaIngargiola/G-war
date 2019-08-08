@@ -5,15 +5,17 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
+/**
+ * Class to open Game over view.
+ */
 public class LoginApp extends Application {
 
-	private Stage loginStage;
-	private OrderFileByScore orderFile = new OrderFileByScore();
-	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-	    this.loginStage = primaryStage;
+    private Stage loginStage;
+    private MainMenuGame mainMenuGame;
+
+    @Override
+    public final void start(final Stage primaryStage) throws Exception {
+        this.loginStage = primaryStage;
         primaryStage.setTitle("Login app");
         //this.orderFile.readFile();
 
@@ -21,11 +23,10 @@ public class LoginApp extends Application {
         Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        
         //System.out.print(orderFile.getNumberPlayerInLeaderboard());
-	}
-	
-	/**
+    }
+
+    /**
      * Main.
      * @param args
      *         The args of main.

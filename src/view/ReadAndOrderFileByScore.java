@@ -23,14 +23,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Order file by score.
+ * Read file and Order file by score.
  */
-public class OrderFileByScore {
+public class ReadAndOrderFileByScore {
 
     private List<Integer> arrayPlayer;
     private final static int MAXPLAYER = 10;
-
-    public void readFile() {
+    /**
+     * Method.
+     */
+    public void readFileAndOrder() {
         try {
             File inputFile = new File("src/view/CharacterScores.xml"); 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -100,15 +102,24 @@ public class OrderFileByScore {
         }
 
     }
-    
-    public List<Integer> getArrayList(){
-    	return this.arrayPlayer;
-    }
 
+    /*public List<Integer> getArrayList(){
+        return this.arrayPlayer;
+    }*/
+    /**
+     * Method to know the number of player.
+     * @return
+     *         the number of Player.
+     */
     public Integer getNumberPlayerInLeaderboard() {
         return this.arrayPlayer.size();
     }
 
+    /**
+     * Method to know the score of the last player.
+     * @return
+     *         the last score.
+     */
     public Integer getLastScore() {
         return this.arrayPlayer.get(this.getNumberPlayerInLeaderboard() - 1);
     }

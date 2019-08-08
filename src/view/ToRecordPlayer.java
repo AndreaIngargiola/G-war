@@ -26,14 +26,8 @@ public class ToRecordPlayer {
      * @param argv
      *         the arg of main.
      */
-    /*public static void main(final String[] argv) {
-        String playerName = "Basso";
-        int scorePlayer = 300;
 
-        addRecord(playerName, scorePlayer);
-    }*/
-
-    private static void addRecord(final String playerName, final int scorePlayer) {
+    public void addRecord(final String playerName, final int scorePlayer) {
         try {
             File inputFile = new File("src/view/CharacterScores.xml"); 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

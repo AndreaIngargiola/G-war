@@ -63,8 +63,6 @@ public class LeaderboardController {
         playerScoreColumn.setCellValueFactory(cellData -> cellData.getValue().playerScoreProperty().asObject());
         ObservableList<PlayerLeaderboard> playerList = FXCollections.observableArrayList();
         playerTable.setItems(playerList);
-        exitBtn.setVisible(true);
-
 
         try {
             File inputFile = new File("src/view/CharacterScores.xml"); 

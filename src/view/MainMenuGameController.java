@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 /**
  * Controller view of main menu.
  */
-public class MainMenuGameController {
+public class MainMenuGameController implements ControllerView {
     private MainMenuGame mainMenuGame;
     /**
      * Method for new game.
@@ -31,12 +31,17 @@ public class MainMenuGameController {
         } catch (Exception e) { }
     }
 
+    @Override
+    public final void setMainMenuGame(final MainMenuGame mainMenu) {
+        this.mainMenuGame = mainMenu;
+    }
+
     /**
      * Sets main menu.
      * @param mainMenu
      *         The main menu.
      */
-    public void setMainMenuGame(final MainMenuGame mainMenu) {
+    /*public void setMainMenuGame(final MainMenuGame mainMenu) {
         this.mainMenuGame = mainMenu;
-    }
+    }*/
 }

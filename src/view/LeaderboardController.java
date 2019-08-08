@@ -30,7 +30,7 @@ import model.PlayerLeaderboard;
 /**
  * Controller of Leaderboard view (and add the information of player in the Leaderboard).
  */
-public class LeaderboardController {
+public class LeaderboardController implements ControllerView {
 
     @FXML
     private Button exitBtn;
@@ -43,19 +43,6 @@ public class LeaderboardController {
 
 
     private MainMenuGame mainMenuGame;
-
-    /**
-     * create list and add some sample data.
-     * @return
-     *         the list of player.
-     */
-    /*public ObservableList<PlayerLeaderboard> getPlayerList() {
-        ObservableList<PlayerLeaderboard> playerList = FXCollections.observableArrayList();
-        playerList.add(new PlayerLeaderboard("E", 5000));
-        playerList.add(new PlayerLeaderboard("A", 3000));
-        playerList.add(new PlayerLeaderboard("V", 2000));
-        return playerList;
-    }*/
 
     @FXML
     private void initialize() {
@@ -104,7 +91,6 @@ public class LeaderboardController {
         }
     }
 
-
     @FXML
     private void showMainMenu() {
         try {
@@ -117,12 +103,9 @@ public class LeaderboardController {
         Platform.exit();
     }
 
-    /**
-     * Sets main menu.
-     * @param mainMenu
-     *         The main menu.
-     */
-    public void setMainMenuGame(final MainMenuGame mainMenu) {
+
+    @Override
+    public final void setMainMenuGame(final MainMenuGame mainMenu) {
         this.mainMenuGame = mainMenu;
     }
 }

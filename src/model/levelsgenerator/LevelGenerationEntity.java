@@ -18,7 +18,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
     private final Faction type;
 
     /**
-     * a void constructor.
+     * A void constructor.
      */
     public LevelGenerationEntity() {
         this.entityName = "VOID";
@@ -39,7 +39,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
     }
 
     /**
-     * a getter for the entity name.
+     * A getter for the entity name.
      * @return the entity name.
      */
     public String getEntityName() {
@@ -47,7 +47,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
     }
 
     /**
-     * a getter for the set of components name of this entity.
+     * A getter for the set of components name of this entity.
      * @return the set of components names.
      */
     public Set<String> getComponentsSet() {
@@ -55,7 +55,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
     }
 
     /**
-     * a getter for the entity type.
+     * A getter for the entity type.
      * @return the Enum Type field.
      */
     public Faction getType() {

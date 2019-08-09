@@ -67,7 +67,7 @@ public class ArchitectureBuilderImpl implements ArchitectureBuilder {
         if (nearestPlatform.equals(Optional.empty())) {
 
         } else {
-
+            new Coordinate(-(nearestPlatform.get().getPoint().x-this.trace.))) 
         }
     }
 

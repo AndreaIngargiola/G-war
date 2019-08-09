@@ -11,10 +11,19 @@ import model.levelsgenerator.geometry.BlockImpl;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.Grid;
 import model.levelsgenerator.geometry.GridImpl;
+import model.math.BallsUrn;
 import model.math.BallsUrnImpl;
 
-public class ArchitectureBuilderImpl implements ArchitectureBuilder {
+/**
+ * An implementation for the ArchitectureBuilder interface that uses Coordinate, GridImpl, EntityBlock and BallsUrnImpl for generate a walkable random level
+ * given at least one neutral and one psycho architecture entity.
+ * This class is implemented keeping in mind that will be together with a class that will imports the entities and initialize 
+ * the blocks and them conditions.
+ */
+public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
+    private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 0);
+    private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 75;
     private final Map<EntityBlock, BallsUrnImpl> neutralEnv;
     private final Map<EntityBlock, BallsUrnImpl> hostileEnv;
     private final GridImpl level;
@@ -32,7 +41,7 @@ public class ArchitectureBuilderImpl implements ArchitectureBuilder {
     public ArchitectureBuilderImpl(final Map<EntityBlock, BallsUrnImpl> architecture, final Coordinate gridDimension, final Coordinate jumpingDistance) {
         this.neutralEnv = new HashMap<>();
         this.hostileEnv = new HashMap<>();
-        for (EntityBlock e : architecture.keySet()) {
+        for (final EntityBlock e : architecture.keySet()) {
             if (e.getEntity().getType().equals(Faction.PSYCO_IMMORTAL) || e.getEntity().getType().equals(Faction.PSYCO_MORTAL)) {
                 this.hostileEnv.put(e, architecture.get(e));
             } else {
@@ -53,28 +62,95 @@ public class ArchitectureBuilderImpl implements ArchitectureBuilder {
         }
     }
 
-    private Coordinate getNextPoint(Coordinate actualPoint) {
-        List<Coordinate> possibilities = this.level.getOverlap(actualPoint, this.tolerance);
+    /**
+     * Get the next random point where place an architectural element.
+     * @param actualPoint
+     * @return
+     */
+    private Coordinate getNextPoint(final Coordinate actualPoint) {
+        final List<Coordinate> possibilities = this.level.getOverlap(actualPoint, this.tolerance);
         return possibilities.get(this.randomIterator.nextInt(possibilities.size()));
     }
 
-    private void findFirstPoint() {
+    private Coordinate findFirstPoint() {
         final Optional<Coordinate> nearestPlatform = this.trace.getSnapshot().entrySet().stream()
                                                                                         .filter(es -> es.getValue().getType().equals(Faction.NEUTRAL_IMMORTAL) 
                                                                                                    || es.getValue().getType().equals(Faction.NEUTRAL_MORTAL))
                                                                                         .map(e -> e.getKey())
                                                                                         .max((c1, c2) -> c1.getPoint().x - c2.getPoint().x);
         if (nearestPlatform.equals(Optional.empty())) {
-
+            return ArchitectureBuilderImpl.DEFAULT_STARTING_POINT;
         } else {
-            new Coordinate(-(nearestPlatform.get().getPoint().x-this.trace.))) 
+            return new Coordinate(-(nearestPlatform.get().getPoint().x - this.trace.getSize().getPoint().x), 
+                                  nearestPlatform.get().getPoint().y); 
         }
+    }
+
+    private EntityBlock chooseEntity(final Map<EntityBlock, BallsUrnImpl> blockList) {
+        BallsUrn.Color ball = BallsUrn.Color.WHITE;
+        while (ball.equals(BallsUrn.Color.WHITE)) {
+            for (EntityBlock b : blockList.keySet()) {
+                ball = blockList.get(b).getBall();
+                if (ball.equals(BallsUrn.Color.BLACK)) {
+                    return b;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void updateTrace() {
+        final int minimumInterestingX = this.level.getSize().getPoint().x - this.trace.getSize().getPoint().x;
+        this.level.getSnapshot().keySet().stream()
+                                         .filter(c -> c.getPoint().x > minimumInterestingX)
+                                         .forEach(c -> this.trace.setElement(c.sub(new Coordinate(minimumInterestingX, 0)), this.level.getElement(c)));
     }
 
     @Override
     public Grid getArchitecture(final Grid grid) {
-        // TODO Auto-generated method stub
-        return null;
+        /*Initialize local variables*/
+        this.updateTrace();
+        this.level.reset();
+        Coordinate point = this.findFirstPoint();
+        EntityBlock selectedBlock = this.hostileEnv.keySet().iterator().next();
+        Boolean entityLock = Boolean.FALSE;
+
+        /*Get the first point based on the last platform in the trace*/
+        while (this.level.isInMatrixBounds(point).equals(Boolean.FALSE)) {
+            point = this.findFirstPoint();
+            point = this.getNextPoint(point);
+        }
+
+        /*While the function didn't fill the whole horizontal length of the matrix, keep placing architecture*/
+        while (point.getPoint().x < this.level.getSize().getPoint().x) {
+            if (entityLock.equals(Boolean.FALSE)) {                            //if entityLock is true, keep the previous entity, else choose a new entity to place.
+                if (this.neutralEnv.containsKey(selectedBlock)) {              //if the previous entity placed is an obstacle, choose a neutral one, else choose a random entity.
+                    selectedBlock = this.chooseEntity(this.neutralEnv);
+                } else {
+                    Integer flipACoin = this.randomIterator.nextInt(1);
+                    if (flipACoin.equals(1)) {
+                        selectedBlock = this.chooseEntity(this.neutralEnv);
+                    } else {
+                        selectedBlock = this.chooseEntity(this.hostileEnv);
+                    }
+                }
+            }
+
+            if (selectedBlock.verifyPlacingConditions(this.level, point)) {
+                this.level.place(point, selectedBlock);
+
+                if (this.randomIterator.nextInt(100) < ArchitectureBuilderImpl.CONTIGUOUS_ELEMENTS_PERCENTAGE) {
+                    point = point.sum(new Coordinate(1, 0));
+                    entityLock = Boolean.TRUE;
+                } else {
+                    point = this.getNextPoint(point);
+                    entityLock = Boolean.FALSE;
+                } 
+            } else {
+                entityLock = Boolean.FALSE;
+            }
+        }
+        return this.level;
     }
 
 }

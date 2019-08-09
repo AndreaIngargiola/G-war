@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public final class BallsUrnImpl implements BallsUrn {
 
-    private List<Color> balls;
-
+    private final List<Color> balls;
+    private final int initialBallsNumber;
     /**
      * For grant the equal probability of the two colors at the first extraction, an odd number will be rounded at the first grater even number.
      * @param initialBallsNumber is the total number of balls in the urn, an odd number will be rounded at the first grater even number.
@@ -18,10 +18,14 @@ public final class BallsUrnImpl implements BallsUrn {
     public BallsUrnImpl(final int initialBallsNumber) {
         this.balls = new ArrayList<>();
         this.refill(initialBallsNumber);
+        this.initialBallsNumber = initialBallsNumber;
     }
 
     @Override
     public Color getBall() {
+        if (this.balls.isEmpty()) {
+            this.refill(this.initialBallsNumber);
+        }
         final Random randomIterator = new Random(); 
         final int randomIndex = randomIterator.nextInt(this.balls.size());
         final Color extractedBall = this.balls.get(randomIndex);
@@ -31,7 +35,7 @@ public final class BallsUrnImpl implements BallsUrn {
 
     @Override
     public void refill(final int ballsNumber) {
-        int realBallsNumber = (ballsNumber % 2 == 1) ? ballsNumber + 1 : ballsNumber;
+        final int realBallsNumber = (ballsNumber % 2 == 1) ? ballsNumber + 1 : ballsNumber;
         for (int i = 0; i < (realBallsNumber / 2); i++) {
             this.insertSingleBall(Color.BLACK);
             this.insertSingleBall(Color.WHITE);

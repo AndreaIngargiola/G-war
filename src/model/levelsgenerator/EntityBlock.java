@@ -10,7 +10,6 @@ import model.levelsgenerator.geometry.BlockImpl;
 import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.GridImpl;
-import model.utility.Pair;
 
 /**
  * An extension of the Block class that implements the Entity handler.

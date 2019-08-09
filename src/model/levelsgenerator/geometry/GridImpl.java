@@ -16,6 +16,7 @@ public class GridImpl implements Grid {
 
     private static final LevelGenerationEntity<?> VOID = new LevelGenerationEntity<>();
     private final Map<Coordinate, LevelGenerationEntity<?>> matrix;
+    private final Coordinate size;
 
     /**
      * Initialize the matrix.
@@ -29,10 +30,11 @@ public class GridImpl implements Grid {
                 this.matrix.put(new Coordinate(j, i), GridImpl.VOID);
             }
         }
+        this.size = new Coordinate(columns, rows);
     }
 
     @Override
-    public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final EntityBlock b) {
+    public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final BlockImpl b) {
         return b.getRelativeCoordinates().stream()
                                          .map(p -> mOriginPoint.sum(p))
                                          .filter(p -> this.isInMatrixBounds(p))
@@ -69,6 +71,14 @@ public class GridImpl implements Grid {
         }
     }
 
+    /**
+     * A getter for the grid size.
+     * @return a coordinate where the x is the width and the y is the heght of the grid.
+     */
+    public Coordinate getSize() {
+        return this.size;
+    }
+    
     /**
      * Check if a coordinate is in matrix bounds.
      * @param elemCoordinates is the coordinates to check.
@@ -108,5 +118,13 @@ public class GridImpl implements Grid {
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    /**
+     * Get a snapshot of the grid.
+     * @return a snapshot of the grid.
+     */
+    public Map<Coordinate, LevelGenerationEntity<?>> getSnapshot() {
+        return this.matrix;
     }
 }

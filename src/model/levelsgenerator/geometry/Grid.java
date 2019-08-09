@@ -24,7 +24,7 @@ public interface Grid {
      * @return a list of matrix coordinates that are in matrix bounds and corresponds to the points 
      * occupied by that block if is placed with that point of origin.
      */
-    List<Coordinate> getOverlap(Coordinate mOriginPoint, EntityBlock b);
+    List<Coordinate> getOverlap(Coordinate mOriginPoint, BlockImpl b);
 
     /**
      * get the matrix element at elemCoordinates.

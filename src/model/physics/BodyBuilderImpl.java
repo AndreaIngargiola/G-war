@@ -1,5 +1,7 @@
 package model.physics;
 
+import Test.Main;
+import Test.Physics;
 import java.util.Optional;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -14,8 +16,6 @@ import model.components.EntityBody;
 import model.components.EntityBodyImpl;
 
 public class BodyBuilderImpl implements BodyBuilder {
-	private static final Vec2 GRAVITY = new Vec2(0, 10f);
-	private final World world = new World(GRAVITY);
 
     private Optional<Vec2> pos = Optional.empty();
     private Optional<Vec2> dimension = Optional.empty();
@@ -67,16 +67,18 @@ public class BodyBuilderImpl implements BodyBuilder {
         checkDataValidity();
 
         final BodyDef bodyDef = new BodyDef();
-        bodyDef.setFixedRotation(true);
-        bodyDef.setType(makeType());
-        bodyDef.setPosition(pos.get());
-        final Body body = world.createBody(bodyDef); 		//world.get()
+        bodyDef.fixedRotation = true;
+        bodyDef.type = makeType();
+        bodyDef.position = pos.get();
         final FixtureDef fixtureDef = new FixtureDef();
-        surfaceFriction.ifPresent(fixtureDef::setFriction);
-        fixtureDef.setSensor(!isSolid);
+       // surfaceFriction.ifPresent(fixtureDef::setFriction);
+       // fixtureDef.setSensor(!isSolid);
         final PolygonShape shape = new PolygonShape();
         shape.setAsBox(dimension.get().x / 2,  dimension.get().y / 2);
-        fixtureDef.setShape(shape);
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1;
+        fixtureDef.friction = 0.9f;
+        final Body body =Main.getWorld().createBody(bodyDef);		//world.get()
         body.createFixture(fixtureDef);
         body.resetMassData();
         

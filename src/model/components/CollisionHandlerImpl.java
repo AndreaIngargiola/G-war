@@ -1,11 +1,12 @@
 package model.components;
 
 
+import org.jbox2d.common.Vec2;
+
 import enumerators.CollisionSide;
 import model.events.CollisionEvent;
-import model.events.Damage;
 import model.events.Death;
-import model.events.PointsEvent;
+
 
 /**
  * Implementation class for the interface {@link CollisionHandler} .
@@ -13,41 +14,45 @@ import model.events.PointsEvent;
 
 public class CollisionHandlerImpl extends AbstractEntityComponent implements CollisionHandler {
 
+    private final float jumpSpeed;
+    private final int MOLTIPLIER_FACTOR = 20;
+    /**
+     * 
+     * @param jumpSpeed
+     *               the jumping speed
+     */
+    public CollisionHandlerImpl(final float jumpSpeed) {
+        this.jumpSpeed = jumpSpeed;
+    }
+
     @Override
     public final void collisionListener(final CollisionEvent collision) {
 
-    final int MOLTIPLIER_FACTOR = 20;
-    
-    final int playerAttack = collision.getSource().get(Attack.class).getDamage();
-    final int enemyAttack = collision.getOther().get(Attack.class).getDamage();
-    final int points =enemyAttack * MOLTIPLIER_FACTOR;
-    
-    switch (collision.getOther().getType()) {
+       switch (collision.getOther().getType()) {
 
-        case PSYCO_MORTAL:
-            if (collision.getSide() == CollisionSide.SIDE || collision.getSide() == CollisionSide.TOP) {
-                post(new Damage(getEntity(), enemyAttack));
-            } else {
-            	collision.getOther().post(new Damage(collision.getOther(), playerAttack));
-                post(new PointsEvent(getEntity(), points));
-            }
-            break;
+           case PSYCO_MORTAL:
+               if (collision.getSide() == CollisionSide.OTHERS) {
+                   this.getEntity().get(Life.class).demage(collision.getOther().get(Attack.class).getDamage());
+               } else {
+                   collision.getOther().get(Life.class).demage(collision.getSource().get(Attack.class).getDamage());
+                   this.getEntity().get(Points.class).addPoints(collision.getOther().get(Attack.class).getDamage() * MOLTIPLIER_FACTOR);
+                   this.getEntity().getBody().applyImpulse(new Vec2(0, jumpSpeed));
+               }
+               break;
 
-        case PSYCO_IMMORTAL:
-            if (collision.getOther().toString() == "Grill") {
-                if (collision.getOther().get(TimerGrillImpl.class).getIsDangerous()) {
-                    post(new Damage(getEntity(), enemyAttack));
-                } 
-            } else {
-                post(new Death(getEntity()));
-            }
+           case PSYCO_IMMORTAL:
+               if (collision.getOther().toString() == "Grill") {
+                   if (collision.getOther().get(TimerGrillImpl.class).getIsDangerous()) {
+                       this.getEntity().get(Life.class).demage(collision.getOther().get(Attack.class).getDamage());
+                   } 
+               } else {
+                   post(new Death(getEntity()));
+               }
+               break;
 
-
-            break;
-
-        default:
-            break;
-        }
+           default:
+               break;
+           }
     }
 
     @Override

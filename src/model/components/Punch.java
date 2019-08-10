@@ -1,24 +1,19 @@
 package model.components;
 
-import java.util.List;
-
 import com.google.common.eventbus.Subscribe;
 
-import model.entities.Entity;
-import model.events.Damage;
 import model.events.PunchEvent;
 
 /**
- * Models.
+ * Models a punch.
  */
 public interface Punch extends EntityComponent {
 
-    void setEnemy(List<Entity> entities);
-    
-    void findTarget();
-    
+    /**
+     * 
+     * @param punch 
+     *           an event
+     */
     @Subscribe
     void punchListener(PunchEvent punch);
-    
-    
 }

@@ -96,7 +96,7 @@ public interface Entity {
      *            The event to publish
      */
     void post(EntityEvent event);
-    
+
     /**
      * @return the top side position of the entity
      */

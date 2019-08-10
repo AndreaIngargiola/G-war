@@ -5,20 +5,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainMenuGameController">
+<VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainMenuGameController">
    <children>
-      <VBox alignment="CENTER" layoutX="50.0" layoutY="149.0" prefHeight="300.0" prefWidth="400.0" spacing="40.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#newGame" prefWidth="200.0" text="New Game" textAlignment="CENTER" />
-            <Button mnemonicParsing="false" onAction="#leaderboard" prefWidth="200.0" text="Leaderboard" />
-            <Button mnemonicParsing="false" onAction="#exit" prefWidth="200.0" text="Exit" />
-         </children>
-      </VBox>
-      <Label layoutX="53.0" layoutY="60.0" text="Geometric Warfare" textAlignment="CENTER">
+      <Label text="Geometric Warfare" textAlignment="CENTER">
          <font>
             <Font name="System Italic" size="48.0" />
          </font>
+         <padding>
+         <Insets top="200.0"></Insets>
+         </padding>
       </Label>
+      <VBox spacing="40.0" alignment="CENTER">
+      <children><Button onAction="#newGame" prefWidth="200.0" text="New Game" textAlignment="CENTER"/>
+      <Button mnemonicParsing="false" onAction="#leaderboard" prefWidth="200.0" text="Leaderboard" />
+      <Button mnemonicParsing="false" onAction="#exit" prefWidth="200.0" text="Exit" />
+      </children>
+      <padding>
+      <Insets top="150.0"></Insets></padding>
+      </VBox>
    </children>
-</AnchorPane>
+</VBox>

@@ -18,15 +18,16 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * Class for add a player in loaderboard.
+ * Class for add a player in leaderboard.
  */
 public class ToRecordPlayer {
     /**
-     * main.
-     * @param argv
-     *         the arg of main.
+     * Method for add player in leaderboard.
+     * @param playerName
+     *         the name of player.
+     * @param scorePlayer
+     *         the score of player.
      */
-
     public void addRecord(final String playerName, final int scorePlayer) {
         try {
             File inputFile = new File("src/view/CharacterScores.xml"); 

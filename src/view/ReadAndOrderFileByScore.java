@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 public class ReadAndOrderFileByScore {
 
     private List<Integer> arrayPlayer;
-    private final static int MAXPLAYER = 10;
+    private static final int MAXPLAYER = 10;
     /**
      * Method.
      */

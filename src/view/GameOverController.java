@@ -20,17 +20,16 @@ public class GameOverController {
     private Label scorePlayerLeaderboard;
 
     private String playerName;
-    private MainMenuGame mainMenuGame = new MainMenuGame();
     private ReadAndOrderFileByScore orderFile = new ReadAndOrderFileByScore();
     private ToRecordPlayer addPlayerLeaderboard = new ToRecordPlayer();
-    private final static int MAX_PLAYER = 10;
-    private Integer scoreTest = 1100;
+    private static final int MAXPLAYER = 10;
+    private Integer scoreTest = 10;
 
     @FXML
     private void initialize() {
         orderFile.readFileAndOrder();
         this.scorePlayerLeaderboard.setText("Score:  " + String.valueOf(this.scoreTest));
-        if ((this.orderFile.getNumberPlayerInLeaderboard() < MAX_PLAYER) || (this.scoreTest > this.orderFile.getLastScore())) {
+        if ((this.orderFile.getNumberPlayerInLeaderboard() < MAXPLAYER) || (this.scoreTest > this.orderFile.getLastScore())) {
             //aggiungo player. Chiamo classe toRecordPlayer
             this.toRecordBtn.setOnAction(event);
             System.out.println("Number player in Leaderboard: " + orderFile.getNumberPlayerInLeaderboard());
@@ -66,15 +65,6 @@ public class GameOverController {
 
     private String getPlayerName() {
         return this.playerName;
-    }
-
-    /**
-     * Sets main menu.
-     * @param mainMenu
-     *         The main menu.
-     */
-    public void setMainMenuGame(final MainMenuGame mainMenu) {
-        this.mainMenuGame = mainMenu;
     }
 
 }

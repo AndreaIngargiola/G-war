@@ -19,10 +19,10 @@
       </Label>
       <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0" spacing="40.0">
          <children>
-            <TableView fx:id="playerTable" prefHeight="320.0" prefWidth="400.0">
+            <TableView fx:id="playerTable" maxHeight="320.0" maxWidth="400.0">
               <columns>
-                <TableColumn fx:id="playerNameColumn" prefWidth="120.0" text="Name" />
-                <TableColumn fx:id="playerScoreColumn" prefWidth="120.0" text="Score" />
+                <TableColumn fx:id="playerNameColumn" maxWidth="200.0" prefWidth="100.0" text="Name" />
+                <TableColumn fx:id="playerScoreColumn" maxWidth="200.0" prefWidth="100.0" text="Score" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

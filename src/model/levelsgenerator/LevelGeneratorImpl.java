@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import model.entities.AbstractEntity;
-import model.entities.Player;
 import model.levelsgenerator.conditions.ConditionGiver;
 import model.levelsgenerator.conditions.ConditionGiverImpl;
 import model.levelsgenerator.geometry.Coordinate;
@@ -22,21 +22,25 @@ import model.math.BallsUrnImpl;
 /**
  * An implementation of LevelGenerator interface that uses advanced reflection functions (via ClassGraph library) and modular classes.
  */
-public class LevelGeneratorImpl implements LevelGenerator {
+public final class LevelGeneratorImpl implements LevelGenerator {
 
     private static final int BALLS_NUMBER = 10;
     private static final int GRID_RANK = 10;
     private static final Coordinate JUMP_RANGE = new Coordinate(3, 3);
-    
-    private LevelGenerationEntity<Player> player;
-    private LevelGenerationEntity<Floor> floor;
+    private static final int MAX_ATTEMPTS = 500;
+    private static final int REPEAT_ENEMY_PERCENTAGE = 20;
+    private static final int MAX_ENTITIES = 6;
+
+    private EntityBlock player;
 
     private List<LevelGenerationEntity<? extends AbstractEntity>> entityList;
     private Map<EntityBlock, BallsUrn> blockMap;
-    private Map<EntityBlock, BallsUrn> architecture;
     private ConditionGiver cg;
     private Grid levelGrid;
     private Integer iteration;
+    private ArchitectureBuilder archBuilder;
+    private final Random randomIterator;
+    private List<Coordinate> attemptedPoints;
 
     /**
      * Initialize the level generator, importing the modular component via reflection and preparing it for running.
@@ -46,12 +50,81 @@ public class LevelGeneratorImpl implements LevelGenerator {
         this.importConditionGiver();
         this.initializeBlocksMap();
         this.iteration = 0;
+        this.randomIterator = new Random();
+        this.attemptedPoints = new ArrayList<>();
     }
 
     @Override
-    public Map<Point, ? extends AbstractEntity> getNewLevel() {
-        // TODO Auto-generated method stub
-        return null;
+    public Map<Point, String> getNewLevel() {
+        Boolean entityLock = new Boolean(false);
+        this.levelGrid.reset();
+        this.levelGrid = this.archBuilder.getArchitecture(this.levelGrid);
+
+        if (this.iteration.equals(0)) {
+            this.placePlayer();
+        }
+
+        Integer entitiesPlaced = 0; 
+        BallsUrn.Color ball = BallsUrn.Color.WHITE;
+        EntityBlock selectedEntity = this.blockMap.keySet().iterator().next();
+
+        while (entitiesPlaced < LevelGeneratorImpl.MAX_ENTITIES) {
+            if (entityLock.equals(Boolean.FALSE)) {
+                while (ball.equals(BallsUrn.Color.WHITE)) {
+                    for (EntityBlock e : this.blockMap.keySet()) {
+                        ball = this.blockMap.get(e).getBall();
+                        if (ball.equals(BallsUrn.Color.BLACK)) {
+                            selectedEntity = e;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            Integer attempts = 0;
+            List<Coordinate> failedPoints = new ArrayList<>();
+            Coordinate point = this.getRandomPoint();
+
+            while (attempts <= LevelGeneratorImpl.MAX_ATTEMPTS 
+                   && selectedEntity.verifyPlacingConditions((GridImpl) this.levelGrid, point)) {
+                failedPoints.add(point);
+                attempts = attempts + 1;
+                while (failedPoints.contains(point)) {
+                    point = this.getRandomPoint();
+                }
+            }
+
+            if (attempts.equals(LevelGeneratorImpl.MAX_ATTEMPTS)) {
+                entityLock = Boolean.FALSE;
+            } else {
+                this.levelGrid.place(point, selectedEntity);
+                entitiesPlaced = entitiesPlaced + 1;
+                entityLock = (this.randomIterator.nextInt(100) < LevelGeneratorImpl.REPEAT_ENEMY_PERCENTAGE) ? Boolean.TRUE : Boolean.FALSE;
+            }
+        }
+        final Map<Point, String> results = new HashMap<>();
+        this.levelGrid.getSnapshot().entrySet().stream()
+                                               .filter(e -> !e.getValue().equals(this.levelGrid.getVoid()))
+                                               .forEach(e -> results.put(e.getKey().getPoint(), e.getValue().getCanonicalName()));
+        return results;
+    }
+
+    private Coordinate getRandomPoint() {
+        return new Coordinate(this.randomIterator.nextInt(this.levelGrid.getSize().getPoint().x),
+                              this.randomIterator.nextInt(this.levelGrid.getSize().getPoint().y));
+    }
+
+    private void placePlayer() {
+        Coordinate point = new Coordinate(0, 0);
+        this.attemptedPoints.clear();
+
+        while (this.player.verifyPlacingConditions((GridImpl) this.levelGrid, point).equals(Boolean.TRUE)) {
+            while (this.attemptedPoints.contains(point)) {
+                point = this.getRandomPoint();
+            }
+        }
+        this.attemptedPoints.clear();
+        this.levelGrid.place(point, this.player);
     }
 
     /**
@@ -108,28 +181,18 @@ public class LevelGeneratorImpl implements LevelGenerator {
     }
 
     private void initializeBlocksMap() {
-
         this.blockMap = new HashMap<>();
-        this.architecture = new HashMap<>();
+        final Map<EntityBlock, BallsUrn> architecture = new HashMap<>();
 
         for (LevelGenerationEntity<?> e : this.entityList) {
             if (e.getComponentsSet().contains("Architecture")) {
-                this.architecture.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
+                architecture.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             } else {
                 this.blockMap.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             }
         }
-    }
-
-    private void architectureBuilder() {
-        for (int i = 0; i < LevelGeneratorImpl.GRID_RANK; i++) {
-            this.levelGrid.place(new Coordinate(i, 0), new EntityBlock(this.floor));
-        }
-        
-    }
-
-    private void firstIteration() {
-        this.levelGrid = new GridImpl(LevelGeneratorImpl.GRID_RANK);
-
+        this.archBuilder = new ArchitectureBuilderImpl(architecture, 
+                                                       new Coordinate(LevelGeneratorImpl.GRID_RANK, LevelGeneratorImpl.GRID_RANK), 
+                                                       LevelGeneratorImpl.JUMP_RANGE);
     }
 }

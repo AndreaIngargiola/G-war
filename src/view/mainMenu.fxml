@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -14,16 +15,16 @@
             <Font name="System Italic" size="48.0" />
          </font>
          <padding>
-         <Insets top="200.0"></Insets>
+         <Insets top="200.0" />
          </padding>
       </Label>
-      <VBox spacing="40.0" alignment="CENTER">
-      <children><Button onAction="#newGame" prefWidth="200.0" text="New Game" textAlignment="CENTER"/>
+      <VBox alignment="CENTER" spacing="40.0">
+      <children><Button onAction="#newGame" prefWidth="200.0" text="New Game" textAlignment="CENTER" />
       <Button mnemonicParsing="false" onAction="#leaderboard" prefWidth="200.0" text="Leaderboard" />
       <Button mnemonicParsing="false" onAction="#exit" prefWidth="200.0" text="Exit" />
       </children>
       <padding>
-      <Insets top="150.0"></Insets></padding>
+      <Insets top="150.0" /></padding>
       </VBox>
    </children>
 </VBox>

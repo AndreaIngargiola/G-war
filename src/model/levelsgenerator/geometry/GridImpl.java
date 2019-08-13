@@ -71,11 +71,8 @@ public class GridImpl implements Grid {
         }
     }
 
-    /**
-     * A getter for the grid size.
-     * @return a coordinate where the x is the width and the y is the height of the grid.
-     */
-    public Coordinate getSize() {
+    @Override
+    public final Coordinate getSize() {
         return this.size;
     }
 
@@ -89,11 +86,8 @@ public class GridImpl implements Grid {
                 && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y < this.getSize().getPoint().y);
     }
 
-    /**
-     * Get the entity that the grid uses as placeholder for empty blocks.
-     * @return the entity that the grid uses as placeholder for empty blocks.
-     */
-    public LevelGenerationEntity<?> getVoid() {
+    @Override
+    public final LevelGenerationEntity<?> getVoid() {
         return GridImpl.VOID;
     }
 
@@ -111,11 +105,8 @@ public class GridImpl implements Grid {
         }
     }
 
-    /**
-     * Get a snapshot of the grid.
-     * @return a snapshot of the grid.
-     */
-    public Map<Coordinate, LevelGenerationEntity<?>> getSnapshot() {
+    @Override
+    public final Map<Coordinate, LevelGenerationEntity<?>> getSnapshot() {
         return this.matrix;
     }
 }

@@ -1,6 +1,7 @@
 package model.levelsgenerator.geometry;
 
 import java.util.List;
+import java.util.Map;
 
 import model.levelsgenerator.EntityBlock;
 import model.levelsgenerator.LevelGenerationEntity;
@@ -42,4 +43,22 @@ public interface Grid {
      * @return true if the block is placed, false if the placing is failed.
      */
     Boolean place(Coordinate mOriginPoint, EntityBlock b);
+
+    /**
+     * A getter for the grid size.
+     * @return a coordinate where the x is the width and the y is the height of the grid.
+     */
+    Coordinate getSize();
+
+    /**
+     * Get a snapshot of the grid.
+     * @return a snapshot of the grid.
+     */
+    Map<Coordinate, LevelGenerationEntity<?>> getSnapshot();
+
+    /**
+     * Get the entity that the grid uses as placeholder for empty blocks.
+     * @return the entity that the grid uses as placeholder for empty blocks.
+     */
+    LevelGenerationEntity<?> getVoid();
 }

@@ -14,6 +14,7 @@ import enumerators.Faction;
  */
 public class LevelGenerationEntity<X extends AbstractEntity> {
     private final String entityName;
+    private final String fullName;
     private final Set<String> componentsSet;
     private final Faction type;
 
@@ -24,6 +25,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
         this.entityName = "VOID";
         this.componentsSet = new HashSet<>();
         this.type = Faction.NEUTRAL_IMMORTAL;
+        this.fullName = "null";
     }
 
     /**
@@ -32,6 +34,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
      */
     public LevelGenerationEntity(final X e) {
         this.entityName = e.getClass().getSimpleName();
+        this.fullName = e.getClass().getCanonicalName();
         this.type = e.getType();
         this.componentsSet = e.getComponents().getInterfaces().stream()
                                                               .map(i -> i.getSimpleName())
@@ -43,7 +46,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
      * @return the entity name.
      */
     public String getEntityName() {
-        return entityName;
+        return this.entityName;
     }
 
     /**
@@ -51,7 +54,7 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
      * @return the set of components names.
      */
     public Set<String> getComponentsSet() {
-        return componentsSet;
+        return this.componentsSet;
     }
 
     /**
@@ -59,6 +62,14 @@ public class LevelGenerationEntity<X extends AbstractEntity> {
      * @return the Enum Type field.
      */
     public Faction getType() {
-        return type;
+        return this.type;
+    }
+
+    /**
+     * A getter for the entity full name.
+     * @return the entity canonical name.
+     */
+    public String getCanonicalName() {
+        return this.fullName;
     }
 }

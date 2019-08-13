@@ -12,7 +12,6 @@ import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.Grid;
 import model.levelsgenerator.geometry.GridImpl;
 import model.math.BallsUrn;
-import model.math.BallsUrnImpl;
 
 /**
  * An implementation for the ArchitectureBuilder interface that uses Coordinate, GridImpl, EntityBlock and BallsUrnImpl for generate a walkable random level
@@ -24,8 +23,8 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
     private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 0);
     private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 75;
-    private final Map<EntityBlock, BallsUrnImpl> neutralEnv;
-    private final Map<EntityBlock, BallsUrnImpl> hostileEnv;
+    private final Map<EntityBlock, BallsUrn> neutralEnv;
+    private final Map<EntityBlock, BallsUrn> hostileEnv;
     private final GridImpl level;
     private final GridImpl trace;
     private final BlockImpl tolerance;
@@ -38,7 +37,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
     * @param gridDimension is the level dimension.
     * @param jumpingDistance is a Coordinate where the x is the maximum horizontal jumping distance, and the y the maximum vertical jumping height.
     */
-    public ArchitectureBuilderImpl(final Map<EntityBlock, BallsUrnImpl> architecture, final Coordinate gridDimension, final Coordinate jumpingDistance) {
+    public ArchitectureBuilderImpl(final Map<EntityBlock, BallsUrn> architecture, final Coordinate gridDimension, final Coordinate jumpingDistance) {
         this.neutralEnv = new HashMap<>();
         this.hostileEnv = new HashMap<>();
         for (final EntityBlock e : architecture.keySet()) {
@@ -86,10 +85,10 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
         }
     }
 
-    private EntityBlock chooseEntity(final Map<EntityBlock, BallsUrnImpl> blockList) {
+    private EntityBlock chooseEntity(final Map<EntityBlock, BallsUrn> blockList) {
         BallsUrn.Color ball = BallsUrn.Color.WHITE;
         while (ball.equals(BallsUrn.Color.WHITE)) {
-            for (EntityBlock b : blockList.keySet()) {
+            for (final EntityBlock b : blockList.keySet()) {
                 ball = blockList.get(b).getBall();
                 if (ball.equals(BallsUrn.Color.BLACK)) {
                     return b;
@@ -127,7 +126,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
                 if (this.neutralEnv.containsKey(selectedBlock)) {              //if the previous entity placed is an obstacle, choose a neutral one, else choose a random entity.
                     selectedBlock = this.chooseEntity(this.neutralEnv);
                 } else {
-                    Integer flipACoin = this.randomIterator.nextInt(1);
+                    final Integer flipACoin = this.randomIterator.nextInt(1);
                     if (flipACoin.equals(1)) {
                         selectedBlock = this.chooseEntity(this.neutralEnv);
                     } else {
@@ -136,17 +135,17 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
                 }
             }
 
-            if (selectedBlock.verifyPlacingConditions(this.level, point)) {
+            if (selectedBlock.verifyPlacingConditions(this.level, point)) {   //if the block can be placed place it and choose if activate or deactivate the entityLock.
                 this.level.place(point, selectedBlock);
 
                 if (this.randomIterator.nextInt(100) < ArchitectureBuilderImpl.CONTIGUOUS_ELEMENTS_PERCENTAGE) {
-                    point = point.sum(new Coordinate(1, 0));
+                    point = point.sum(new Coordinate(1, 0));    //if the entityLock is activated, try to place the same entity in the adjacent point (in the next iteration of the cycle)
                     entityLock = Boolean.TRUE;
                 } else {
-                    point = this.getNextPoint(point);
+                    point = this.getNextPoint(point);           //if the entityLock is deactivated, choose a new point from the reachable points.
                     entityLock = Boolean.FALSE;
                 } 
-            } else {
+            } else {                                                          //if the block cannot be placed, deactivate the entityLock and restart the cycle.
                 entityLock = Boolean.FALSE;
             }
         }

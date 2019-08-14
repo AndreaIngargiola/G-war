@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+//import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -28,7 +29,8 @@ import javafx.scene.control.TableView;
 import model.PlayerLeaderboard;
 
 /**
- * Controller of Leaderboard view (and add the information of player in the Leaderboard).
+ * Controller of Leaderboard view 
+ *     (and add the information of player in the Leaderboard).
  */
 public class LeaderboardController implements ControllerView {
 
@@ -44,42 +46,42 @@ public class LeaderboardController implements ControllerView {
 
     private MainMenuGame mainMenuGame;
 
+    /**
+     * Method to initialize any controls.
+     */
     @FXML
-    private void initialize() {
+    public void initialize() {
         playerNameColumn.setCellValueFactory(cellData -> cellData.getValue().playerNameProperty());
         playerScoreColumn.setCellValueFactory(cellData -> cellData.getValue().playerScoreProperty().asObject());
-        ObservableList<PlayerLeaderboard> playerList = FXCollections.observableArrayList();
+        final ObservableList<PlayerLeaderboard> playerList = FXCollections.observableArrayList();
         playerTable.setItems(playerList);
 
         try {
-            File inputFile = new File("src/view/CharacterScores.xml"); 
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(inputFile);
-            //Node characters = doc.getFirstChild();
-
-            doc.getDocumentElement().normalize();
-
+            final File inputFile = new File("src/view/CharacterScores.xml"); 
+            final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            final Document doc = docBuilder.parse(inputFile);
+            //Node characters = doc.getFirstChild()
+            //final Node nLastNode = doc.getLastChild();
             //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nList = doc.getElementsByTagName("character");  //Lista di character (ora sono tre) con i loro nodi figli
+            //final Node nodeProva = doc.getElementsByTagName("character").item(0);
+            final NodeList nList = doc.getElementsByTagName("character");  //Lista di character (ora sono tre) con i loro nodi figli
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
+            final Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
                 //System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
+                    final Element eElement = (Element) nNode;
                     playerList.add(new PlayerLeaderboard(eElement.getElementsByTagName("player").item(0).getTextContent(), Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent())));
                 }
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(inputFile);
+            final TransformerFactory trFactory = TransformerFactory.newInstance();
+            final Transformer transformer = trFactory.newTransformer();
+            final DOMSource source = new DOMSource(doc);
+            final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
-
-            System.out.println("Add the information of player in the TableView of Leaderboard");
-
+            //System.out.println("Add the information of player in the TableView of Leaderboard");
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {
@@ -91,15 +93,20 @@ public class LeaderboardController implements ControllerView {
         }
     }
 
+    /**
+     * Method to show main menu.
+     * @throws IOException 
+     */
     @FXML
-    private void showMainMenu() {
-        try {
-            this.mainMenuGame.getMainMenu();
-        } catch (Exception e) { }
+    public void showMainMenu() throws IOException {
+        this.mainMenuGame.showMainMenu();
     }
 
+    /**
+     * Method to exit from game.
+     */
     @FXML
-    private void exitL() {
+    public void exitL() {
         Platform.exit();
     }
 

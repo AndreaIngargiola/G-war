@@ -1,5 +1,7 @@
 package view;
 
+import java.io.IOException;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 
@@ -8,27 +10,30 @@ import javafx.fxml.FXML;
  */
 public class MainMenuGameController implements ControllerView {
     private MainMenuGame mainMenuGame;
+
     /**
      * Method for new game.
      */
     @FXML
-    private void newGame() {
-        System.out.println("Avvio del gioco");
+    public void newGame() {
+        //System.out.println("Avvio del gioco");
     }
 
     /**
      * Method to exit the game.
      */
     @FXML
-    private void exit() {
+    public void exit() {
         Platform.exit();
     }
 
+    /**
+     * Method to show leaderboard.
+     * @throws IOException 
+     */
     @FXML
-    private void leaderboard() {
-        try {
-            this.mainMenuGame.showLeaderboard();
-        } catch (Exception e) { }
+    public void leaderboard() throws IOException {
+        this.mainMenuGame.showLeaderboard();
     }
 
     @Override
@@ -36,12 +41,4 @@ public class MainMenuGameController implements ControllerView {
         this.mainMenuGame = mainMenu;
     }
 
-    /**
-     * Sets main menu.
-     * @param mainMenu
-     *         The main menu.
-     */
-    /*public void setMainMenuGame(final MainMenuGame mainMenu) {
-        this.mainMenuGame = mainMenu;
-    }*/
 }

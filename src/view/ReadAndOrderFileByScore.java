@@ -34,24 +34,22 @@ public class ReadAndOrderFileByScore {
      */
     public void readFileAndOrder() {
         try {
-            File inputFile = new File("src/view/CharacterScores.xml"); 
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(inputFile);
-            Node characters = doc.getFirstChild();
+            final File inputFile = new File("src/view/CharacterScores.xml"); 
+            final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            final Document doc = docBuilder.parse(inputFile);
+            final Node characters = doc.getFirstChild();
 
-            doc.getDocumentElement().normalize();
-            List<Integer> arrayScore = new ArrayList<>();
-
+            final List<Integer> arrayScore = new ArrayList<>();
 
             //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList = doc.getElementsByTagName("character");  //Lista di character (ora sono tre) con i loro nodi figli
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
+                final Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
                 //System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
+                    final Element eElement = (Element) nNode;
                     arrayScore.add(Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent()));  //ho aggiunto score nell'array
                 }
             }
@@ -60,11 +58,11 @@ public class ReadAndOrderFileByScore {
 
             for (int i = 0; i < arrayScore.size(); i++) {
                 for (int temp = 0; temp < nList.getLength(); temp++) {
-                    Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
+                    final Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement = (Element) nNode;
+                        final Element eElement = (Element) nNode;
                         if (Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent()) == arrayScore.get(i)) {
-                            Node newNode = nNode.cloneNode(true);
+                            final Node newNode = nNode.cloneNode(true);
                             characters.appendChild(newNode);
                             characters.removeChild(nNode);
                             break;
@@ -74,7 +72,7 @@ public class ReadAndOrderFileByScore {
             }
             nList = doc.getElementsByTagName("character");
             if (nList.getLength() > MAXPLAYER) {
-                Node nNode = nList.item(MAXPLAYER);
+                final Node nNode = nList.item(MAXPLAYER);
                 characters.removeChild(nNode);
                 arrayScore.remove(MAXPLAYER);
                 //this.arrayPlayer.addAll(arrayScore);
@@ -83,10 +81,10 @@ public class ReadAndOrderFileByScore {
             arrayScore.removeAll(arrayScore);
 
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(inputFile);
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final Transformer transformer = transformerFactory.newTransformer();
+            final DOMSource source = new DOMSource(doc);
+            final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
 
             System.out.println("Done read and order file by score");

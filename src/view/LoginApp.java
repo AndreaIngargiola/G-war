@@ -17,9 +17,9 @@ public class LoginApp extends Application {
         primaryStage.setTitle("Login app");
         //this.orderFile.readFile();
 
-        FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/gameOver.fxml"));
-        Parent root = loader.load();
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/gameOver.fxml"));
+        final Parent root = loader.load();
+        final Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX(screenBounds.getMinY());
         primaryStage.setY(screenBounds.getMinY());
         primaryStage.setWidth(screenBounds.getWidth());

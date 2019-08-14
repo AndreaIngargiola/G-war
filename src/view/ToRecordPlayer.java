@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+//import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -27,38 +28,39 @@ public class ToRecordPlayer {
      *         the name of player.
      * @param scorePlayer
      *         the score of player.
+     * @throws ParserConfigurationException 
+     * @throws IOException 
+     * @throws SAXException 
+     * @throws TransformerException 
      */
     public void addRecord(final String playerName, final int scorePlayer) {
         try {
-            File inputFile = new File("src/view/CharacterScores.xml"); 
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(inputFile);
-            Node characters = doc.getFirstChild();
+            final File inputFile = new File("src/view/CharacterScores.xml"); 
+            final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            final Document doc = docBuilder.parse(inputFile);
+            final Node characters = doc.getFirstChild();
             //NodeList character = doc.getElementsByTagName("character");  //primo charachter, quindi prende solo i nodi figli del primo
 
-            Node newNode = doc.createElement("character");
+            final Node newNode = doc.createElement("character");
 
             characters.appendChild(newNode);
-            Node lastCharacter = characters.getLastChild();
-            Element player = doc.createElement("player");
+            final Node lastCharacter = characters.getLastChild();
+            final Element player = doc.createElement("player");
             player.appendChild(doc.createTextNode(playerName));
             lastCharacter.appendChild(player);
 
-            Element score = doc.createElement("score");
+            final Element score = doc.createElement("score");
             score.appendChild(doc.createTextNode(String.valueOf(scorePlayer)));
             lastCharacter.appendChild(score);
-            //NamedNodeMap attr = character.getAttributes();
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(inputFile);
+            final TransformerFactory trFactory = TransformerFactory.newInstance();
+            final Transformer transformer = trFactory.newTransformer();
+            final DOMSource source = new DOMSource(doc);
+            final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
-
-            System.out.println("Done write (add node as last node)");
-
-        } catch (ParserConfigurationException pce) {
+            //System.out.println("Add the information of player in the last position of leaderboard");
+    	} catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {
             tfe.printStackTrace();

@@ -21,24 +21,24 @@ import javafx.scene.Scene;
 public class MainMenuGame extends Application {
 
     private Stage primaryStage;
-    private ReadAndOrderFileByScore orderFileByScore = new ReadAndOrderFileByScore();
+    private final ReadAndOrderFileByScore orderFileByScore = new ReadAndOrderFileByScore();
 
     @Override
     public final void start(final Stage stage) throws Exception {
         this.primaryStage = stage;
         primaryStage.setTitle("Geometric Warfare");
-        this.getMainMenu();
+        this.showMainMenu();
     }
     /**
      * Method for get the Main Menu.
      * @throws IOException when file not found.
      */
-    public void getMainMenu() throws IOException {
-        FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/mainMenu.fxml"));
-        Parent root = loader.load();
+    public void showMainMenu() throws IOException {
+        final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/mainMenu.fxml"));
+        final Parent root = loader.load();
         //Pane root = (Pane) loader.load();
         //Scene scene = new Scene(new Group(root));
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        final Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX(screenBounds.getMinY());
         primaryStage.setY(screenBounds.getMinY());
         primaryStage.setWidth(screenBounds.getWidth());
@@ -49,7 +49,7 @@ public class MainMenuGame extends Application {
         //letterbox(scene, root);
         //primaryStage.setFullScreen(true);
         //primaryStage.setResizable(true);
-        MainMenuGameController controllerMain = loader.getController();
+        final MainMenuGameController controllerMain = loader.getController();
         controllerMain.setMainMenuGame(this);
         /*GameOverController controllerGameOver = loader.getController();
         controllerGameOver.setMainMenuGame(this);*/
@@ -61,12 +61,12 @@ public class MainMenuGame extends Application {
      */
     public void showLeaderboard() throws IOException {
         orderFileByScore.readFileAndOrder();
-        FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/leaderboard.fxml"));
-        Parent newRoot = loader.load();
+        final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemClassLoader().getResource("view/leaderboard.fxml"));
+        final Parent newRoot = loader.load();
         //Pane root = (Pane) loader.load();
         //Scene scene = new Scene(new Group(root));
         primaryStage.setScene(new Scene(newRoot));
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        final Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX(screenBounds.getMinY());
         primaryStage.setY(screenBounds.getMinY());
         primaryStage.setWidth(screenBounds.getWidth());
@@ -78,7 +78,7 @@ public class MainMenuGame extends Application {
         //primaryStage.setFullScreen(true);
         //primaryStage.setFullScreen(true);
         //primaryStage.setResizable(true);
-        LeaderboardController controllerLeaderboard = loader.getController();
+        final LeaderboardController controllerLeaderboard = loader.getController();
         controllerLeaderboard.setMainMenuGame(this);
     }
 

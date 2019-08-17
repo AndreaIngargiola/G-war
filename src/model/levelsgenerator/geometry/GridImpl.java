@@ -14,8 +14,8 @@ import model.levelsgenerator.LevelGenerationEntity;
  */
 public class GridImpl implements Grid {
 
-    private static final LevelGenerationEntity<?> VOID = new LevelGenerationEntity<>();
-    private final Map<Coordinate, LevelGenerationEntity<?>> matrix;
+    private static final LevelGenerationEntity VOID = new LevelGenerationEntity();
+    private final Map<Coordinate, LevelGenerationEntity> matrix;
     private final Coordinate size;
 
     /**
@@ -63,7 +63,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final LevelGenerationEntity<?> getElement(final Coordinate elemCoordinates) throws IllegalArgumentException {
+    public final LevelGenerationEntity getElement(final Coordinate elemCoordinates) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
             return this.matrix.get(elemCoordinates);
         } else {
@@ -71,39 +71,23 @@ public class GridImpl implements Grid {
         }
     }
 
-    /**
-     * A getter for the grid size.
-     * @return a coordinate where the x is the width and the y is the heght of the grid.
-     */
-    public Coordinate getSize() {
+    @Override
+    public final Coordinate getSize() {
         return this.size;
     }
-    
+
     /**
      * Check if a coordinate is in matrix bounds.
      * @param elemCoordinates is the coordinates to check.
      * @return true if the coordinate is in matrix bounds, false otherwise.
      */
-    private Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
-        int maxX = this.matrix.keySet().stream()
-                                       .map(c -> c.getPoint().x)
-                                       .max((x1, x2) -> x1.compareTo(x2))
-                                       .get();
-
-        int maxY = this.matrix.keySet().stream()
-                                       .map(c -> c.getPoint().y)
-                                       .max((y1, y2) -> y1.compareTo(y2))
-                                       .get();
-
-        return (elemCoordinates.getPoint().x >= 0 && elemCoordinates.getPoint().x < maxX 
-                && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y < maxY);
+    public Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
+        return (elemCoordinates.getPoint().x >= 0 && elemCoordinates.getPoint().x < this.getSize().getPoint().x 
+                && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y < this.getSize().getPoint().y);
     }
 
-    /**
-     * Get the entity that the grid uses as placeholder for empty blocks.
-     * @return the entity that the grid uses as placeholder for empty blocks.
-     */
-    public LevelGenerationEntity<?> getVoid() {
+    @Override
+    public final LevelGenerationEntity getVoid() {
         return GridImpl.VOID;
     }
 
@@ -111,8 +95,9 @@ public class GridImpl implements Grid {
      * A setter for a single element of the matrix.
      * @param elemCoordinates is the element's place in the matrix.
      * @param value is the LevelGeneration entity that the block will represent from now on.
+     * @throws IllegalArgumentException if the coordinates are out of bounds.
      */
-    private void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity<?> value) throws IllegalArgumentException {
+    public void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity value) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
             this.matrix.put(elemCoordinates, value);
         } else {
@@ -120,11 +105,8 @@ public class GridImpl implements Grid {
         }
     }
 
-    /**
-     * Get a snapshot of the grid.
-     * @return a snapshot of the grid.
-     */
-    public Map<Coordinate, LevelGenerationEntity<?>> getSnapshot() {
+    @Override
+    public final Map<Coordinate, LevelGenerationEntity> getSnapshot() {
         return this.matrix;
     }
 }

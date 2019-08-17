@@ -15,7 +15,7 @@ public class LevelGenerationEntity {
     private final String fullName;
     private final Set<String> componentsSet;
     private final Faction type;
-    private static final String COMPONENT_SEPARATOR = "-"; 
+    private static final String COMPONENTS_SEPARATOR = "-"; 
 
     /**
      * A void constructor.
@@ -28,10 +28,10 @@ public class LevelGenerationEntity {
     }
 
     /**
-     * A constructor that import an entity class and convert it in a Level Generation Entity.
+     * A constructor that import an entity class and converts it in a Level Generation Entity.
      * @param e is the entity class to convert.
      * @throws IllegalAccessException if the fields are not accessible.
-     * @throws IllegalArgumentException if the ClassInfo e doesn't extends abstract entity and doesn't possess the required fields for the creation of the LevelGenerationEntity.
+     * @throws IllegalArgumentException if the ClassInfo "e" doesn't extends abstract entity or doesn't possess the required fields for the creation of the LevelGenerationEntity.
      */
     public LevelGenerationEntity(final ClassInfo e) throws IllegalArgumentException, IllegalAccessException {
         if (!e.extendsSuperclass("model.entities.AbstractEntity")) {
@@ -45,11 +45,11 @@ public class LevelGenerationEntity {
             this.type = (Faction) type.get(null);
 
             this.componentsSet = new HashSet<>();
-            final Field components = e.getFieldInfo("COMPONENT_LEGACY").loadClassAndGetField();
+            final Field components = e.getFieldInfo("COMPONENTS_LEGACY").loadClassAndGetField();
             components.setAccessible(true);
 
             final String allComponentsInterfaces = (String) components.get(null);
-            String[] componentsArray = allComponentsInterfaces.split(LevelGenerationEntity.COMPONENT_SEPARATOR);
+            String[] componentsArray = allComponentsInterfaces.split(LevelGenerationEntity.COMPONENTS_SEPARATOR);
             for (int i = 0; i < componentsArray.length; i++) {
                 this.componentsSet.add(componentsArray[i]);
             }

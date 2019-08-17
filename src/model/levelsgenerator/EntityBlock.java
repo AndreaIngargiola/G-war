@@ -17,14 +17,14 @@ import model.levelsgenerator.geometry.GridImpl;
 public class EntityBlock extends BlockImpl {
 
     private List<Condition> placingConditions;
-    private final LevelGenerationEntity<?> entity;
+    private final LevelGenerationEntity entity;
 
     /**
      * Initialize a 1x1 block associated with an Entity.
      * @param e is the entity to associate.
      * @param cg is the condition giver for creating the placingCondition looking at the entity components.
      */
-    public EntityBlock(final LevelGenerationEntity<?> e, final ConditionGiver cg) {
+    public EntityBlock(final LevelGenerationEntity e, final ConditionGiver cg) {
         super();
         this.entity = e;
         this.buildConditions(cg);
@@ -51,7 +51,7 @@ public class EntityBlock extends BlockImpl {
      * Get the entity associated with this block.
      * @return the entity associated with this block.
      */
-    public LevelGenerationEntity<?> getEntity() {
+    public LevelGenerationEntity getEntity() {
         return this.entity;
     }
 

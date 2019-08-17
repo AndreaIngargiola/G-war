@@ -10,7 +10,6 @@ import java.util.Random;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
-import model.entities.AbstractEntity;
 import model.levelsgenerator.conditions.ConditionGiver;
 import model.levelsgenerator.conditions.ConditionGiverImpl;
 import model.levelsgenerator.geometry.Coordinate;
@@ -33,14 +32,14 @@ public final class LevelGeneratorImpl implements LevelGenerator {
 
     private EntityBlock player;
 
-    private List<LevelGenerationEntity<? extends AbstractEntity>> entityList;
+    private List<LevelGenerationEntity> entityList;
     private Map<EntityBlock, BallsUrn> blockMap;
     private ConditionGiver cg;
     private Grid levelGrid;
     private Integer iteration;
     private ArchitectureBuilder archBuilder;
     private final Random randomIterator;
-    private List<Coordinate> attemptedPoints;
+    private final List<Coordinate> attemptedPoints;
 
     /**
      * Initialize the level generator, importing the modular component via reflection and preparing it for running.
@@ -106,6 +105,7 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         this.levelGrid.getSnapshot().entrySet().stream()
                                                .filter(e -> !e.getValue().equals(this.levelGrid.getVoid()))
                                                .forEach(e -> results.put(e.getKey().getPoint(), e.getValue().getCanonicalName()));
+        this.iteration = this.iteration + 1;
         return results;
     }
 
@@ -135,18 +135,20 @@ public final class LevelGeneratorImpl implements LevelGenerator {
      */
     private void importEntities() {
         try (ScanResult scanResult = new ClassGraph().enableAllInfo().scan()) {
-
             final ClassInfoList filtered = scanResult.getAllClasses().filter(
-                    classInfo -> (classInfo.extendsSuperclass("AbstractEntity") 
+                    classInfo -> (classInfo.extendsSuperclass("model.entities.AbstractEntity") 
                                && classInfo.getSubclasses().isEmpty()));
-
-            final Class<? extends AbstractEntity> type = AbstractEntity.class;
             this.entityList = new ArrayList<>();
-            filtered.stream()
-                    .map(c -> c.loadClass(type))
-                    .forEach(e -> entityList.add(new LevelGenerationEntity<>(type.cast(e))));
+            filtered.stream().forEach(c -> {
+                try {
+                    this.entityList.add(new LevelGenerationEntity(c));
+                } catch (IllegalArgumentException | IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
+            });
         }
 
+        //entityList.stream().peek(e -> System.out.println(e.getCanonicalName() + " " + e.getEntityName() + " " + e.getComponentsSet().toString() + "\n"));
         /*if there is no player or at least one architecture entities throw exception*/
         if (this.entityList.stream()
                            .map(e -> e.getEntityName())
@@ -184,7 +186,7 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         this.blockMap = new HashMap<>();
         final Map<EntityBlock, BallsUrn> architecture = new HashMap<>();
 
-        for (LevelGenerationEntity<?> e : this.entityList) {
+        for (LevelGenerationEntity e : this.entityList) {
             if (e.getComponentsSet().contains("Architecture")) {
                 architecture.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             } else {

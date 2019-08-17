@@ -32,7 +32,7 @@ public interface Grid {
      * @param elemCoordinates are the integer coordinates of the desired element.
      * @return an Optional<Integer> of the matrix element at elemCoordinates if exist.
      */
-    LevelGenerationEntity<?> getElement(Coordinate elemCoordinates);
+    LevelGenerationEntity getElement(Coordinate elemCoordinates);
 
     /**
      * try to place the block b in the matrix with spawnPoint as its center.
@@ -54,11 +54,11 @@ public interface Grid {
      * Get a snapshot of the grid.
      * @return a snapshot of the grid.
      */
-    Map<Coordinate, LevelGenerationEntity<?>> getSnapshot();
+    Map<Coordinate, LevelGenerationEntity> getSnapshot();
 
     /**
      * Get the entity that the grid uses as placeholder for empty blocks.
      * @return the entity that the grid uses as placeholder for empty blocks.
      */
-    LevelGenerationEntity<?> getVoid();
+    LevelGenerationEntity getVoid();
 }

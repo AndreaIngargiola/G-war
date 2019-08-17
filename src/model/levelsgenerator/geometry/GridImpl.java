@@ -14,8 +14,8 @@ import model.levelsgenerator.LevelGenerationEntity;
  */
 public class GridImpl implements Grid {
 
-    private static final LevelGenerationEntity<?> VOID = new LevelGenerationEntity<>();
-    private final Map<Coordinate, LevelGenerationEntity<?>> matrix;
+    private static final LevelGenerationEntity VOID = new LevelGenerationEntity();
+    private final Map<Coordinate, LevelGenerationEntity> matrix;
     private final Coordinate size;
 
     /**
@@ -63,7 +63,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final LevelGenerationEntity<?> getElement(final Coordinate elemCoordinates) throws IllegalArgumentException {
+    public final LevelGenerationEntity getElement(final Coordinate elemCoordinates) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
             return this.matrix.get(elemCoordinates);
         } else {
@@ -87,7 +87,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final LevelGenerationEntity<?> getVoid() {
+    public final LevelGenerationEntity getVoid() {
         return GridImpl.VOID;
     }
 
@@ -97,7 +97,7 @@ public class GridImpl implements Grid {
      * @param value is the LevelGeneration entity that the block will represent from now on.
      * @throws IllegalArgumentException if the coordinates are out of bounds.
      */
-    public void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity<?> value) throws IllegalArgumentException {
+    public void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity value) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
             this.matrix.put(elemCoordinates, value);
         } else {
@@ -106,7 +106,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final Map<Coordinate, LevelGenerationEntity<?>> getSnapshot() {
+    public final Map<Coordinate, LevelGenerationEntity> getSnapshot() {
         return this.matrix;
     }
 }

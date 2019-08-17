@@ -1,8 +1,5 @@
 package model.components;
 
-import com.google.common.eventbus.Subscribe;
-
-import model.events.PointsEvent;
 
 /**
  * Counter of points (int number) of the player.
@@ -13,15 +10,9 @@ public interface Points extends EntityComponent {
 
     /**
      * 
-     * @param pointsEvent
-     *              an event
+     * @param points
+     *             the number of points the entity earns
      */
-    @Subscribe
-    void pointsListener(PointsEvent pointsEvent);
+    void addPoints(int points);
 
-    /**
-     * 
-     * @return the current number  point
-     */
-    int getCurrent();
 }

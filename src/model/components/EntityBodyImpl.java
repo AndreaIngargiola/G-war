@@ -1,25 +1,28 @@
 package model.components;
 
 import org.jbox2d.common.Vec2;
-
-import java.util.Objects;
-import java.util.Optional;
-
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
 
-public class EntityBodyImpl extends AbstractEntityComponent implements EntityBody{
-	
-	private final Body body;
+import model.entities.Entity;
+
+/**
+ * An implementation of the interface {@link EntityBody}.
+ */
+public final class EntityBodyImpl extends AbstractEntityComponent implements EntityBody {
+
+    private final Body body;
     private final Vec2 dimension;
-    
-    public EntityBodyImpl(Body body, Vec2 dimension) {
-    	this.body = body;
-    	this.dimension = dimension;
+
+    /**
+     * 
+     * @param body
+     *           the body
+     * @param dimension
+     *           the dimension
+     */
+    public EntityBodyImpl(final Body body, final Vec2 dimension) {
+        this.body = body;
+        this.dimension = dimension;
     }
 
     @Override
@@ -44,13 +47,17 @@ public class EntityBodyImpl extends AbstractEntityComponent implements EntityBod
 
     @Override
     public void applyImpulse(final Vec2 impulse) {
-        body.applyLinearImpulse(impulse.mul(body.getMass()), body.getWorldCenter(), true);
+        body.applyLinearImpulse(impulse.mul(body.getMass()), body.getWorldCenter());
     }
 
-//    @Override
-//    public Body getBody() {
-//        return body;
-//    }
+    @Override
+    public void setUserData(final Entity entity) {
+        body.setUserData(entity);
+    }
+    @Override
+    public Body getBody() {
+        return body;
+    }
 //
 //    @Override
 //    public void setGravityScale(final double scale) {
@@ -59,13 +66,13 @@ public class EntityBodyImpl extends AbstractEntityComponent implements EntityBod
 //
 //    @Override
 //    public Stream<EntityBody> getContacts() {
-//        return B2DUtils.stream(getB2DBody().getContactList())
+//        return Utils.stream(getBody().getContactList())
 //                .filter(c -> c.contact.isEnabled())
 //                .filter(c -> c.contact.isTouching())
 //                .filter(c -> bodyMap.containsKey(c.other))
 //                .map(c -> bodyMap.get(c.other));
 //    }
-//
+
 //    @Override
 //    public boolean isSolid() {
 //        // we assume one non-sensor fixture is enough to treat the body as a solid.

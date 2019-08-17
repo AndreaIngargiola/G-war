@@ -8,28 +8,28 @@ import model.entities.Entity;
  *
  */
 
-public class Damage extends AbstractEntityEvent {
+public class LifeChange extends AbstractEntityEvent {
 
-    private final int loss;
+    private final int lifePoints;
 
     /**
      * 
      * @param source
      *           the entity that loses health points
-     * @param loss
-     *           the number of health points that the source loses 
+     * @param lifePoints
+     *           the number of health points of the entity
      */
-    public Damage(final Entity source, final int  loss) {
+    public LifeChange(final Entity source, final int  lifePoints) {
         super(source);
-        this.loss = loss;
+        this.lifePoints = lifePoints;
     }
 
     /**
      * 
      * @return the number of health points that the source loses
      */
-    public int getLoss() {
-        return this.loss;
+    public int getLife() {
+        return this.lifePoints;
     }
 
 }

@@ -96,7 +96,7 @@ public interface Entity {
      *            The event to publish
      */
     void post(EntityEvent event);
-    
+
     /**
      * @return the top side position of the entity
      */
@@ -122,5 +122,16 @@ public interface Entity {
      */
     Vec2 getCenter();
 
+    /**
+     * 
+     * @param isAlive
+     *               true if the entity is alive
+     */
+    void setIsAlive(boolean isAlive);
 
+    /**
+     * 
+     * @return true if the entity is alive
+     */
+    boolean getIsAlive();
 }

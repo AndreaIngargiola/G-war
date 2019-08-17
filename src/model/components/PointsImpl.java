@@ -1,6 +1,7 @@
 package model.components;
 
-import model.events.PointsEvent;
+import model.events.PointsChangeEvent;
+
 /**
  * Implementation class for the interface {@link Points} .
  */
@@ -18,13 +19,9 @@ public class PointsImpl extends AbstractEntityComponent implements Points {
     }
 
     @Override
-    public final void pointsListener(final PointsEvent pointsEvent) {
-        this.current += pointsEvent.getPoints();
-    }
-
-    @Override
-    public final int getCurrent() {
-        return this.current;
+    public final void addPoints(final int points) {
+        this.current += points;
+        post(new PointsChangeEvent(this.getEntity(), this.current));
     }
 
     @Override

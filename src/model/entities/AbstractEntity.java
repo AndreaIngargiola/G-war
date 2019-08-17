@@ -3,6 +3,8 @@ package model.entities;
 import org.jbox2d.common.Vec2;
 
 import com.google.common.eventbus.EventBus;
+
+import Test.Main;
 import model.components.EntityBody;
 import enumerators.Faction;
 import model.components.EntityComponent;
@@ -22,17 +24,21 @@ public abstract class AbstractEntity implements Entity {
     private final EntityBody body;
     private final Translator<EntityComponent> components = new TranslatorImpl<>(EntityComponent.class);
     private final Faction type;
-
+    private boolean isAlive = true;
 
     /** 
+     * @param type
+     *            the faction the entity belongs to
      * @param body
-     *            An {@link EntityBody} object is the only required component for an entity.
+     *            an {@link EntityBody} object
      */
-    public AbstractEntity(final Faction type ,final EntityBody body) {
+    public AbstractEntity(final Faction type, final EntityBody body) {
         this.type = type;
         this.body = body;
         body.attach(this);
+        body.setUserData(this);
     }
+
 
     @Override
     public final Translator<EntityComponent> getComponents() {
@@ -51,19 +57,19 @@ public abstract class AbstractEntity implements Entity {
 
 
     @Override
-    public void update(final double dt) {
+    public final void update(final double dt) {
         components.forEach(c -> c.update(dt));
     }
 
     /**
-     * Generates a @DestructionEvent and then detaches all components.
+     * Generates a @Death event and then detaches all components.
      */
     @Override
     public void destroy() {
         post(new Death(this));
-        //components.forEach(this::remove); //?? Da un'exception
         components.clear();
         remove(body);
+        Main.getWorld().destroyBody(body.getBody());
     }
 
     /**
@@ -100,31 +106,39 @@ public abstract class AbstractEntity implements Entity {
         components.remove(component);
         component.detach();
     }
-    
+
     @Override
     public final float getTopSide() {
-        return  body.getPosition().y;
+        return  body.getPosition().y - body.getDimension().y / 2;
     }
 
     @Override
     public final float getLeftSide() {
-        return body.getPosition().x;
+        return body.getPosition().x - body.getDimension().x / 2;
     }
 
     @Override
     public final float getBottomSide() {
-        return (body.getPosition().y + body.getDimension().y);
+        return (body.getPosition().y + body.getDimension().y / 2);
     }
 
     @Override
     public final float getRightSide() {
-        return (body.getPosition().x + body.getDimension().x);
+        return (body.getPosition().x + body.getDimension().x / 2);
     }
 
     @Override
     public final Vec2 getCenter() {
-        final float halfH = (float) body.getDimension().y / 2;
-        final float halfW = (float) body.getDimension().x / 2;
-        return this.body.getPosition().add(new Vec2(halfW, halfH));
+        return body.getPosition();
+    }
+
+    @Override
+    public final void setIsAlive(final boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
+    @Override
+    public final boolean getIsAlive() {
+        return isAlive;
     }
 }

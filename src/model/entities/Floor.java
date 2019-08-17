@@ -7,12 +7,13 @@ import model.components.ArchitectureImpl;
 import model.physics.BodyBuilder;
 
 /**
- * Models a Platform.
+ * Models a Lake.
+ * If the player fall into a lake he dies.
  */
-public final class Platform extends AbstractEntity {
+public final class Floor extends AbstractEntity {
 
-    private static final Faction TYPE = Faction.NEUTRAL_IMMORTAL;
-    private static final Vec2 SIZE = new Vec2(10, 10);
+    private static final Faction TYPE = Faction.PSYCO_IMMORTAL;
+    private static final Vec2 SIZE = new Vec2(80, 10);
     private static final String COMPONENTS_LEGACY = "Architecture";
 
     /**
@@ -22,7 +23,7 @@ public final class Platform extends AbstractEntity {
      * @param position
      *              its position
      */
-    public Platform(final BodyBuilder bodyBuilder, final Vec2 position) {
+    public Floor(final BodyBuilder bodyBuilder, final Vec2 position) {
         super(TYPE, bodyBuilder
                 .setPosition(position)
                 .setSize(SIZE)
@@ -33,6 +34,6 @@ public final class Platform extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Platform";
+        return "Floor";
     }
 }

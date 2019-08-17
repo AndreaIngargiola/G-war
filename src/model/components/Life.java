@@ -1,8 +1,5 @@
 package model.components;
 
-import com.google.common.eventbus.Subscribe;
-
-import model.events.Damage;
 
 /**
  * Models an entity life as a counter of health points (int number).
@@ -12,15 +9,9 @@ public interface Life extends EntityComponent {
 
     /**
      * 
-     * @param damage
-     *              an event
+     * @param loss
+     *            the number of health points that the entity loses 
      */
-    @Subscribe
-    void demageListener(Damage damage);
+    void demage(int loss);
 
-    /**
-     * 
-     * @return the current number of health point of the entity
-     */
-    int getCurrent();
 }

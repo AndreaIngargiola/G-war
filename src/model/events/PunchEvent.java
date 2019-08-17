@@ -2,10 +2,16 @@ package model.events;
 
 import model.entities.Entity;
 
-public class PunchEvent extends AbstractEntityEvent{
+/**
+ * Models a Punch event.
+ */
+public class PunchEvent extends AbstractEntityEvent {
 
-	public PunchEvent(Entity source) {
-		super(source);
-	}
-
+    /**
+     * @param source
+     *             the entity who post the event
+     */
+    public PunchEvent(final Entity source) {
+        super(source);
+    }
 }

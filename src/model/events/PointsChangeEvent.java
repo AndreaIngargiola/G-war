@@ -9,7 +9,7 @@ import model.entities.Entity;
  *
  */
 
-public class PointsEvent extends AbstractEntityEvent {
+public class PointsChangeEvent extends AbstractEntityEvent {
 
     private final int points;
 
@@ -20,7 +20,7 @@ public class PointsEvent extends AbstractEntityEvent {
      * @param points
      *           the number of points that the source gets
      */
-    public PointsEvent(final Entity source, final int  points) {
+    public PointsChangeEvent(final Entity source, final int  points) {
         super(source);
         this.points = points;
     }

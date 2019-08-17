@@ -3,6 +3,7 @@ package model.entities;
 import org.jbox2d.common.Vec2;
 
 import enumerators.Faction;
+import model.components.ArchitectureImpl;
 import model.physics.BodyBuilder;
 
 /**
@@ -12,7 +13,8 @@ import model.physics.BodyBuilder;
 public final class Floor extends AbstractEntity {
 
     private static final Faction TYPE = Faction.PSYCO_IMMORTAL;
-    private static final Vec2 SIZE = new Vec2(800, 50);
+    private static final Vec2 SIZE = new Vec2(80, 10);
+    private static final String COMPONENTS_LEGACY = "Architecture";
 
     /**
      * 
@@ -27,6 +29,7 @@ public final class Floor extends AbstractEntity {
                 .setSize(SIZE)
                 .setIsMoveable(false)
                 .build());
+        add(new ArchitectureImpl());
     }
 
     @Override

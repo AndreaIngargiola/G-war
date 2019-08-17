@@ -18,9 +18,9 @@ public final class Coward extends Enemy {
     private static final Faction TYPE = Faction.PSYCO_MORTAL;
     private static final int DEFAULT_HEALTH = 1;
     private static final int DEFAULT_ATTACK = 1;
-    private static final Vec2 SIZE = new Vec2(51, 51);
-    private static final float DEFAULT_WALK_SPEED = 1;
-    private static final float DEFAULT_JUMP_SPEED = -100;
+    private static final Vec2 SIZE = new Vec2(10, 10);
+    private static final float DEFAULT_WALK_SPEED = 0.2f;
+    private static final String COMPONENTS_LEGACY = "Life-Attack-Movement";
 
     /**
      * 
@@ -36,7 +36,7 @@ public final class Coward extends Enemy {
                 .build());
         add(new LifeImpl(DEFAULT_HEALTH));
         add(new AttackImpl(DEFAULT_ATTACK));
-        add(new ChangeDirectionImpl(DEFAULT_WALK_SPEED, DEFAULT_JUMP_SPEED));
+        add(new ChangeDirectionImpl(DEFAULT_WALK_SPEED));
         }
 
     @Override

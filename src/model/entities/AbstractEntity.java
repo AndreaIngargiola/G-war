@@ -24,7 +24,7 @@ public abstract class AbstractEntity implements Entity {
     private final EntityBody body;
     private final Translator<EntityComponent> components = new TranslatorImpl<>(EntityComponent.class);
     private final Faction type;
-
+    private boolean isAlive = true;
 
     /** 
      * @param type
@@ -38,6 +38,7 @@ public abstract class AbstractEntity implements Entity {
         body.attach(this);
         body.setUserData(this);
     }
+
 
     @Override
     public final Translator<EntityComponent> getComponents() {
@@ -61,12 +62,11 @@ public abstract class AbstractEntity implements Entity {
     }
 
     /**
-     * Generates a @DestructionEvent and then detaches all components.
+     * Generates a @Death event and then detaches all components.
      */
     @Override
     public void destroy() {
         post(new Death(this));
-        //components.forEach(this::remove); //?? Da un'exception
         components.clear();
         remove(body);
         Main.getWorld().destroyBody(body.getBody());
@@ -119,7 +119,7 @@ public abstract class AbstractEntity implements Entity {
 
     @Override
     public final float getBottomSide() {
-        return (body.getPosition().y + body.getDimension().y /2);
+        return (body.getPosition().y + body.getDimension().y / 2);
     }
 
     @Override
@@ -130,5 +130,15 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public final Vec2 getCenter() {
         return body.getPosition();
+    }
+
+    @Override
+    public final void setIsAlive(final boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
+    @Override
+    public final boolean getIsAlive() {
+        return isAlive;
     }
 }

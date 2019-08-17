@@ -122,5 +122,16 @@ public interface Entity {
      */
     Vec2 getCenter();
 
+    /**
+     * 
+     * @param isAlive
+     *               true if the entity is alive
+     */
+    void setIsAlive(boolean isAlive);
 
+    /**
+     * 
+     * @return true if the entity is alive
+     */
+    boolean getIsAlive();
 }

@@ -8,15 +8,14 @@ import java.util.stream.Stream;
 
 import com.google.common.reflect.TypeToken;
 
-
-
 /**
- * Base implementation of {@link Translator}.
+ * An implementation of {@link Translator}.
  * 
  * @param <T>
  *            Elements super type.
  */
 public final class TranslatorImpl<T> implements Translator<T> {
+
     private final Map<Class<?>, T> elements = new LinkedHashMap<>();
     private final Class<T> elementsInterface;
 
@@ -41,11 +40,6 @@ public final class TranslatorImpl<T> implements Translator<T> {
     }
 
     @Override
-    public Set<Class<?>> getInterfaces() {
-        return elements.keySet();
-    }
-
-    @Override
     public void put(final T element) throws IllegalArgumentException {
         final Set<Class<?>> interfaces = allInterfaces(element.getClass());
         if (interfaces.isEmpty()) {
@@ -61,16 +55,6 @@ public final class TranslatorImpl<T> implements Translator<T> {
                 });
 
         interfaces.forEach(in -> elements.put(in, element));
-    }
-
-    @Override
-    public <C extends T> C remove(final Class<C> type) {
-        if (elements.containsKey(type))  {          //devo controllare se è giusto
-            return type.cast(elements.remove(type));
-
-        } else {
-            throw new IllegalArgumentException("This class is not included into the set: " + type.toString());
-        }
     }
 
     @Override
@@ -107,4 +91,5 @@ public final class TranslatorImpl<T> implements Translator<T> {
             throw new IllegalArgumentException("Type " + type.getSimpleName() + " is not an interface.");
         }
     }
+
 }

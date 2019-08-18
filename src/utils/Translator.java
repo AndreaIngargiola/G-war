@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 
@@ -14,6 +12,7 @@ import java.util.stream.Stream;
 *            Parent interface of all the interfaces this collection can contain.
 */
 public interface Translator<T> {
+
     /**
      * Gets an element by its Interface.
      * 
@@ -28,12 +27,6 @@ public interface Translator<T> {
     <C extends T> C get(Class<C> interf) throws IllegalArgumentException;
 
     /**
-     * 
-     * @return a list of all the keys of the map
-     */
-    Set<Class<?>> getInterfaces();
-
-    /**
      * Puts an element in the collection.
      * 
      * @param element
@@ -44,18 +37,6 @@ public interface Translator<T> {
      */ 
     void put(T element) throws IllegalArgumentException;
 
-    /**
-     * Removes an element by its type.
-     * 
-     * @param <C>
-     *            the type
-     * @param type
-     *            the type
-     * @return The removed component
-     */
-    <C extends T> C remove(Class<C> type);
-
-    //T???
     /**
      * Removes the element from the collection.
      * 
@@ -70,17 +51,7 @@ public interface Translator<T> {
     void clear();
 
     /**
-     * @return A stream of elements.
+     * @return a stream of elements.
      */
     Stream<T> stream();
-
-    /**
-     * Convenience method.
-     * 
-     * @param action
-     *            an action to be executed on each element.
-     */
-    default void forEach(final Consumer<T> action) {
-        stream().forEach(action);
-    }
 }

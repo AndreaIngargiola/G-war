@@ -13,7 +13,10 @@ public final class Platform extends AbstractEntity {
 
     private static final Faction TYPE = Faction.NEUTRAL_IMMORTAL;
     private static final Vec2 SIZE = new Vec2(10, 10);
-    private static final String COMPONENTS_LEGACY = "Architecture";
+    /**
+     * Used for the importation of the entity by reflection.
+     */
+    public static final String COMPONENTS_LEGACY = "Architecture";
 
     /**
      * 
@@ -27,6 +30,7 @@ public final class Platform extends AbstractEntity {
                 .setPosition(position)
                 .setSize(SIZE)
                 .setIsMoveable(false)
+                .setSubjectToForces(false)
                 .build());
         add(new ArchitectureImpl());
     }

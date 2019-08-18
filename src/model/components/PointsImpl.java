@@ -28,4 +28,9 @@ public class PointsImpl extends AbstractEntityComponent implements Points {
     public final String toString() {
         return "Points";
     }
+
+    @Override
+    public final int getCurrent() {
+        return this.current;
+    }
 }

@@ -1,8 +1,8 @@
 package model.components;
 
-import com.google.common.eventbus.Subscribe;
+import enumerators.CollisionSide;
+import model.entities.Entity;
 
-import model.events.CollisionEvent;
 
 /**
  * Models a class that takes care of the collisions between the player and another entity.
@@ -12,10 +12,13 @@ public interface CollisionHandler extends EntityComponent {
 
     /**
      * 
-     * @param collisionEvent
-     *                    an event
+     * @param source
+     *            the entity
+     * @param other
+     *           the entity the source collied with
+     * @param side
+     *           the side the source collided
      */
-    @Subscribe
-    void collisionListener(CollisionEvent collisionEvent);
+    void collision(Entity source, Entity other, CollisionSide side);
 
 }

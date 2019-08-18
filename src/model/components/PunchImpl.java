@@ -12,11 +12,12 @@ import model.events.PunchEvent;
  */
 public class PunchImpl extends AbstractEntityComponent implements Punch {
 
-    private final FindEnemy eyes = new FindEnemy(this.getEntity()); 
-    private final int RANGE = 100;
+    private static final int POINTS = 20;
+    private static final int RANGE = 10;
+    private final FindEnemy eyes = new FindEnemy(); 
 
     @Override
-    public final void punchListener(final PunchEvent punch) {
+    public final void punch() {
         if (this.getEntity().get(Movement.class).getFaceDirection().equals(HorizontalDirection.RIGHT)) {
             Main.getWorld().raycast(eyes, this.getEntity().getCenter(), 
                                     this.getEntity().getCenter().add(new Vec2(RANGE, 0)));
@@ -24,5 +25,10 @@ public class PunchImpl extends AbstractEntityComponent implements Punch {
             Main.getWorld().raycast(eyes, this.getEntity().getCenter(), 
                                      this.getEntity().getCenter().add(new Vec2(-RANGE, 0)));
         }
+        if (eyes.getHit()) {
+            this.getEntity().get(Points.class).addPoints(POINTS);
+        }
+        this.getEntity().post(new PunchEvent(this.getEntity()));
+        eyes.setHit(false);
     }
 }

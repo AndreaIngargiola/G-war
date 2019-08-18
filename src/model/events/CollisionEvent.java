@@ -1,6 +1,5 @@
 package model.events;
 
-import enumerators.CollisionSide;
 import model.entities.Entity;
 
 /**
@@ -10,38 +9,16 @@ import model.entities.Entity;
 
 public class CollisionEvent extends AbstractEntityEvent {
 
-    private final Entity other;
-    private final CollisionSide side;
-
     /**
      * 
      * @param source
      *             it's always the player
-     * @param other
-     *             the other he collides with
-     * @param side
-     *             the player's side that collides with the other
      */
-    public CollisionEvent(final Entity source, final Entity other, final CollisionSide side) {
+    public CollisionEvent(final Entity source) {
         super(source);
-        this.other = other;
-        this.side = side;
+
     }
 
-    /**
-     * 
-     * @return other
-     */
-    public Entity getOther() {
-        return other;
-    }
 
-    /**
-     * 
-     * @return side
-     */
-    public CollisionSide getSide() {
-        return side;
-     }
 
 }

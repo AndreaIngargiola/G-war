@@ -15,4 +15,9 @@ public interface Points extends EntityComponent {
      */
     void addPoints(int points);
 
+    /**
+     * 
+     * @return the current points
+     */
+    int getCurrent();
 }

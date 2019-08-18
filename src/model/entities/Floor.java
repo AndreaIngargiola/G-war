@@ -14,7 +14,10 @@ public final class Floor extends AbstractEntity {
 
     private static final Faction TYPE = Faction.PSYCO_IMMORTAL;
     private static final Vec2 SIZE = new Vec2(80, 10);
-    private static final String COMPONENTS_LEGACY = "Architecture";
+    /**
+     * Used for the importation of the entity by reflection.
+     */
+    public static final String COMPONENTS_LEGACY = "Architecture";
 
     /**
      * 

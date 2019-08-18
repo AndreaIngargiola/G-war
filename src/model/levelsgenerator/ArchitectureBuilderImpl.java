@@ -49,7 +49,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
         }
 
         this.level = new GridImpl(gridDimension.getPoint().x, gridDimension.getPoint().y);
-        this.trace = new GridImpl(jumpingDistance.getPoint().x, gridDimension.getPoint().y);
+        this.trace = new GridImpl(gridDimension.getPoint().x, jumpingDistance.getPoint().x);
         this.randomIterator = new Random();
 
         /*Create the triangular block that represents the coordinates that can be reached with a jump*/

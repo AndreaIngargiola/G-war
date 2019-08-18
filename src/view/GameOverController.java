@@ -1,6 +1,7 @@
 package view;
 
-import javafx.application.Platform;
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.control.TextField;
 /**
  * Controller of game over view.
  */
-public class GameOverController {
+public class GameOverController extends ViewControllerImpl {
 
     @FXML
     private TextField usernameTextField;
@@ -20,10 +21,10 @@ public class GameOverController {
     private Label scorePlayerLeaderboard;
 
     private String playerName;
-    private final ReadAndOrderFileByScore orderFile = new ReadAndOrderFileByScore();
-    private final ToRecordPlayer addPlayerLeaderboard = new ToRecordPlayer();
+    private final OrderReadFileByScore orderFile = new OrderReadFileByScore();
+    private final RecordScore addPlayerLeaderboard = new RecordScore();
     private static final int MAXPLAYER = 10;
-    private final Integer scoreTest = 10;
+    private static Integer scoreTest;
 
     /**
      * Method to initialize any controls.
@@ -31,12 +32,9 @@ public class GameOverController {
     @FXML
     public void initialize() {
         orderFile.readFileAndOrder();
-        this.scorePlayerLeaderboard.setText("Score:  " + this.scoreTest);
-        if ((this.orderFile.getNumberPlayerInLeaderboard() < MAXPLAYER) || (this.scoreTest > this.orderFile.getLastScore())) {
-            //aggiungo player. Chiamo classe toRecordPlayer
+        this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
+        if ((this.orderFile.getNumberPlayerInLeaderboard() < MAXPLAYER) || (scoreTest > this.orderFile.getLastScore())) {
             this.toRecordBtn.setOnAction(event);
-            //System.out.println("Number player in Leaderboard: " + orderFile.getNumberPlayerInLeaderboard());
-            //System.out.println("The last score: " + orderFile.getLastScore());
         } else {
             this.usernameTextField.setVisible(false);
             this.toRecordBtn.setVisible(false);
@@ -48,19 +46,18 @@ public class GameOverController {
             playerName = usernameTextField.getText();
             toRecordBtn.setVisible(false);
             addPlayerLeaderboard.addRecord(getPlayerName(), scoreTest);
-            //System.out.print(getPlayerName());
 
         }
     };
 
     /**
      * Method to show the main menu.
+     * @throws IOException
+     *         the IOException.
      */
     @FXML
-    public void showMainMenu() {
-        /*try {
-            this.mainMenuGame.setControllerGameOver();
-        } catch (Exception e) { }*/
+    public void showMainMenu() throws IOException {
+        this.getView().setViewState(ViewState.MAIN_MENU, null);
     }
 
     /**
@@ -68,11 +65,19 @@ public class GameOverController {
      */
     @FXML
     public void exitGO() {
-        Platform.exit();
+        this.getController().closeApplication();
     }
 
     private String getPlayerName() {
         return this.playerName;
     }
 
+    /**
+     * Set the score of player.
+     * @param score
+     *         the score of player.
+     */
+    public static void setScore(final Integer score) {
+        scoreTest = score;
+    }
 }

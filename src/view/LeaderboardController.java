@@ -7,7 +7,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-//import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -19,7 +18,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,10 +27,9 @@ import javafx.scene.control.TableView;
 import model.PlayerLeaderboard;
 
 /**
- * Controller of Leaderboard view 
- *     (and add the information of player in the Leaderboard).
+ * Controller of Leaderboard view, add the information of player in the Leaderboard.
  */
-public class LeaderboardController implements ControllerView {
+public class LeaderboardController extends ViewControllerImpl {
 
     @FXML
     private Button exitBtn;
@@ -42,9 +39,6 @@ public class LeaderboardController implements ControllerView {
     private TableColumn<PlayerLeaderboard, String> playerNameColumn;
     @FXML
     private TableColumn<PlayerLeaderboard, Integer> playerScoreColumn;
-
-
-    private MainMenuGame mainMenuGame;
 
     /**
      * Method to initialize any controls.
@@ -61,15 +55,10 @@ public class LeaderboardController implements ControllerView {
             final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.parse(inputFile);
-            //Node characters = doc.getFirstChild()
-            //final Node nLastNode = doc.getLastChild();
-            //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            //final Node nodeProva = doc.getElementsByTagName("character").item(0);
-            final NodeList nList = doc.getElementsByTagName("character");  //Lista di character (ora sono tre) con i loro nodi figli
+            final NodeList nList = doc.getElementsByTagName("character");
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
-            final Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
-                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+            final Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     final Element eElement = (Element) nNode;
                     playerList.add(new PlayerLeaderboard(eElement.getElementsByTagName("player").item(0).getTextContent(), Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent())));
@@ -81,7 +70,6 @@ public class LeaderboardController implements ControllerView {
             final DOMSource source = new DOMSource(doc);
             final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
-            //System.out.println("Add the information of player in the TableView of Leaderboard");
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {
@@ -95,24 +83,19 @@ public class LeaderboardController implements ControllerView {
 
     /**
      * Method to show main menu.
-     * @throws IOException 
+     * @throws IOException
+     *         the IOException.
      */
     @FXML
-    public void showMainMenu() throws IOException {
-        this.mainMenuGame.showMainMenu();
+    protected void showMainMenu() throws IOException {
+        this.getView().setViewState(ViewState.MAIN_MENU, null);
     }
 
     /**
      * Method to exit from game.
      */
     @FXML
-    public void exitL() {
-        Platform.exit();
-    }
-
-
-    @Override
-    public final void setMainMenuGame(final MainMenuGame mainMenu) {
-        this.mainMenuGame = mainMenu;
+    protected void exitL() {
+        this.getController().closeApplication();
     }
 }

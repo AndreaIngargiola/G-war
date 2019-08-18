@@ -2,6 +2,7 @@ package model.levelsgenerator;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import enumerators.Faction;
 import io.github.classgraph.ClassInfo;
@@ -37,8 +38,8 @@ public class LevelGenerationEntity {
         if (!e.extendsSuperclass("model.entities.AbstractEntity")) {
             throw new IllegalArgumentException();
         } else {
-            this.entityName = e.getClass().getSimpleName();
-            this.fullName = e.getClass().getCanonicalName();
+            this.entityName = e.getSimpleName();
+            this.fullName = e.getName();
 
             final Field type = e.getFieldInfo("TYPE").loadClassAndGetField();
             type.setAccessible(true);
@@ -49,7 +50,7 @@ public class LevelGenerationEntity {
             components.setAccessible(true);
 
             final String allComponentsInterfaces = (String) components.get(null);
-            String[] componentsArray = allComponentsInterfaces.split(LevelGenerationEntity.COMPONENTS_SEPARATOR);
+            final String[] componentsArray = allComponentsInterfaces.split(LevelGenerationEntity.COMPONENTS_SEPARATOR);
             for (int i = 0; i < componentsArray.length; i++) {
                 this.componentsSet.add(componentsArray[i]);
             }
@@ -86,5 +87,32 @@ public class LevelGenerationEntity {
      */
     public String getCanonicalName() {
         return this.fullName;
+    }
+    
+    /* 
+     * The hashCode implementation for this class.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(componentsSet, entityName, fullName, type);
+    }
+
+    /* 
+     * The Equals Implementation for this class.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof LevelGenerationEntity)) {
+            return false;
+        }
+        LevelGenerationEntity other = (LevelGenerationEntity) obj;
+        return Objects.equals(componentsSet, other.componentsSet) && Objects.equals(entityName, other.entityName)
+                && Objects.equals(fullName, other.fullName) && type == other.type;
     }
 }

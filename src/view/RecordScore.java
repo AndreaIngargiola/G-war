@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 /**
  * Class for add a player in leaderboard.
  */
-public class ToRecordPlayer {
+public class RecordScore {
     /**
      * Method for add player in leaderboard.
      * @param playerName
@@ -60,7 +60,7 @@ public class ToRecordPlayer {
             final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
             //System.out.println("Add the information of player in the last position of leaderboard");
-    	} catch (ParserConfigurationException pce) {
+        } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {
             tfe.printStackTrace();

@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 /**
  * Read file and Order file by score.
  */
-public class ReadAndOrderFileByScore {
+public class OrderReadFileByScore {
 
     private List<Integer> arrayPlayer;
     private static final int MAXPLAYER = 10;
@@ -42,15 +42,13 @@ public class ReadAndOrderFileByScore {
 
             final List<Integer> arrayScore = new ArrayList<>();
 
-            //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nList = doc.getElementsByTagName("character");  //Lista di character (ora sono tre) con i loro nodi figli
+            NodeList nList = doc.getElementsByTagName("character");
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
-                final Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
-                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                final Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     final Element eElement = (Element) nNode;
-                    arrayScore.add(Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent()));  //ho aggiunto score nell'array
+                    arrayScore.add(Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent()));
                 }
             }
             Collections.sort(arrayScore);
@@ -58,7 +56,7 @@ public class ReadAndOrderFileByScore {
 
             for (int i = 0; i < arrayScore.size(); i++) {
                 for (int temp = 0; temp < nList.getLength(); temp++) {
-                    final Node nNode = nList.item(temp);  //scorre uno per uno i nodi character
+                    final Node nNode = nList.item(temp);
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                         final Element eElement = (Element) nNode;
                         if (Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent()) == arrayScore.get(i)) {
@@ -75,7 +73,6 @@ public class ReadAndOrderFileByScore {
                 final Node nNode = nList.item(MAXPLAYER);
                 characters.removeChild(nNode);
                 arrayScore.remove(MAXPLAYER);
-                //this.arrayPlayer.addAll(arrayScore);
             }
             this.arrayPlayer = new ArrayList<>(arrayScore);
             arrayScore.removeAll(arrayScore);
@@ -86,8 +83,6 @@ public class ReadAndOrderFileByScore {
             final DOMSource source = new DOMSource(doc);
             final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
-
-            System.out.println("Done read and order file by score");
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
@@ -101,9 +96,6 @@ public class ReadAndOrderFileByScore {
 
     }
 
-    /*public List<Integer> getArrayList(){
-        return this.arrayPlayer;
-    }*/
     /**
      * Method to know the number of player.
      * @return

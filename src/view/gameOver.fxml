@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-      <VBox spacing="40" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameOverController">
+<VBox fx:id="primaryPane" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="500.0" spacing="40.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameOverController">
          <children>
-            <Label text="Game Over" textAlignment="CENTER">
+            <Label fx:id="titleGameOver" textAlignment="CENTER">
                <font>
                   <Font name="System Italic" size="48.0" />
                </font>
                <padding>
-         <Insets top="200.0"></Insets>
+         <Insets top="200.0" />
          </padding>
             </Label>
-            <Label fx:id="scorePlayerLeaderboard" text="Label">
+            <Label fx:id="scorePlayerLeaderboard">
                <font>
                   <Font size="24.0" />
                </font>
@@ -28,11 +28,10 @@
                </VBox.margin>
             </TextField>
             <Button fx:id="toRecordBtn" mnemonicParsing="false" prefWidth="150.0" text="To record" />
-            <Button mnemonicParsing="false" onAction="#showMainMenu" prefWidth="200.00" text="Menu" />
-            <Button mnemonicParsing="false" onAction="#exitGO" prefWidth="200.0" text="Exit" />
+            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#showMainMenu" prefWidth="200.00" />
+            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#exitGO" prefWidth="200.0" />
          </children>
          <padding>
             <Insets top="20.0" />
          </padding>
       </VBox>
-

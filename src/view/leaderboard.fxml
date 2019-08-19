@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<VBox alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LeaderboardController">
+<VBox fx:id="primaryPane" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="500.0" spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LeaderboardController">
    <children>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="112.0" text="Leaderboard" textAlignment="CENTER">
+      <Label fx:id="titleLeaderboard" alignment="TOP_CENTER" contentDisplay="CENTER" textAlignment="CENTER">
          <font>
             <Font name="System Italic" size="48.0" />
          </font>
@@ -17,7 +17,7 @@
          <Insets top="150.0" />
          </padding>
       </Label>
-      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0" spacing="40.0">
+      <VBox fx:id="secondPane" alignment="BOTTOM_CENTER" prefHeight="500.0" prefWidth="500.0" spacing="10.0">
          <children>
             <TableView fx:id="playerTable" maxHeight="320.0" maxWidth="400.0">
               <columns>
@@ -28,8 +28,8 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button mnemonicParsing="false" onAction="#showMainMenu" prefWidth="200.0" text="Menu" />
-            <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exitL" prefWidth="200.0" text="Exit" />
+            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#showMainMenu" prefWidth="200.0" />
+            <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exitL" prefWidth="200.0" />
          </children>
          <padding>
       <Insets top="10.0" /></padding>

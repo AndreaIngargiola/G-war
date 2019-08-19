@@ -88,7 +88,7 @@ public class LevelGenerationEntity {
     public String getCanonicalName() {
         return this.fullName;
     }
-    
+
     /* 
      * The hashCode implementation for this class.
      */
@@ -101,7 +101,7 @@ public class LevelGenerationEntity {
      * The Equals Implementation for this class.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

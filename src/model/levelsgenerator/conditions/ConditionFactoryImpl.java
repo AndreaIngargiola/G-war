@@ -2,9 +2,11 @@ package model.levelsgenerator.conditions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import enumerators.Faction;
 import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.LevelGenerationEntity;
 import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.GridImpl;
@@ -32,10 +34,18 @@ public class ConditionFactoryImpl implements ConditionFactory {
                                                                              .map(c -> c.getPoint().y)
                                                                              .min((y1, y2) -> Integer.compare(y1, y2))
                                                                              .get();
-                return (context.getOverlap(enteringPoint, block).stream()
-                                                                .filter(p -> p.getPoint().y == yMin)
-                                                                .map(p -> context.getElement(p.sub(new Coordinate(1, 1))))
-                                                                .allMatch(e -> e.getComponentsSet().contains("Architecture")));
+                
+                final List<Coordinate> bottomSide = context.getOverlap(enteringPoint, block).stream()
+                                                                .filter(p -> p.getPoint().y == yMin).collect(Collectors.toList());
+                final List<LevelGenerationEntity> support = new ArrayList<>();
+                for (final Coordinate c : bottomSide) {
+                    try {
+                        support.add(context.getElement(c.sub(new Coordinate(1, 1))));
+                    } catch (IllegalArgumentException e) {
+                        return false;
+                    }
+                }
+                return (support.stream().allMatch(e -> e.getComponentsSet().contains("Architecture")));
             }
         });
         return mustBeOnGround;

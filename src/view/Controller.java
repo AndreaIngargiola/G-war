@@ -10,7 +10,7 @@ public interface Controller {
      * @return
      *         the value.
      */
-    boolean newGame();
+    void newGame();
 
     /**
      * Close application.

@@ -23,7 +23,6 @@ public class MainViewImpl extends Application implements MainView {
     private Node node;
     private final OrderReadFileByScore orderFileByScore = new OrderReadFileByScore();
 
-
     /**
      * Create a new View.
      */
@@ -36,15 +35,15 @@ public class MainViewImpl extends Application implements MainView {
     public final void start(final Stage primaryStage) throws Exception {
 
         this.stage = primaryStage;
-        this.stage.centerOnScreen();
-
+        final Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        //this.stage.centerOnScreen();
+        //this.stage.setFullScreen(true);
         stage.setTitle("Geometric Warfare");
-        stage.setResizable(true);
-        final Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX(screenBounds.getMinY());
-        stage.setY(screenBounds.getMinY());
-        stage.setWidth(screenBounds.getWidth());
-        stage.setHeight(screenBounds.getHeight());
+        stage.setResizable(false);
+        stage.setWidth(primaryScreenBounds.getWidth());
+        stage.setHeight(primaryScreenBounds.getHeight());
+        //stage.setFullScreen(true);
+        //stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         setViewState(ViewState.MAIN_MENU, null);
     }
 
@@ -52,7 +51,7 @@ public class MainViewImpl extends Application implements MainView {
     public final void setViewState(final ViewState state, final Integer score) {
 
         this.currentState = state;
-        if (this.currentState == ViewState.GAME_OVER) {
+        if (this.currentState.equals(ViewState.GAME_OVER)) {
             GameOverController.setScore(score);
         }
         this.uploadFxmlFile(state.getSceneNode(), this.controller, this);
@@ -60,14 +59,17 @@ public class MainViewImpl extends Application implements MainView {
         final Parent parent = (Parent) this.getNode();
         final Scene newScene = new Scene(parent);
         final Stage stage = this.stage;
-        final Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX(screenBounds.getMinY());
-        stage.setY(screenBounds.getMinY());
-        stage.setWidth(screenBounds.getWidth());
-        stage.setHeight(screenBounds.getHeight());
         stage.setScene(newScene);
-        stage.centerOnScreen();
+        final Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setResizable(false);
+        stage.setWidth(primaryScreenBounds.getWidth());
+        stage.setHeight(primaryScreenBounds.getHeight());
+        //stage.setFullScreen(false);
+        //stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        //stage.centerOnScreen();
         stage.show();
+        //stage.setFullScreen(true);
+        //stage.setResizable(false);
     }
 
     /**
@@ -81,7 +83,7 @@ public class MainViewImpl extends Application implements MainView {
      */
     public void uploadFxmlFile(final SceneNode sceneNode, final Controller controller, final MainView view) {
         try {
-            if (this.currentState == ViewState.LEADERBOARD) {
+            if (this.currentState.equals(ViewState.LEADERBOARD)) {
                 this.orderFileByScore.readFileAndOrder();
             }
             final FXMLLoader loader = new FXMLLoader();
@@ -123,7 +125,6 @@ public class MainViewImpl extends Application implements MainView {
      */
     public static void main(final String[] args) {
         launch(args);
-
     }
 
 }

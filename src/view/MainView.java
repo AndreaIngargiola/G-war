@@ -1,7 +1,7 @@
 package view;
 
 /**
- * Interface of Main View.
+ * Interface of MainView.
  */
 public interface MainView {
 

@@ -34,5 +34,4 @@ public enum ViewState {
     public SceneNode getSceneNode() {
         return this.nodeView;
     }
-
 }

@@ -23,14 +23,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Read file and Order file by score.
+ * Read file and order file by score.
  */
 public class OrderReadFileByScore {
 
     private List<Integer> arrayPlayer;
     private static final int MAXPLAYER = 10;
+
     /**
-     * Method.
+     * Method to read and order file.
      */
     public void readFileAndOrder() {
         try {

@@ -22,8 +22,8 @@ public class ControllerImpl implements Controller {
      * New Game.
      */
     @Override
-    public boolean newGame() {
-        return true;
+    public void newGame() {
+        System.out.print("New Game");
     }
 
     /**

@@ -40,7 +40,6 @@ public class RecordScore {
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.parse(inputFile);
             final Node characters = doc.getFirstChild();
-            //NodeList character = doc.getElementsByTagName("character");  //primo charachter, quindi prende solo i nodi figli del primo
 
             final Node newNode = doc.createElement("character");
 
@@ -59,7 +58,7 @@ public class RecordScore {
             final DOMSource source = new DOMSource(doc);
             final StreamResult result = new StreamResult(inputFile);
             transformer.transform(source, result);
-            //System.out.println("Add the information of player in the last position of leaderboard");
+
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {

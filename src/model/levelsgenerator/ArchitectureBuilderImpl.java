@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import enumerators.Faction;
 import model.levelsgenerator.geometry.BlockImpl;
@@ -21,13 +22,14 @@ import model.math.BallsUrn;
  */
 public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
-    private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 0);
-    private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 75;
+    private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 1);
+    private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 50;
     private final Map<EntityBlock, BallsUrn> neutralEnv;
     private final Map<EntityBlock, BallsUrn> hostileEnv;
     private final GridImpl level;
     private final GridImpl trace;
     private final BlockImpl tolerance;
+    private LevelGenerationEntity floor;
     private final Random randomIterator;
 
 
@@ -59,8 +61,23 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
                 this.tolerance.addPoint(new Coordinate(i, j));
             }
         }
+
+        /*remove all the possible floor blocks from the spawn table, keeping one for the player placing*/
+        final List<EntityBlock> floors = this.hostileEnv.keySet().stream()
+                              .filter(b -> b.getEntity().getEntityName().equals("Floor"))
+                              .collect(Collectors.toList());
+        floors.stream().peek(f -> this.floor = f.getEntity()).forEach(f -> this.hostileEnv.remove(f));
+        this.placeFloor();
     }
 
+    private void placeFloor() {
+        for (int i = 0; i < this.level.getSize().getPoint().x; i++) {
+            if (i < this.trace.getSize().getPoint().x) {
+                trace.setElement(new Coordinate(i, 0), this.floor);
+            }
+            level.setElement(new Coordinate(i, 0), this.floor);
+        }
+    }
     /**
      * Get the next random point where place an architectural element.
      * @param actualPoint
@@ -73,6 +90,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
     private Coordinate findFirstPoint() {
         final Optional<Coordinate> nearestPlatform = this.trace.getSnapshot().entrySet().stream()
+                                                                                        .filter(tiles -> tiles.getValue().equals(this.floor))
                                                                                         .filter(es -> es.getValue().getType().equals(Faction.NEUTRAL_IMMORTAL) 
                                                                                                    || es.getValue().getType().equals(Faction.NEUTRAL_MORTAL))
                                                                                         .map(e -> e.getKey())
@@ -110,6 +128,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
         /*Initialize local variables*/
         this.updateTrace();
         this.level.reset();
+        this.placeFloor();
         Coordinate point = this.findFirstPoint();
         EntityBlock selectedBlock = this.hostileEnv.keySet().iterator().next();
         Boolean entityLock = Boolean.FALSE;
@@ -123,10 +142,10 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
         /*While the function didn't fill the whole horizontal length of the matrix, keep placing architecture*/
         while (point.getPoint().x < this.level.getSize().getPoint().x) {
             if (entityLock.equals(Boolean.FALSE)) {                            //if entityLock is true, keep the previous entity, else choose a new entity to place.
-                if (this.neutralEnv.containsKey(selectedBlock)) {              //if the previous entity placed is an obstacle, choose a neutral one, else choose a random entity.
+                if (this.hostileEnv.containsKey(selectedBlock)) {              //if the previous entity placed is an obstacle, choose a neutral one, else choose a random entity.
                     selectedBlock = this.chooseEntity(this.neutralEnv);
                 } else {
-                    final Integer flipACoin = this.randomIterator.nextInt(1);
+                    final Integer flipACoin = this.randomIterator.nextInt(2);
                     if (flipACoin.equals(1)) {
                         selectedBlock = this.chooseEntity(this.neutralEnv);
                     } else {

@@ -6,7 +6,6 @@ import model.entities.Entity;
  * Model a Death event
  * When an entity is being removed from the game.
  */
-
 public class Death extends AbstractEntityEvent {
 
     /**

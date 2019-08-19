@@ -58,27 +58,5 @@ public final class EntityBodyImpl extends AbstractEntityComponent implements Ent
     public Body getBody() {
         return body;
     }
-//
-//    @Override
-//    public void setGravityScale(final double scale) {
-//        body.setGravityScale((float) scale);
-//    }
-//
-//    @Override
-//    public Stream<EntityBody> getContacts() {
-//        return Utils.stream(getBody().getContactList())
-//                .filter(c -> c.contact.isEnabled())
-//                .filter(c -> c.contact.isTouching())
-//                .filter(c -> bodyMap.containsKey(c.other))
-//                .map(c -> bodyMap.get(c.other));
-//    }
 
-//    @Override
-//    public boolean isSolid() {
-//        // we assume one non-sensor fixture is enough to treat the body as a solid.
-//        return B2DUtils.stream(body.getFixtureList())
-//                .filter(f -> !f.isSensor())
-//                .findAny()
-//                .isPresent();
-//    }
 }

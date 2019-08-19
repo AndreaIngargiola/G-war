@@ -3,11 +3,11 @@ package model.engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
-import com.google.common.eventbus.Subscribe;
+
+import model.components.TimerGrill;
 import model.entities.Entity;
-import model.events.Death;
 import model.events.EntityEventSubscriber;
-import model.events.TimerEvent;
+
 
 /**
  * A TimerTask that can receive an Death event.
@@ -19,8 +19,9 @@ public class TimerTaskGrill  extends  TimerTask implements EntityEventSubscriber
 
     @Override
     public final void run() {
+
         if (!grills.isEmpty()) {
-            grills.forEach(g -> g.post(new TimerEvent(g)));
+            grills.forEach(g -> g.get(TimerGrill.class).changeState());
         }
     }
 
@@ -42,13 +43,4 @@ public class TimerTaskGrill  extends  TimerTask implements EntityEventSubscriber
         grills.remove(grill);
     }
 
-    /**
-     * 
-     * @param death
-     *             an event
-     */
-    @Subscribe
-    public final void deathListener(final Death death) {
-        remove(death.getSource());
-    }
 }

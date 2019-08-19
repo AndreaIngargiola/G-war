@@ -2,10 +2,10 @@ package model.entities;
 
 import org.jbox2d.common.Vec2;
 
+import Test.Main;
 import enumerators.Faction;
 import model.components.ArchitectureImpl;
 import model.components.TimerGrillImpl;
-import model.engine.TimerTaskGrill;
 import model.physics.BodyBuilder;
 
 
@@ -17,7 +17,10 @@ public final class Grill extends AbstractEntity {
 
     private static final Faction TYPE = Faction.PSYCO_IMMORTAL;
     private static final Vec2 SIZE = new Vec2(10, 10);
-    private static final String COMPONENTS_LEGACY = "Architecture";
+    /**
+     * Used for the importation of the entity by reflection.
+     */
+    public static final String COMPONENTS_LEGACY = "Architecture";
 
     /**
      * The component {@link TimerGrillImpl} handles the Grill switch from dangerous to neutral.
@@ -25,19 +28,17 @@ public final class Grill extends AbstractEntity {
      * @param bodyBuilder
      *              the related {@link BodyBuilder} object
      * @param position
-     *              its positioN
-     * @param timerTask
-     *                it contains a list of all the Grills created, 
-     *                so he knows witch entities must post the {@link TimerEvent}
+     *              its position
      */
-    public Grill(final BodyBuilder bodyBuilder, final Vec2 position, final TimerTaskGrill timerTask) {
+    public Grill(final BodyBuilder bodyBuilder, final Vec2 position) {
         super(TYPE, bodyBuilder
                 .setPosition(position)
                 .setSize(SIZE)
                 .setIsMoveable(false)
+                .setSubjectToForces(false)
                 .build());
-        timerTask.add(this);
-        register(timerTask);
+        Main.getTimer().add(this);
+        register(Main.getTimer());
         add(new TimerGrillImpl());
         add(new ArchitectureImpl());
     }

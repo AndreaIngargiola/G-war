@@ -58,7 +58,7 @@ public abstract class AbstractEntity implements Entity {
 
     @Override
     public final void update(final double dt) {
-        components.forEach(c -> c.update(dt));
+        components.stream().forEach(c -> c.update(dt));
     }
 
     /**

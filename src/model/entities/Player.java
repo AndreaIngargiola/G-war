@@ -23,7 +23,10 @@ public final class Player extends AbstractEntity {
     private static final Vec2 SIZE = new Vec2(10, 10);
     private static final float DEFAULT_WALK_SPEED = 5;
     private static final float DEFAULT_JUMP_SPEED = 55f;
-    private static final String COMPONENTS_LEGACY = "Life-Attack-Movement-CollisionHandler-Points-Punch";
+    /**
+     * Used for the importation of the entity by reflection.
+     */
+    public static final String COMPONENTS_LEGACY = "Life-Attack-Movement-CollisionHandler-Points-Punch";
 
     /**
      * 

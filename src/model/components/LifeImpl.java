@@ -29,7 +29,8 @@ public class LifeImpl extends AbstractEntityComponent implements Life {
         System.out.println("toglie vita" + this.getEntity());
         if (this.current <= 0) {
             System.out.println("morto");
-            this.getEntity().destroy();
+            this.getEntity().setIsAlive(false);
+            post(new LifeChange(this.getEntity(), 0));
         } else {
             post(new LifeChange(this.getEntity(), this.current));
         }

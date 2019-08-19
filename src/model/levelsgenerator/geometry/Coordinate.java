@@ -1,5 +1,6 @@
 package model.levelsgenerator.geometry;
 import java.awt.Point;
+import java.util.Objects;
 
 /**
  * is an utility class that wrap the java awt Point, making it immutable once generated.
@@ -44,4 +45,33 @@ public class Coordinate {
         return this.sum(toSub);
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(p);
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Coordinate)) {
+            return false;
+        }
+        Coordinate other = (Coordinate) obj;
+        return Objects.equals(p, other.p);
+    }
+
+    
+    
+    
 }

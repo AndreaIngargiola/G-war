@@ -1,5 +1,6 @@
 package model.levelsgenerator.geometry;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +46,8 @@ public class GridImpl implements Grid {
     public final Boolean place(final Coordinate mOriginPoint, final EntityBlock b) {
         final List<Coordinate> overlap = this.getOverlap(mOriginPoint, b);
 
-        /*if part of the block is out of bounds (so the overlap size is lesser than the size of the block)
-         * or not every requested tile in the matrix is free (VOID), return false */
-        if (overlap.size() < b.getOccupation() || !(overlap.stream().map(c -> this.getElement(c)).allMatch(e -> e.equals(GridImpl.VOID)))) {
+        /*if the number of coordinates of the overlap that are in bounds and are VOID is not equals to the block size, return false*/
+        if (overlap.stream().filter(e -> this.getElement(e).equals(GridImpl.VOID)).count() != b.getOccupation()) {
             return false;
         } else {
             for (final Coordinate c : overlap) {

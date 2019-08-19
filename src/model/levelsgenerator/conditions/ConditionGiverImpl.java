@@ -14,7 +14,7 @@ public final class ConditionGiverImpl implements ConditionGiver {
 
         switch (componentInterfaceName) {
 
-        case ("Feet") :
+        case ("Movement") :
              conditions.add(conditionFactory.mustBeOnGround());
         break;
 

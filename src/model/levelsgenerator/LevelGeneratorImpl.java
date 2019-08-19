@@ -6,15 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
+
 import model.levelsgenerator.conditions.ConditionGiver;
 import model.levelsgenerator.conditions.ConditionGiverImpl;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.Grid;
 import model.levelsgenerator.geometry.GridImpl;
+
 import model.math.BallsUrn;
 import model.math.BallsUrnImpl;
 
@@ -51,11 +54,12 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         this.iteration = 0;
         this.randomIterator = new Random();
         this.attemptedPoints = new ArrayList<>();
+        this.levelGrid = new GridImpl(LevelGeneratorImpl.GRID_RANK, LevelGeneratorImpl.GRID_RANK);
     }
 
     @Override
     public Map<Point, String> getNewLevel() {
-        Boolean entityLock = new Boolean(false);
+        Boolean entityLock = Boolean.FALSE;
         this.levelGrid.reset();
         this.levelGrid = this.archBuilder.getArchitecture(this.levelGrid);
 
@@ -70,7 +74,7 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         while (entitiesPlaced < LevelGeneratorImpl.MAX_ENTITIES) {
             if (entityLock.equals(Boolean.FALSE)) {
                 while (ball.equals(BallsUrn.Color.WHITE)) {
-                    for (EntityBlock e : this.blockMap.keySet()) {
+                    for (final EntityBlock e : this.blockMap.keySet()) {
                         ball = this.blockMap.get(e).getBall();
                         if (ball.equals(BallsUrn.Color.BLACK)) {
                             selectedEntity = e;
@@ -81,11 +85,11 @@ public final class LevelGeneratorImpl implements LevelGenerator {
             }
 
             Integer attempts = 0;
-            List<Coordinate> failedPoints = new ArrayList<>();
+            final List<Coordinate> failedPoints = new ArrayList<>();
             Coordinate point = this.getRandomPoint();
 
             while (attempts <= LevelGeneratorImpl.MAX_ATTEMPTS 
-                   && selectedEntity.verifyPlacingConditions((GridImpl) this.levelGrid, point)) {
+                   && selectedEntity.verifyPlacingConditions((GridImpl) this.levelGrid, point).equals(Boolean.FALSE)) {
                 failedPoints.add(point);
                 attempts = attempts + 1;
                 while (failedPoints.contains(point)) {
@@ -118,7 +122,7 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         Coordinate point = new Coordinate(0, 0);
         this.attemptedPoints.clear();
 
-        while (this.player.verifyPlacingConditions((GridImpl) this.levelGrid, point).equals(Boolean.TRUE)) {
+        while (this.player.verifyPlacingConditions((GridImpl) this.levelGrid, point).equals(Boolean.FALSE)) {
             while (this.attemptedPoints.contains(point)) {
                 point = this.getRandomPoint();
             }
@@ -148,7 +152,6 @@ public final class LevelGeneratorImpl implements LevelGenerator {
             });
         }
 
-        //entityList.stream().peek(e -> System.out.println(e.getCanonicalName() + " " + e.getEntityName() + " " + e.getComponentsSet().toString() + "\n"));
         /*if there is no player or at least one architecture entities throw exception*/
         if (this.entityList.stream()
                            .map(e -> e.getEntityName())
@@ -182,19 +185,31 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         }
     }
 
+    /**
+     * Given a initialized this.entityList, create and catalog the EntityBlocks fro grid placing. 
+     */
     private void initializeBlocksMap() {
         this.blockMap = new HashMap<>();
         final Map<EntityBlock, BallsUrn> architecture = new HashMap<>();
 
-        for (LevelGenerationEntity e : this.entityList) {
+        /*create blocks for all the entities, filtering the Architecture ones*/
+        for (final LevelGenerationEntity e : this.entityList) {
             if (e.getComponentsSet().contains("Architecture")) {
                 architecture.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             } else {
                 this.blockMap.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             }
         }
+        /*pass all the architecture blocks to the Architecture Builder*/
         this.archBuilder = new ArchitectureBuilderImpl(architecture, 
                                                        new Coordinate(LevelGeneratorImpl.GRID_RANK, LevelGeneratorImpl.GRID_RANK), 
                                                        LevelGeneratorImpl.JUMP_RANGE);
+
+        /*remove all the possible player blocks from the spawn table, keeping one for the player placing*/
+        final List<EntityBlock> players = this.blockMap.keySet().stream()
+                              .filter(b -> b.getEntity().getEntityName().equals("Player"))
+                              .collect(Collectors.toList());
+        players.stream().peek(p -> this.player = p).forEach(p -> this.blockMap.remove(p));
+
     }
 }

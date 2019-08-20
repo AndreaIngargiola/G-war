@@ -1,6 +1,5 @@
 package view;
 
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -92,11 +91,9 @@ public class GameOverController extends ViewControllerImpl {
 
     /**
      * Method to show the main menu.
-     * @throws IOException
-     *         the exception.
      */
     @FXML
-    public void showMainMenu() throws IOException {
+    protected void showMainMenu() {
         this.getView().setViewState(ViewState.MAIN_MENU, null);
     }
 
@@ -104,7 +101,7 @@ public class GameOverController extends ViewControllerImpl {
      * Method to exit from game.
      */
     @FXML
-    public void exitGO() {
+    protected void exitGO() {
         this.getController().closeApplication();
     }
 

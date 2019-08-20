@@ -1,7 +1,5 @@
 package view;
 
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -70,11 +68,9 @@ public class MainMenuGameController extends ViewControllerImpl {
 
     /**
      * Method for new game.
-     * @throws IOException
-     *         the exception.
      */
     @FXML
-    public void newGame() throws IOException {
+    protected void newGame() {
         this.getController().newGame();
     }
 
@@ -82,17 +78,15 @@ public class MainMenuGameController extends ViewControllerImpl {
      * Method to exit the game.
      */
     @FXML
-    public void exit() {
+    protected void exit() {
         this.getController().closeApplication();
     }
 
     /**
      * Method to show leaderboard.
-     * @throws IOException
-     *         the exception.
      */
     @FXML
-    public void leaderboard() throws IOException {
+    protected void leaderboard() {
         this.getView().setViewState(ViewState.LEADERBOARD, null);
     }
 }

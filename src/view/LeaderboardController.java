@@ -139,11 +139,9 @@ public class LeaderboardController extends ViewControllerImpl {
 
     /**
      * Method to show main menu.
-     * @throws IOException
-     *         the exception.
      */
     @FXML
-    public void showMainMenu() throws IOException {
+    protected void showMainMenu() {
         this.getView().setViewState(ViewState.MAIN_MENU, null);
     }
 
@@ -151,7 +149,7 @@ public class LeaderboardController extends ViewControllerImpl {
      * Method to exit from game.
      */
     @FXML
-    public void exitL() {
+    protected void exitL() {
         this.getController().closeApplication();
     }
 }

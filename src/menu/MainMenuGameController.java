@@ -1,4 +1,4 @@
-package view;
+package menu;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;

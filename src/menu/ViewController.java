@@ -1,4 +1,4 @@
-package view;
+package menu;
 
 /**
  * Interface for controller all views.

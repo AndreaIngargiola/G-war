@@ -1,4 +1,4 @@
-package view;
+package menu;
 
 import javafx.application.Platform;
 

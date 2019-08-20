@@ -19,7 +19,7 @@ public final class FloorView extends ImmortalEntityView {
      */
     public FloorView(final Group group) {
         super(group, new Dimension2D(WIDTH, HEIGHT));
-        getAnimations().put(EntityState.OFF, justAnImage(new Image("img/LAKE.jpg")));
+        getAnimations().put(EntityState.OFF, justAnImage(new Image("img/floor.png")));
         startAnimation(EntityState.OFF);
     }
 }

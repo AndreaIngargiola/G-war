@@ -18,12 +18,12 @@ import javafx.scene.layout.HBox;
  */
 public final class StatisticsViewImpl implements StatisticsView {
     private static final int PADDING = 20;
-    private static final Image IMG_HEART_FULL = new Image("img/heartFull.png");
-    private static final Image IMG_HEART_EMPTY = new Image("img/hud_heartEmpty.png");
+    private static final Image IMG_HEART_FULL = new Image("/img/heartFull.png");
+    private static final Image IMG_HEART_EMPTY = new Image("/img/hud_heartEmpty.png");
     private static final List<Image> IMG_POINTS;
     static {
         IMG_POINTS = IntStream.range(0, 10)
-                .mapToObj(n -> "img/hud_" + n + ".png")
+                .mapToObj(n -> "/img/hud_" + n + ".png")
                 .map(Image::new)
                 .collect(Collectors.toList());
     }
@@ -79,6 +79,5 @@ public final class StatisticsViewImpl implements StatisticsView {
             hearts.add(new ImageView(IMG_HEART_FULL));
         }
         hearts.forEach(view -> lifeBar.getChildren().add(view));
-        System.out.println("f");
     }
 }

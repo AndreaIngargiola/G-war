@@ -3,12 +3,14 @@ package view;
 import java.io.File;
 
 import enumerators.EntityState;
+import enumerators.HorizontalDirection;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Line;
 import javafx.scene.transform.Scale;
 
 /**
@@ -17,10 +19,13 @@ import javafx.scene.transform.Scale;
  */
 public final class PlayerView extends AbstractMortalEntityView {
 
-    private static final int PUNCH_WIDTH = 15;
+    private static final int ADDICTIONAL_PUNCH_1 = 5;
+    private static final int ADDICTIONAL_PUNCH_2 = 10;
+    private static final int ADDICTIONAL_PUNCH_3 = 15;
     private static final int WIDTH = 10, HEIGHT = 10;
     private final StatisticsView statistics;
-    private final Media jumpSound = new Media(new File(new File("src/music/highUp.wav").getAbsolutePath()).toURI().toString());
+    private final Media jumpSound = new Media(new File(new File("res/music/highUp.wav").getAbsolutePath()).toURI().toString());
+    private Line punch = new Line();
 
     /**
      * @param group
@@ -33,7 +38,6 @@ public final class PlayerView extends AbstractMortalEntityView {
         this.statistics = statistics;
         getAnimations().put(EntityState.WALKING, justAnImage(new Image("img/player.png")));
         getAnimations().put(EntityState.ANGRY, justAnImage(new Image("img/playerAngry.png")));
-        getAnimations().put(EntityState.PUNCH, justAnImage(new Image("img/punch.png")));
         startAnimation(EntityState.WALKING);
     }
 
@@ -47,20 +51,25 @@ public final class PlayerView extends AbstractMortalEntityView {
 
     @Override
     public void punch() {
-        this.changeState(EntityState.PUNCH);
-        this.setDimension(new Dimension2D(PUNCH_WIDTH, HEIGHT));
-    //this.setPosition(new Point2D(120.5, 40));
-    //this.getView().setLayoutX(1);
-     //getView().setTranslateX(500);
-
+        this.changeState(EntityState.ANGRY);
+        if (this.getDirection().equals(HorizontalDirection.RIGHT)) {
+            this.punch.setStartX(this.getPosition().getX() + ADDICTIONAL_PUNCH_2);
+            this.punch.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+            this.punch.setEndX(this.getPosition().getX() + ADDICTIONAL_PUNCH_3);
+            this.punch.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+        } else {
+            this.punch.setStartX(this.getPosition().getX());
+            this.punch.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+            this.punch.setEndX(this.getPosition().getX() - ADDICTIONAL_PUNCH_1);
+            this.punch.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+        }
+        this.getParentView().getChildren().add(punch);
     }
 
     @Override
     public void stopPunch() {
         this.changeState(EntityState.WALKING);
-        this.setDimension(new Dimension2D(WIDTH, HEIGHT));
-    //this.getView().setLayoutX(-1);
-    //this.setPosition(getPosition().add(new Point2D(-12.5, 0)));
+        this.getParentView().getChildren().remove(punch);
     }
 
     @Override

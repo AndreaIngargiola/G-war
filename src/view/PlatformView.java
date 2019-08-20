@@ -19,7 +19,7 @@ public class PlatformView extends ImmortalEntityView {
      */
     public PlatformView(final Group group) {
         super(group, new Dimension2D(WIDTH, HEIGHT));
-        getAnimations().put(EntityState.OFF, justAnImage(new Image("img/PLATFORM.jpg")));
+        getAnimations().put(EntityState.OFF, justAnImage(new Image("img/platform.jpg")));
         startAnimation(EntityState.OFF);
     }
 }

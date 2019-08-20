@@ -4,7 +4,6 @@ import org.jbox2d.common.Vec2;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import model.entities.Coward;
 import model.entities.Entity;
 import model.entities.Floor;
@@ -14,9 +13,9 @@ import model.entities.Player;
 import model.physics.BodyBuilderImpl;
 import view.PlayerKeyboardInput;
 import view.PlayerView;
-import view.StatisticsView;
 import view.CowardView;
 import view.FloorView;
+import view.GameViewImpl;
 import view.GrillView;
 import view.ImmortalEntityView;
 import view.MortalEntityView;
@@ -28,33 +27,21 @@ import view.PlatformView;
  */
 public class EntityFactoryImpl implements EntityFactory {
 
-    private final Group root;
-    private final Vec2 position;
+    private final Group root = GameViewImpl.getRoot();
 
-    /**
-     * 
-     * @param root
-     *            the root
-     * @param position
-     *            the position of the entity 
-     */
-    public EntityFactoryImpl(final Group root, final Vec2 position) {
-        this.root = root;
-        this.position = position;
-    }
 
     @Override
-    public final EntityController createPlayer(final Scene scene, final StatisticsView statistics) {
+    public final EntityController createPlayer(final Vec2 position) {
         Entity playerModel = new Player(new BodyBuilderImpl(), position);
-        PlayerView playerView = new PlayerView(root, statistics);
+        PlayerView playerView = new PlayerView(root, GameViewImpl.getStatistics());
         PlayerController playerController = new PlayerController(playerModel, playerView);
-        PlayerKeyboardInput keyboard = new PlayerKeyboardInput(scene);
+        PlayerKeyboardInput keyboard = new PlayerKeyboardInput(GameViewImpl.getScene());
         keyboard.setListener(playerController);
         return playerController;
     }
 
     @Override
-    public final EntityController createCoward() {
+    public final EntityController createCoward(final Vec2 position) {
         Entity cowardModel = new Coward(new BodyBuilderImpl(), position);
         MortalEntityView cowardView = new CowardView(root);
         MortalEntityController cowardController = new MortalEntityController(cowardModel, cowardView);
@@ -62,7 +49,7 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public final EntityController createPlatform() {
+    public final EntityController createPlatform(final Vec2 position) {
         Entity platformModel = new Platform(new BodyBuilderImpl(), position);
         ImmortalEntityView platformView = new PlatformView(root);
         platformView.setPosition(new Point2D(position.x, position.y));
@@ -71,7 +58,7 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public final EntityController createGrill() {
+    public final EntityController createGrill(final Vec2 position) {
         Entity grillModel = new Grill(new BodyBuilderImpl(), position);
         GrillView grillView = new GrillView(root);
         grillView.setPosition(new Point2D(position.x, position.y));
@@ -80,7 +67,7 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public final EntityController createFloor() {
+    public final EntityController createFloor(final Vec2 position) {
         Entity floorModel = new Floor(new BodyBuilderImpl(), position);
         ImmortalEntityView floorView = new FloorView(root);
         floorView.setPosition(new Point2D(position.x, position.y));

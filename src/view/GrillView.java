@@ -19,8 +19,8 @@ public class GrillView extends ImmortalEntityView {
      */
     public GrillView(final Group group) {
         super(group, new Dimension2D(WIDTH, HEIGHT));
-        getAnimations().put(EntityState.OFF, justAnImage(new Image("img/PLATFORM.jpg")));
-        getAnimations().put(EntityState.ON, justAnImage(new Image("img/GRILL.png")));
+        getAnimations().put(EntityState.OFF, justAnImage(new Image("img/platform.jpg")));
+        getAnimations().put(EntityState.ON, justAnImage(new Image("img/grill.png")));
         startAnimation(EntityState.OFF);
     }
 }

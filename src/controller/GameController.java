@@ -1,6 +1,8 @@
 package controller;
 
+/**
+ *Models the game controller.
+ */
 public interface GameController {
 
-	 //void stop();
 }

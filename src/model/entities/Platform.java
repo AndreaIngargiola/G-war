@@ -12,7 +12,7 @@ import model.physics.BodyBuilder;
 public final class Platform extends AbstractEntity {
 
     private static final Faction TYPE = Faction.NEUTRAL_IMMORTAL;
-    private static final Vec2 SIZE = new Vec2(10, 10);
+    private static final Vec2 SIZE = new Vec2(10.5f, 10.5f);
     /**
      * Used for the importation of the entity by reflection.
      */

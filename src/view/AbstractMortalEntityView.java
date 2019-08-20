@@ -13,9 +13,9 @@ import javafx.scene.media.MediaPlayer;
  */
 public abstract class AbstractMortalEntityView extends AbstractEntityView implements MortalEntityView {
 
-    private final Media collisionSound = new Media(new File(new File("src/music/collision.wav").getAbsolutePath()).toURI().toString());
+    private final Media collisionSound = new Media(new File(new File("res/music/collision.wav").getAbsolutePath()).toURI().toString());
     private MediaPlayer mediaPlayer;
-
+    private HorizontalDirection direction;
     /**
      * 
      * @param group
@@ -29,6 +29,7 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
 
     @Override
     public final void changeDirection(final HorizontalDirection direction) {
+        this.direction = direction;
         if (direction.equals(HorizontalDirection.LEFT)) {
             getView().setScaleX(-1);
         } else {
@@ -68,6 +69,14 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
 
     @Override
     public void jumpSound()  {
+    }
+
+    /**
+     * 
+     * @return the face direction
+     */
+    protected final HorizontalDirection getDirection() {
+    	return this.direction;
     }
 
     /**

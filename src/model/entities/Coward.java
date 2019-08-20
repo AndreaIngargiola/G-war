@@ -19,7 +19,7 @@ public final class Coward extends Enemy {
     private static final int DEFAULT_HEALTH = 1;
     private static final int DEFAULT_ATTACK = 1;
     private static final Vec2 SIZE = new Vec2(10, 10);
-    private static final float DEFAULT_WALK_SPEED = 0.2f;
+    private static final float DEFAULT_WALK_SPEED = 20;
     /**
      * Used for the importation of the entity by reflection.
      */

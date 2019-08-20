@@ -16,11 +16,6 @@ public enum EntityState {
     ANGRY,
 
     /**
-     * When the entity is punching.
-     */
-    PUNCH,
-
-    /**
      * When a determinate component of the entity is not active.
      */
     OFF,

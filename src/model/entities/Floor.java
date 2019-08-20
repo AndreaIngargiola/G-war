@@ -13,7 +13,7 @@ import model.physics.BodyBuilder;
 public final class Floor extends AbstractEntity {
 
     private static final Faction TYPE = Faction.PSYCO_IMMORTAL;
-    private static final Vec2 SIZE = new Vec2(80, 10);
+    private static final Vec2 SIZE = new Vec2(10, 10);
     /**
      * Used for the importation of the entity by reflection.
      */

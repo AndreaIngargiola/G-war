@@ -51,7 +51,7 @@ public abstract class AbstractEntityView implements EntityView {
      * {@inheritDoc}.
      */
     @Override
-    public void setDimension(final Dimension2D dimension) {
+    public final void setDimension(final Dimension2D dimension) {
         view.setFitWidth(dimension.getWidth());
         view.setFitHeight(dimension.getHeight());
     }

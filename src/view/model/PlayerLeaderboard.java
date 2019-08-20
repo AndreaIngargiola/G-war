@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
  * Model class for a player in loaderboard.
  */
 public class PlayerLeaderboard {
+
     private final StringProperty playerName;
     private final IntegerProperty playerScore;
 
@@ -15,6 +16,7 @@ public class PlayerLeaderboard {
      * Default constructor.
      */
     public PlayerLeaderboard() {
+
         this(null, null);
     }
 
@@ -27,6 +29,7 @@ public class PlayerLeaderboard {
      *         the score of player.
      */
     public PlayerLeaderboard(final String playerName, final Integer playerScore) {
+
         this.playerName = new SimpleStringProperty(playerName);
         this.playerScore = new SimpleIntegerProperty(playerScore);
     }
@@ -37,6 +40,7 @@ public class PlayerLeaderboard {
      *         the name of score.
      */
     public StringProperty playerNameProperty() {
+
         return playerName;
     }
 
@@ -46,6 +50,7 @@ public class PlayerLeaderboard {
      *         the name of score.
      */
     public IntegerProperty playerScoreProperty() {
+
         return playerScore;
     }
 

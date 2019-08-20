@@ -2,10 +2,11 @@ package model.entities;
 
 import org.jbox2d.common.Vec2;
 
-import Test.Main;
+//import test.Main;
 import enumerators.Faction;
 import model.components.ArchitectureImpl;
 import model.components.TimerGrillImpl;
+import model.engine.GameModelImpl;
 import model.physics.BodyBuilder;
 
 
@@ -37,8 +38,8 @@ public final class Grill extends AbstractEntity {
                 .setIsMoveable(false)
                 .setSubjectToForces(false)
                 .build());
-        Main.getTimer().add(this);
-        register(Main.getTimer());
+        GameModelImpl.getTimer().add(this);
+        register(GameModelImpl.getTimer());
         add(new TimerGrillImpl());
         add(new ArchitectureImpl());
     }

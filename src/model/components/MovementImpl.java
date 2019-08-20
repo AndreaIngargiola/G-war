@@ -2,8 +2,9 @@ package model.components;
 
 import org.jbox2d.common.Vec2;
 
-import Test.Main;
+//import test.Main;
 import enumerators.HorizontalDirection;
+import model.engine.GameModelImpl;
 import model.events.ChangeDirectionEvent;
 import model.events.JumpEvent;
 
@@ -32,7 +33,7 @@ public class MovementImpl extends AbstractMovement {
     public final void move(final Vec2 movement) {
         final Vec2 vel = this.getEntity().getBody().getLinearVelocity();
 
-        Main.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
+        GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
                 new Vec2(this.getEntity().getCenter().x, this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
 
         isOnGround = this.getRayCast().getHit();

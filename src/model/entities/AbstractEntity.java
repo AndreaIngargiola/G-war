@@ -4,10 +4,11 @@ import org.jbox2d.common.Vec2;
 
 import com.google.common.eventbus.EventBus;
 
-import Test.Main;
+//import test.Main;
 import model.components.EntityBody;
 import enumerators.Faction;
 import model.components.EntityComponent;
+import model.engine.GameModelImpl;
 import model.events.Death;
 import model.events.EntityEvent;
 import model.events.EntityEventSubscriber;
@@ -69,7 +70,7 @@ public abstract class AbstractEntity implements Entity {
         post(new Death(this));
         components.clear();
         remove(body);
-        Main.getWorld().destroyBody(body.getBody());
+        GameModelImpl.getWorld().destroyBody(body.getBody());
     }
 
     /**

@@ -11,7 +11,7 @@ import javafx.scene.media.MediaPlayer;
 /**
  * Implementation of {@link MortalEntityView}.
  */
-public abstract class AbstractMortalEntityView extends ImmortalEntityView implements MortalEntityView {
+public abstract class AbstractMortalEntityView extends AbstractEntityView implements MortalEntityView {
 
     private final Media collisionSound = new Media(new File(new File("src/music/collision.wav").getAbsolutePath()).toURI().toString());
     private MediaPlayer mediaPlayer;

@@ -1,6 +1,6 @@
 package model.physics;
 
-import Test.Main;
+//import test.Main;
 import java.util.Optional;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.FixtureDef;
 
 import model.components.EntityBody;
 import model.components.EntityBodyImpl;
+import model.engine.GameModelImpl;
 
 /**
  * Implementation of {@link BodyBuilder}.
@@ -63,7 +64,7 @@ public final class BodyBuilderImpl implements BodyBuilder {
         shape.setAsBox(dimension.get().x / 2,  dimension.get().y / 2);
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
-        final Body body = Main.getWorld().createBody(bodyDef);
+        final Body body = GameModelImpl.getWorld().createBody(bodyDef);
         body.createFixture(fixtureDef);
         body.resetMassData();
         return new EntityBodyImpl(body, dimension.get());

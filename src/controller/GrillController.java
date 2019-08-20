@@ -2,7 +2,8 @@ package controller;
 
 import com.google.common.eventbus.Subscribe;
 
-import Test.Main;
+import model.engine.GameModelImpl;
+//import test.Main;
 import model.entities.Entity;
 import model.events.ChangeStateEvent;
 import model.events.Death;
@@ -26,7 +27,7 @@ public final  class GrillController extends ImmortalEntityController {
 
     @Override
     public void deathListener(final Death event) {
-        Main.getTimer().remove(this.getEntityModel());
+        GameModelImpl.getTimer().remove(this.getEntityModel());
         super.deathListener(event);
     }
 

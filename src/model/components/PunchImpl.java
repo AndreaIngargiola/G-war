@@ -2,8 +2,9 @@ package model.components;
 
 import org.jbox2d.common.Vec2;
 
-import Test.Main;
+//import test.Main;
 import enumerators.HorizontalDirection;
+import model.engine.GameModelImpl;
 import model.events.PunchEvent;
 
 /**
@@ -19,10 +20,10 @@ public class PunchImpl extends AbstractEntityComponent implements Punch {
     @Override
     public final void punch() {
         if (this.getEntity().get(Movement.class).getFaceDirection().equals(HorizontalDirection.RIGHT)) {
-            Main.getWorld().raycast(eyes, this.getEntity().getCenter(), 
+        	GameModelImpl.getWorld().raycast(eyes, this.getEntity().getCenter(), 
                                     this.getEntity().getCenter().add(new Vec2(RANGE, 0)));
         } else {
-            Main.getWorld().raycast(eyes, this.getEntity().getCenter(), 
+        	GameModelImpl.getWorld().raycast(eyes, this.getEntity().getCenter(), 
                                      this.getEntity().getCenter().add(new Vec2(-RANGE, 0)));
         }
         if (eyes.getHit()) {

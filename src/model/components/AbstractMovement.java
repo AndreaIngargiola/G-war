@@ -50,6 +50,15 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
         setLinearVelocity(0f, getLinearVelocity().y);
     }
 
+    /**
+     * @return The direction
+     *                (RIGHT or LEFT)
+     */
+    @Override
+    public final HorizontalDirection getFaceDirection() {
+        return faceDirection;
+    }
+
     @Override
     public void move() {
     }
@@ -71,14 +80,6 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
         this.faceDirection = direction;
     }
 
-    /**
-     * @return The direction
-     *                (RIGHT or LEFT)
-     */
-    @Override
-    public final HorizontalDirection getFaceDirection() {
-        return faceDirection;
-    }
 
     /**
      * 

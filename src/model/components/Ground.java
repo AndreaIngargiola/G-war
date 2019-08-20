@@ -6,7 +6,8 @@ import org.jbox2d.dynamics.Fixture;
 
 /**
  * An implementation of the interface {@link RayCastCallback}.
- * It is used to see if an enemy is on the edge of a platform or not.
+ * It is used by the coward to see if he is on the edge of a platform or not
+ * and by the player to see if he is on the ground when he has to jump.
  */
 public class Ground implements RayCastCallback {
 

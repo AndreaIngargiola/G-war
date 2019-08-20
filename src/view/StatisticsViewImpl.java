@@ -79,6 +79,6 @@ public final class StatisticsViewImpl implements StatisticsView {
             hearts.add(new ImageView(IMG_HEART_FULL));
         }
         hearts.forEach(view -> lifeBar.getChildren().add(view));
-
+        System.out.println("f");
     }
 }

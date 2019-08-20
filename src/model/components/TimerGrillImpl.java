@@ -2,8 +2,9 @@ package model.components;
 
 import org.jbox2d.common.Vec2;
 
-import Test.Main;
+//import test.Main;
 import enumerators.EntityState;
+import model.engine.GameModelImpl;
 import model.events.ChangeStateEvent;
 
 /**
@@ -30,9 +31,9 @@ public class TimerGrillImpl extends AbstractEntityComponent implements TimerGril
         } else {
             this.isDangerous = true;
             this.post(new ChangeStateEvent(this.getEntity(), EntityState.ON));
-            Main.getWorld().raycast(this.eyes, new Vec2(this.getEntity().getRightSide(), this.getEntity().getTopSide() -  ADDICTIONAL_LENGTH), 
+            GameModelImpl.getWorld().raycast(this.eyes, new Vec2(this.getEntity().getRightSide(), this.getEntity().getTopSide() -  ADDICTIONAL_LENGTH), 
                     new Vec2(this.getEntity().getLeftSide(), this.getEntity().getTopSide() -  ADDICTIONAL_LENGTH));
-            Main.getWorld().raycast(this.eyes, new Vec2(this.getEntity().getLeftSide(), this.getEntity().getTopSide() -  ADDICTIONAL_LENGTH), 
+            GameModelImpl.getWorld().raycast(this.eyes, new Vec2(this.getEntity().getLeftSide(), this.getEntity().getTopSide() -  ADDICTIONAL_LENGTH), 
                     new Vec2(this.getEntity().getRightSide(), this.getEntity().getTopSide() -  ADDICTIONAL_LENGTH));
         }
     }

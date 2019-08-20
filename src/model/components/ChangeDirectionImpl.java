@@ -2,8 +2,9 @@ package model.components;
 
 import org.jbox2d.common.Vec2;
 
-import Test.Main;
+//import test.Main;
 import enumerators.HorizontalDirection;
+import model.engine.GameModelImpl;
 import model.events.ChangeDirectionEvent;
 
 /**
@@ -30,13 +31,13 @@ public class ChangeDirectionImpl extends AbstractMovement {
         if (this.getFaceDirection().equals(HorizontalDirection.RIGHT)) {
             this.setLinearVelocity(vel.x + this.getWalkSpeed(), vel.y);
 
-            Main.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
+            GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
                      new Vec2(this.getEntity().getRightSide(), this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
         } else {
             this.setLinearVelocity(vel.x - this.getWalkSpeed(), vel.y);
             this.getEntity().getBody().getBody().setTransform(this.getEntity().getBody().getPosition().add(new Vec2((float) -0.5, 0)), 0);
 
-            Main.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
+            GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
                     new Vec2(this.getEntity().getLeftSide(), this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
         }
 

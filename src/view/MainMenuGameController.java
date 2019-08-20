@@ -56,16 +56,16 @@ public class MainMenuGameController extends ViewControllerImpl {
         this.secondPane.setMinSize(TITLE_WIDTH, TITLE_HEIGHT);
         this.secondPane.setMaxSize(TITLE_WIDTH, TITLE_HEIGHT);
         this.secondPane.setPadding(new Insets(TOP_SECOND_PANE, 0, 0, BOTTOM_SECOND_PANE));
-        this.titleMainMenu.setGraphic(new ImageView(new Image("view/title.png", TITLE_WIDTH, TITLE_HEIGHT, false, false)));
+        this.titleMainMenu.setGraphic(new ImageView(new Image("/title.png", TITLE_WIDTH, TITLE_HEIGHT, false, false)));
         this.titleMainMenu.setPadding(new Insets(TOP_PANE, 0, 0, 0));
         this.titleMainMenu.setMinSize(TITLE_WIDTH, TITLE_HEIGHT);
         this.titleMainMenu.setMaxSize(TITLE_WIDTH, TITLE_HEIGHT);
         this.newGameButton.setBackground(myBg);
-        this.newGameButton.setGraphic(new ImageView(new Image("view/newgameButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.newGameButton.setGraphic(new ImageView(new Image("/newgameButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
         this.leaderboardButton.setBackground(myBg);
-        this.leaderboardButton.setGraphic(new ImageView(new Image("view/leaderboardButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.leaderboardButton.setGraphic(new ImageView(new Image("/leaderboardButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
         this.quitButton.setBackground(myBg);
-        this.quitButton.setGraphic(new ImageView(new Image("view/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.quitButton.setGraphic(new ImageView(new Image("/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
     }
 
     /**

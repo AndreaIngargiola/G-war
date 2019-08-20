@@ -15,4 +15,18 @@ public interface ViewController {
      */
     void initializeViewController(MainView view, Controller controller);
 
+    /**
+     * Method to get the controller.
+     * @return
+     *         the controller.
+     */
+    Controller getController();
+
+    /**
+     * Method to get the view.
+     * @return
+     *         the view.
+     */
+    MainView getView();
+
 }

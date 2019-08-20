@@ -3,7 +3,7 @@ package view;
 /**
  * The general controller of view.
  */
-public abstract class ViewControllerImpl implements ViewController  {
+public class ViewControllerImpl implements ViewController  {
 
     private MainView view;
     private Controller controller;
@@ -19,7 +19,8 @@ public abstract class ViewControllerImpl implements ViewController  {
      * @return
      *         the controller.
      */
-    protected Controller getController() {
+    @Override
+    public Controller getController() {
 
         return this.controller;
     }
@@ -29,7 +30,8 @@ public abstract class ViewControllerImpl implements ViewController  {
      * @return
      *          the view.
      */
-    protected MainView getView() {
+    @Override
+    public MainView getView() {
 
         return this.view;
     }

@@ -74,7 +74,7 @@ public class MainMenuGameController extends ViewControllerImpl {
      *         the exception.
      */
     @FXML
-    protected void newGame() throws IOException {
+    public void newGame() throws IOException {
         this.getController().newGame();
     }
 
@@ -82,7 +82,7 @@ public class MainMenuGameController extends ViewControllerImpl {
      * Method to exit the game.
      */
     @FXML
-    protected void exit() {
+    public void exit() {
         this.getController().closeApplication();
     }
 
@@ -92,7 +92,7 @@ public class MainMenuGameController extends ViewControllerImpl {
      *         the exception.
      */
     @FXML
-    protected void leaderboard() throws IOException {
+    public void leaderboard() throws IOException {
         this.getView().setViewState(ViewState.LEADERBOARD, null);
     }
 }

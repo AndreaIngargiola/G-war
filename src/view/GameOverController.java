@@ -108,7 +108,12 @@ public class GameOverController extends ViewControllerImpl {
         this.getController().closeApplication();
     }
 
-    private String getPlayerName() {
+    /**
+     * Method to get the name of the player.
+     * @return
+     *         the name of the player.
+     */
+    public final String getPlayerName() {
         return this.playerName;
     }
 

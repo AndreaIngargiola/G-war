@@ -36,7 +36,7 @@ public class GameViewImpl implements GameView {
 
         HEAD.getChildren().add(canvas);
         HEAD.getChildren().add(background);
-        HEAD.getChildren().add(STATISTICS.getRoot());
+      //  HEAD.getChildren().add(STATISTICS.getRoot());
         HEAD.getChildren().add(ROOT);
 
         stage.show();

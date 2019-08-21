@@ -23,6 +23,7 @@ public class GrillEyes implements RayCastCallback {
         if (entity.getType().equals(Faction.NEUTRAL_MORTAL)) {
             entity.post(new CollisionEvent(entity));
             entity.get(Life.class).demage(10);
+            this.hit = true;
         }
         return 0;
     }

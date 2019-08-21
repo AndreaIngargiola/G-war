@@ -20,7 +20,7 @@ public final class Player extends AbstractEntity {
     private static final Faction TYPE = Faction.NEUTRAL_MORTAL;
     private static final int DEFAULT_HEALTH = 10;
     private static final int DEFAULT_ATTACK = 1;
-    private static final Vec2 SIZE = new Vec2(10, 10);
+    private static final Vec2 SIZE = new Vec2(9, 9);
     private static final float DEFAULT_WALK_SPEED = 5;
     private static final float DEFAULT_JUMP_SPEED = 55f;
     /**

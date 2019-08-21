@@ -47,31 +47,7 @@ public abstract class AbstractEntityComponent implements EntityComponent, Entity
 
     @Override
     public void update(final double dt) {
-        //
     }
-
-//    /**
-//     * Should the component detach on death?
-//     * Defaults to true.
-//     * 
-//     * @return true if the component should detach on death.
-//     */
-//    protected boolean detachesOnDeath() {
-//        return true;
-//    }
-
-    /**
-     * Called on life changes (if the owner has a {@link Life} component).
-     * 
-     * @param event
-     *            The related {@link LifeEvent} instance
-     */
-    //@Subscribe
-    //protected void onLifeChange(final LifeEvent event) {
-     //   if (detachesOnDeath() && event.isDead()) {
-      //      detach();
-    //    }
-   // }
 
     /**
      * Convenience method to avoid the optional.

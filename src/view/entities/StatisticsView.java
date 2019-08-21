@@ -1,4 +1,4 @@
-package viewGame;
+package view.entities;
 
 import javafx.scene.Node;
 
@@ -35,5 +35,8 @@ public interface StatisticsView {
      */
     int getCurrentPoint();
     
+    /**
+     * Set the maximum number of health points.
+     */
     void setMaxHealth();
 }

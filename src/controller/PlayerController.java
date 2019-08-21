@@ -14,10 +14,8 @@ import model.events.EndCollision;
 import model.events.JumpEvent;
 import model.events.LifeChange;
 import model.events.PointsChangeEvent;
-import view.MainView;
-import view.MainViewImpl;
-import viewGame.PlayerKeyboardInput;
-import viewGame.PlayerView;
+import view.entities.PlayerKeyboardInput;
+import view.entities.PlayerView;
 
 /**
  * A controller for the player entity.
@@ -25,7 +23,6 @@ import viewGame.PlayerView;
  */
 public final class PlayerController extends MortalEntityController implements PlayerInputListener {
 
-    private Vec2 movement;
     private final  PlayerKeyboardInput keyboard;
 
     /**
@@ -51,8 +48,8 @@ public final class PlayerController extends MortalEntityController implements Pl
 
     @Override
     public void move(final Point2D movement) {
-        this.movement = new Vec2((float) movement.getX(), (float) movement.getY());
-        this.getEntityModel().get(Movement.class).move(this.movement);
+    	final Vec2 mov = new Vec2((float) movement.getX(), (float) movement.getY());
+        this.getEntityModel().get(Movement.class).move(mov);
     }
 
     @Override
@@ -116,7 +113,7 @@ public final class PlayerController extends MortalEntityController implements Pl
      */
     @Subscribe
     public void jumpListener(final JumpEvent event) {
-        this.getEntityView().jumpSound();
+        this.getEntityView().makeJumpSound();
     }
 
 }

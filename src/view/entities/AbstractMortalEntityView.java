@@ -1,4 +1,4 @@
-package viewGame;
+package view.entities;
 
 import java.io.File;
 
@@ -38,7 +38,7 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
     }
 
     @Override
-    public final void collisionSound() {
+    public final void makeCollisionSound() {
         this.setMediaPlayer(new MediaPlayer(this.collisionSound));
         this.getMediaPlayer().play();
     }
@@ -68,7 +68,7 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
     }
 
     @Override
-    public void jumpSound()  {
+    public void makeJumpSound()  {
     }
 
     /**

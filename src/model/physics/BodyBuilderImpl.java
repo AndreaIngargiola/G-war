@@ -64,6 +64,7 @@ public final class BodyBuilderImpl implements BodyBuilder {
         shape.setAsBox(dimension.get().x / 2,  dimension.get().y / 2);
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
+        fixtureDef.friction = 0;
         final Body body = GameModelImpl.getWorld().createBody(bodyDef);
         body.createFixture(fixtureDef);
         body.resetMassData();

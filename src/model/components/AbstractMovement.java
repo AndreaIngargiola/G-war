@@ -20,6 +20,7 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
      *                the walking speed 
      */
     public AbstractMovement(final float walkSpeed) {
+    	super();
         this.walkSpeed = walkSpeed;
         this.jumpSpeed = 0f;
     }
@@ -31,6 +32,7 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
      *                the jumping speed
      */
     public AbstractMovement(final float walkSpeed, final float jumpSpeed) {
+    	super();
         this.walkSpeed = walkSpeed;
         this.jumpSpeed = jumpSpeed;
     }

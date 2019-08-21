@@ -11,15 +11,15 @@ import model.entities.Grill;
 import model.entities.Platform;
 import model.entities.Player;
 import model.physics.BodyBuilderImpl;
-import viewGame.CowardView;
-import viewGame.FloorView;
-import viewGame.GameViewImpl;
-import viewGame.GrillView;
-import viewGame.ImmortalEntityView;
-import viewGame.MortalEntityView;
-import viewGame.PlatformView;
-import viewGame.PlayerKeyboardInput;
-import viewGame.PlayerView;
+import view.entities.CowardView;
+import view.entities.FloorView;
+import view.world.GameViewImpl;
+import view.entities.GrillView;
+import view.entities.ImmortalEntityView;
+import view.entities.MortalEntityView;
+import view.entities.PlatformView;
+import view.entities.PlayerKeyboardInput;
+import view.entities.PlayerView;
 
 /**
  * Implementation of {@link EntityFactory}.
@@ -32,47 +32,40 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final EntityController createPlayer(final Vec2 position) {
-        Entity playerModel = new Player(new BodyBuilderImpl(), position);
-        PlayerView playerView = new PlayerView(root, GameViewImpl.getStatistics());
-        PlayerController playerController = new PlayerController(playerModel, playerView, new PlayerKeyboardInput(GameViewImpl.getScene()));
-       // PlayerKeyboardInput keyboard = new PlayerKeyboardInput(GameViewImpl.getScene());
-       // keyboard.setListener(playerController);
-        return playerController;
+        final Entity playerModel = new Player(new BodyBuilderImpl(), position);
+        final PlayerView playerView = new PlayerView(root, GameViewImpl.getStatistics());
+        return new PlayerController(playerModel, playerView, new PlayerKeyboardInput(GameViewImpl.getScene()));
     }
 
     @Override
     public final EntityController createCoward(final Vec2 position) {
-        Entity cowardModel = new Coward(new BodyBuilderImpl(), position);
-        MortalEntityView cowardView = new CowardView(root);
-        MortalEntityController cowardController = new MortalEntityController(cowardModel, cowardView);
-        return cowardController;
+    	final Entity cowardModel = new Coward(new BodyBuilderImpl(), position);
+    	final MortalEntityView cowardView = new CowardView(root);
+    	return new MortalEntityController(cowardModel, cowardView);
     }
 
     @Override
     public final EntityController createPlatform(final Vec2 position) {
-        Entity platformModel = new Platform(new BodyBuilderImpl(), position);
-        ImmortalEntityView platformView = new PlatformView(root);
-        platformView.setPosition(new Point2D(position.x, position.y));
-        ImmortalEntityController platformController = new ImmortalEntityController(platformModel, platformView);
-        return platformController;
+    	final Entity platformModel = new Platform(new BodyBuilderImpl(), position);
+    	final ImmortalEntityView platformView = new PlatformView(root);
+    	platformView.setPosition(new Point2D(position.x, position.y));
+        return new ImmortalEntityController(platformModel, platformView);
     }
 
     @Override
     public final EntityController createGrill(final Vec2 position) {
-        Entity grillModel = new Grill(new BodyBuilderImpl(), position);
-        GrillView grillView = new GrillView(root);
+    	final Entity grillModel = new Grill(new BodyBuilderImpl(), position);
+    	final GrillView grillView = new GrillView(root);
         grillView.setPosition(new Point2D(position.x, position.y));
-        GrillController grillController = new GrillController(grillModel, grillView);
-        return grillController;
+        return new GrillController(grillModel, grillView);
     }
 
     @Override
     public final EntityController createFloor(final Vec2 position) {
-        Entity floorModel = new Floor(new BodyBuilderImpl(), position);
-        ImmortalEntityView floorView = new FloorView(root);
+    	final Entity floorModel = new Floor(new BodyBuilderImpl(), position);
+    	final ImmortalEntityView floorView = new FloorView(root);
         floorView.setPosition(new Point2D(position.x, position.y));
-        ImmortalEntityController floorController = new ImmortalEntityController(floorModel, floorView);
-        return floorController;
+        return new ImmortalEntityController(floorModel, floorView);
     }
 
 }

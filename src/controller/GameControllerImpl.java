@@ -6,8 +6,8 @@ import model.engine.GameModel;
 import model.engine.GameModelImpl;
 import view.MainView;
 import view.ViewState;
-import viewGame.GameView;
-import viewGame.GameViewImpl;
+import view.world.GameView;
+import view.world.GameViewImpl;
 
 /**
  * Implementation of {@link GameController}.
@@ -18,7 +18,6 @@ public class GameControllerImpl implements GameController {
     private final  GameModel model;
     private final GameView view;
     private final MainView mainView;
-
     private final AnimationTimer animationTimer = new AnimationTimer() {
         @Override
         public void handle(final long now) {

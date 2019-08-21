@@ -4,7 +4,7 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import model.entities.Entity;
 import model.events.Death;
-import viewGame.EntityView;
+import view.entities.EntityView;
 
 /**
  * Base implementation of {@link EntityController}.
@@ -36,7 +36,7 @@ public abstract class AbstractEntityController<V extends EntityView> implements 
      */
     @Override
     public void update(final double dt) {
-        if (!getEntityModel().getIsAlive()) {
+        if (!getEntityModel().isAlive()) {
             this.getEntityModel().destroy();
         } else {
             getEntityModel().getComponents().stream().forEach(e -> e.update(dt));

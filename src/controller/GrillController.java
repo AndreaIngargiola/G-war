@@ -7,7 +7,7 @@ import model.engine.GameModelImpl;
 import model.entities.Entity;
 import model.events.ChangeStateEvent;
 import model.events.Death;
-import viewGame.GrillView;
+import view.entities.GrillView;
 /**
  * A controller for the grill entity.
  *

@@ -1,4 +1,4 @@
-package viewGame;
+package view.entities;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +33,7 @@ public final class StatisticsViewImpl implements StatisticsView {
     private final HBox pointsBar = new HBox();
     private final HBox root = new HBox(PADDING, lifeBar, pointsBar);
     private final List<ImageView> pointsDigit = new LinkedList<>();
-    private int currentPoint = 0;
+    private int currentPoint;
 
     /**
      * Initializes HUD images.
@@ -78,6 +78,7 @@ public final class StatisticsViewImpl implements StatisticsView {
     	return this.currentPoint;
     }
 
+    @Override
     public void setMaxHealth() {
         hearts.forEach(view -> lifeBar.getChildren().remove(view));
         hearts.clear();

@@ -19,6 +19,7 @@ public class PunchImpl extends AbstractEntityComponent implements Punch {
 
     @Override
     public final void punch() {
+    	eyes.setHit(false);
         if (this.getEntity().get(Movement.class).getFaceDirection().equals(HorizontalDirection.RIGHT)) {
         	GameModelImpl.getWorld().raycast(eyes, this.getEntity().getCenter(), 
                                     this.getEntity().getCenter().add(new Vec2(RANGE, 0)));
@@ -26,10 +27,9 @@ public class PunchImpl extends AbstractEntityComponent implements Punch {
         	GameModelImpl.getWorld().raycast(eyes, this.getEntity().getCenter(), 
                                      this.getEntity().getCenter().add(new Vec2(-RANGE, 0)));
         }
-        if (eyes.getHit()) {
+        if (eyes.isHit()) {
             this.getEntity().get(Points.class).addPoints(POINTS);
         }
         this.getEntity().post(new PunchEvent(this.getEntity()));
-        eyes.setHit(false);
     }
 }

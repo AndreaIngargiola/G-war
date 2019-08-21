@@ -6,7 +6,7 @@ import com.google.common.eventbus.Subscribe;
 import model.entities.Entity;
 import model.events.ChangeDirectionEvent;
 import model.events.CollisionEvent;
-import viewGame.MortalEntityView;
+import view.entities.MortalEntityView;
 
 /**
  * An extension of {@link AbstractEntityController} for mortal entity.
@@ -40,7 +40,7 @@ public class MortalEntityController extends AbstractEntityController<MortalEntit
      */
     @Subscribe
     public void collisionListener(final CollisionEvent event) {
-        getEntityView().collisionSound();
+        getEntityView().makeCollisionSound();
     }
 
 }

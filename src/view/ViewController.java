@@ -9,7 +9,7 @@ public interface ViewController {
      * Initialize the view controller.
      * 
      * @param view
-     *          the view
+     *          the view.
      */
     void initializeViewController(MainView view);
 

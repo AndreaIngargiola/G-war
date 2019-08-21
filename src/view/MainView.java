@@ -31,7 +31,7 @@ public interface MainView {
      * @return ViewController
      *         the viewController of node.
      */
-    ViewController getController();
+    ViewController getViewController();
 
     /**
      * Method to get the Node.

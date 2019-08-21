@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  */
 public class MainViewImpl implements MainView {
 
-    private Stage stage;
+    private final Stage stage;
     private ViewState currentState;
     private ViewController viewController;
     private Node node;
@@ -48,8 +48,8 @@ public class MainViewImpl implements MainView {
         if (this.currentState.equals(ViewState.GAME_OVER)) {
             GameOverController.setScore(score);
         }
-        this.uploadFxmlFile(state.getSceneNode(), this);
-        this.getController().initializeViewController(this);
+        this.uploadFxmlFile(state.getSceneNode());
+        this.getViewController().initializeViewController(this);
         final Parent parent = (Parent) this.getNode();
         final Scene newScene = new Scene(parent);
         final Stage stage = this.stage;
@@ -58,19 +58,15 @@ public class MainViewImpl implements MainView {
         stage.setResizable(false);
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
-
         stage.show();
-
     }
 
     /**
      * Method to upload the FXML file.
      * @param sceneNode
-     *         the scene to upload
-     * @param view
-     *         the view.
+     *         the scene to upload.
      */
-    public void uploadFxmlFile(final SceneNode sceneNode, final MainView view) {
+    public void uploadFxmlFile(final SceneNode sceneNode) {
         try {
             if (this.currentState.equals(ViewState.LEADERBOARD)) {
                 this.orderFileByScore.readFileAndOrder();
@@ -88,7 +84,7 @@ public class MainViewImpl implements MainView {
     }
 
     @Override
-    public final ViewController getController() {
+    public final ViewController getViewController() {
         return this.viewController;
     }
 

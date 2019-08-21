@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><characters>
-
-
-    
-    
-    
-    
-    <character>
+<character>
         <player>Edoardo</player>
-        <score>2000</score>
+        <score>50</score>
     </character><character>
         <player>Lorenzo</player>
-        <score>1700</score>
+        <score>45</score>
     </character><character>
         <player>Vanessa</player>
-        <score>1500</score>
+        <score>40</score>
     </character><character>
         <player>Lucia</player>
-        <score>1100</score>
+        <score>35</score>
     </character><character>
         <player>Flavia</player>
-        <score>1000</score>
+        <score>30</score>
     </character><character>
         <player>William</player>
-        <score>850</score>
+        <score>25</score>
     </character><character>
         <player>Caterina</player>
-        <score>600</score>
+        <score>20</score>
     </character><character>
-        <player>Gianfranco</player>
-        <score>400</score>
-    </character><character>
-        <player>Giada</player>
-        <score>350</score>
-    </character><character><player>Jessica</player><score>260</score></character></characters>
+        <player>Jessica</player>
+        <score>18</score>
+   </character>
+   <character>
+       <player>Sabrina</player>
+       <score>15</score>
+   </character>
+   <character>
+       <player>Giada</player>
+       <score>10</score>
+   </character>
+</characters>
+

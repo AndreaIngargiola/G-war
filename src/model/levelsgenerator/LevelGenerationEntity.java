@@ -111,7 +111,7 @@ public class LevelGenerationEntity {
         if (!(obj instanceof LevelGenerationEntity)) {
             return false;
         }
-        LevelGenerationEntity other = (LevelGenerationEntity) obj;
+        final LevelGenerationEntity other = (LevelGenerationEntity) obj;
         return Objects.equals(componentsSet, other.componentsSet) && Objects.equals(entityName, other.entityName)
                 && Objects.equals(fullName, other.fullName) && type == other.type;
     }

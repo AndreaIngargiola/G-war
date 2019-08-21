@@ -23,7 +23,7 @@ import model.math.BallsUrn;
 public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
     private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 1);
-    private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 50;
+    private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 75;
     private final Map<EntityBlock, BallsUrn> neutralEnv;
     private final Map<EntityBlock, BallsUrn> hostileEnv;
     private final GridImpl level;
@@ -84,13 +84,13 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
      * @return
      */
     private Coordinate getNextPoint(final Coordinate actualPoint) {
-        final List<Coordinate> possibilities = this.level.getOverlap(actualPoint, this.tolerance);
-        return possibilities.get(this.randomIterator.nextInt(possibilities.size()));
+        final List<Coordinate> possibilities = this.level.getOverlap(actualPoint.sum(new Coordinate(1, 0)), this.tolerance);
+        return possibilities.isEmpty() ? new Coordinate(this.level.getSize().getPoint().x, 1) : possibilities.get(this.randomIterator.nextInt(possibilities.size()));
     }
 
     private Coordinate findFirstPoint() {
         final Optional<Coordinate> nearestPlatform = this.trace.getSnapshot().entrySet().stream()
-                                                                                        .filter(tiles -> tiles.getValue().equals(this.floor))
+                                                                                        .filter(tiles -> !tiles.getValue().equals(this.floor))
                                                                                         .filter(es -> es.getValue().getType().equals(Faction.NEUTRAL_IMMORTAL) 
                                                                                                    || es.getValue().getType().equals(Faction.NEUTRAL_MORTAL))
                                                                                         .map(e -> e.getKey())

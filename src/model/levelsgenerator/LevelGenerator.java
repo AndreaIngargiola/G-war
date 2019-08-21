@@ -13,4 +13,10 @@ public interface LevelGenerator {
      * @return the list of spawn points associated with an entity to spawn.
      */
     Map<Point, String> getNewLevel();
+
+    /**
+     * Get the current iteration of the level generator.
+     * @return an int with the current iteration of the level generator.
+     */
+    int getIteration();
 }

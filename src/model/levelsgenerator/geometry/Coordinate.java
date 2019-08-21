@@ -57,7 +57,7 @@ public class Coordinate {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -67,11 +67,7 @@ public class Coordinate {
         if (!(obj instanceof Coordinate)) {
             return false;
         }
-        Coordinate other = (Coordinate) obj;
+        final Coordinate other = (Coordinate) obj;
         return Objects.equals(p, other.p);
     }
-
-    
-    
-    
 }

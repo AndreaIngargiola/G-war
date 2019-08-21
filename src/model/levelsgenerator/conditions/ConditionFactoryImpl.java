@@ -34,7 +34,7 @@ public class ConditionFactoryImpl implements ConditionFactory {
                                                                              .map(c -> c.getPoint().y)
                                                                              .min((y1, y2) -> Integer.compare(y1, y2))
                                                                              .get();
-                
+
                 final List<Coordinate> bottomSide = context.getOverlap(enteringPoint, block).stream()
                                                                 .filter(p -> p.getPoint().y == yMin).collect(Collectors.toList());
                 final List<LevelGenerationEntity> support = new ArrayList<>();

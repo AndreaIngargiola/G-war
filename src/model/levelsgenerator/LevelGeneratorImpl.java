@@ -27,9 +27,9 @@ import model.math.BallsUrnImpl;
 public final class LevelGeneratorImpl implements LevelGenerator {
 
     private static final int BALLS_NUMBER = 10;
-    private static final int GRID_RANK = 10;
+    private static final int GRID_RANK = 20;
     private static final Coordinate JUMP_RANGE = new Coordinate(3, 3);
-    private static final int MAX_ATTEMPTS = 500;
+    private static final int MAX_ATTEMPTS = 20;
     private static final int REPEAT_ENEMY_PERCENTAGE = 20;
     private static final int MAX_ENTITIES = 6;
 
@@ -105,10 +105,12 @@ public final class LevelGeneratorImpl implements LevelGenerator {
                 entityLock = (this.randomIterator.nextInt(100) < LevelGeneratorImpl.REPEAT_ENEMY_PERCENTAGE) ? Boolean.TRUE : Boolean.FALSE;
             }
         }
+
         final Map<Point, String> results = new HashMap<>();
         this.levelGrid.getSnapshot().entrySet().stream()
                                                .filter(e -> !e.getValue().equals(this.levelGrid.getVoid()))
-                                               .forEach(e -> results.put(e.getKey().getPoint(), e.getValue().getCanonicalName()));
+                                               .forEach(e -> results.put(e.getKey().getPoint(), e.getValue().getEntityName()));
+
         this.iteration = this.iteration + 1;
         return results;
     }
@@ -141,7 +143,8 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         try (ScanResult scanResult = new ClassGraph().enableAllInfo().scan()) {
             final ClassInfoList filtered = scanResult.getAllClasses().filter(
                     classInfo -> (classInfo.extendsSuperclass("model.entities.AbstractEntity") 
-                               && classInfo.getSubclasses().isEmpty()));
+                               && classInfo.getSubclasses().isEmpty())
+                               && !classInfo.hasAnnotation("model.entities.LevelGenerationIgnore"));
             this.entityList = new ArrayList<>();
             filtered.stream().forEach(c -> {
                 try {
@@ -174,7 +177,7 @@ public final class LevelGeneratorImpl implements LevelGenerator {
 
             final ClassInfoList filtered = scanResult.getAllClasses().filter(
                     classInfo -> (classInfo.implementsInterface("ConditionGiver") 
-                               && !classInfo.hasAnnotation("DefaultConditionGiver")));
+                               && !classInfo.hasAnnotation("model.levelgenerator.conditions.DefaultConditionGiver")));
             if (filtered.isEmpty()) {
                 this.cg = new ConditionGiverImpl();
             } else {
@@ -186,20 +189,22 @@ public final class LevelGeneratorImpl implements LevelGenerator {
     }
 
     /**
-     * Given a initialized this.entityList, create and catalog the EntityBlocks fro grid placing. 
+     * Given a initialized this.entityList, create and catalog the EntityBlocks for grid placing. 
      */
     private void initializeBlocksMap() {
         this.blockMap = new HashMap<>();
         final Map<EntityBlock, BallsUrn> architecture = new HashMap<>();
 
         /*create blocks for all the entities, filtering the Architecture ones*/
-        for (final LevelGenerationEntity e : this.entityList) {
+        this.entityList.stream().forEach(e -> {
+            final EntityBlock b = new EntityBlock(e, this.cg);
             if (e.getComponentsSet().contains("Architecture")) {
-                architecture.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
+                architecture.put(b, new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             } else {
-                this.blockMap.put(new EntityBlock(e, this.cg), new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
+                this.blockMap.put(b, new BallsUrnImpl(LevelGeneratorImpl.BALLS_NUMBER));
             }
-        }
+        });
+
         /*pass all the architecture blocks to the Architecture Builder*/
         this.archBuilder = new ArchitectureBuilderImpl(architecture, 
                                                        new Coordinate(LevelGeneratorImpl.GRID_RANK, LevelGeneratorImpl.GRID_RANK), 
@@ -211,5 +216,10 @@ public final class LevelGeneratorImpl implements LevelGenerator {
                               .collect(Collectors.toList());
         players.stream().peek(p -> this.player = p).forEach(p -> this.blockMap.remove(p));
 
+    }
+
+    @Override
+    public int getIteration() {
+        return this.iteration;
     }
 }

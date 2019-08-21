@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This is the default condition giver that prevents the walking entities from spawning mid-air and 
+ * entities that can get damage from spawn too near to entities with opposed faction. 
+ */
 @DefaultConditionGiver
 public final class ConditionGiverImpl implements ConditionGiver {
 
@@ -19,7 +23,7 @@ public final class ConditionGiverImpl implements ConditionGiver {
         break;
 
         case ("Life") :
-            conditions.add(conditionFactory.mustBeOnGround());
+            conditions.add(conditionFactory.notTooNearRival());
         default:
 
         }

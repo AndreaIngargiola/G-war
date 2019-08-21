@@ -14,5 +14,5 @@ public interface ConditionGiver {
      * the placing condition with it.
      * @return Optionl.empty if there aren't condition associated with that component, an optional list of condition otherwise.
      */
-    Optional<List<Condition>> getConditions(final String componentInterfaceName);
+    Optional<List<Condition>> getConditions(String componentInterfaceName);
 }

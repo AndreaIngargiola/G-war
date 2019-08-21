@@ -11,7 +11,7 @@ public interface TimerGrill extends EntityComponent {
      * @return isDangerous
      *                   true if the grill can hurt the player
      */
-    boolean getIsDangerous();
+    boolean isDangerous();
 
     /**
      * Change the grill state (dangerous/not dangerous).

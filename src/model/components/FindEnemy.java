@@ -14,24 +14,7 @@ import model.events.CollisionEvent;
  */
 public class FindEnemy implements RayCastCallback {
 
-    private boolean hit = false;
-
-    /**
-     * 
-     * @return hit
-     */
-    public final boolean getHit() {
-        return hit;
-    }
-
-    /**
-     * 
-     * @param hit
-     *        true if the raycast met a body
-     */
-    public final void setHit(final boolean hit) {
-        this.hit = hit;
-    }
+    private boolean hit;
 
     @Override
     public final float reportFixture(final Fixture fixture, final Vec2 arg1, final Vec2 arg2, final float arg3) {
@@ -42,5 +25,22 @@ public class FindEnemy implements RayCastCallback {
             this.hit = true;
         }
         return -1;
+    }
+
+    /**
+     * 
+     * @return hit
+     */
+    public final boolean isHit() {
+        return hit;
+    }
+
+    /**
+     * 
+     * @param hit
+     *        true if the raycast met a body
+     */
+    public final void setHit(final boolean hit) {
+        this.hit = hit;
     }
 }

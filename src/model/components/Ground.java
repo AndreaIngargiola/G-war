@@ -11,13 +11,19 @@ import org.jbox2d.dynamics.Fixture;
  */
 public class Ground implements RayCastCallback {
 
-    private boolean hit = false;
+    private boolean hit;
+
+    @Override
+    public final float reportFixture(final Fixture fixure, final Vec2 arg1, final Vec2 arg2, final float arg3) {
+        hit = true;
+        return 0;
+    }
 
     /**
      * 
      * @return hit
      */
-    public final boolean getHit() {
+    public final boolean isHit() {
         return hit;
     }
 
@@ -28,11 +34,5 @@ public class Ground implements RayCastCallback {
      */
     public final void setHit(final boolean hit) {
         this.hit = hit;
-    }
-
-    @Override
-    public final float reportFixture(final Fixture fixure, final Vec2 arg1, final Vec2 arg2, final float arg3) {
-        hit = true;
-        return 0;
     }
 }

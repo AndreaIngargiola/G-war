@@ -5,7 +5,7 @@ import com.google.common.eventbus.Subscribe;
 import model.entities.Entity;
 import model.events.Death;
 import model.events.EntityEventSubscriber;
-import viewGame.EntityView;
+import view.entities.EntityView;
 
 /**
  * Base interface of an entity's controller.

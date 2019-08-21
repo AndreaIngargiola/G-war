@@ -23,6 +23,7 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
      *               the jumping speed
      */
     public CollisionHandlerImpl(final float jumpSpeed) {
+    	super();
         this.jumpSpeed = jumpSpeed;
     }
 
@@ -47,8 +48,8 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
                break;
 
            case PSYCO_IMMORTAL:
-               if (other.toString() == "Grill") {
-                   if (other.get(TimerGrill.class).getIsDangerous()) {
+               if (other.toString().equals("Grill")) {
+                   if (other.get(TimerGrill.class).isDangerous()) {
                        post(new CollisionEvent(this.getEntity()));
                        this.getEntity().get(Life.class).demage(LIFE_PENALITY);
                    }

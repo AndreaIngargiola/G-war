@@ -1,4 +1,4 @@
-package viewGame;
+package view.entities;
 
 import java.io.File;
 
@@ -12,7 +12,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Scale;
-import javafx.stage.Screen;
 
 /**
  * Models the view of the player entity.
@@ -20,15 +19,11 @@ import javafx.stage.Screen;
  */
 public final class PlayerView extends AbstractMortalEntityView {
 
-    private static final int ADDICTIONAL_PUNCH_1 = 5;
-    private static final int ADDICTIONAL_PUNCH_2 = 10;
-    private static final int ADDICTIONAL_PUNCH_3 = 15;
-    private static final int WIDTH = 10, HEIGHT = 10;
+    private static final int ADDICTIONAL_PUNCH_1 = 5, ADDICTIONAL_PUNCH_2 = 10, ADDICTIONAL_PUNCH_3 = 15;
+    private static final int WIDTH = 9, HEIGHT = 9;
     private final StatisticsView statistics;
     private final Media jumpSound = new Media(new File(new File("res/music/highUp.wav").getAbsolutePath()).toURI().toString());
-    private Line punch = new Line();
-    private static final double STAGE_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
-    private static final double STAGE_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
+    private final Line punchView = new Line();
 
     /**
      * @param group
@@ -56,23 +51,23 @@ public final class PlayerView extends AbstractMortalEntityView {
     public void punch() {
         this.changeState(EntityState.ANGRY);
         if (this.getDirection().equals(HorizontalDirection.RIGHT)) {
-            this.punch.setStartX(this.getPosition().getX() + ADDICTIONAL_PUNCH_2);
-            this.punch.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
-            this.punch.setEndX(this.getPosition().getX() + ADDICTIONAL_PUNCH_3);
-            this.punch.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+            this.punchView.setStartX(this.getPosition().getX() + ADDICTIONAL_PUNCH_2);
+            this.punchView.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+            this.punchView.setEndX(this.getPosition().getX() + ADDICTIONAL_PUNCH_3);
+            this.punchView.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
         } else {
-            this.punch.setStartX(this.getPosition().getX());
-            this.punch.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
-            this.punch.setEndX(this.getPosition().getX() - ADDICTIONAL_PUNCH_1);
-            this.punch.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+            this.punchView.setStartX(this.getPosition().getX());
+            this.punchView.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
+            this.punchView.setEndX(this.getPosition().getX() - ADDICTIONAL_PUNCH_1);
+            this.punchView.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
         }
-        this.getParentView().getChildren().add(punch);
+        this.getParentView().getChildren().add(punchView);
     }
 
     @Override
     public void stopPunch() {
         this.changeState(EntityState.WALKING);
-        this.getParentView().getChildren().remove(punch);
+        this.getParentView().getChildren().remove(punchView);
     }
 
     @Override
@@ -96,7 +91,7 @@ public final class PlayerView extends AbstractMortalEntityView {
     }
 
     @Override
-    public void jumpSound()  {
+    public void makeJumpSound()  {
         this.setMediaPlayer(new MediaPlayer(this.jumpSound));
         this.getMediaPlayer().play();
     }

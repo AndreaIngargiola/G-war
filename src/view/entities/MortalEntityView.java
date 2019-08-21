@@ -1,4 +1,4 @@
-package viewGame;
+package view.entities;
 
 import enumerators.HorizontalDirection;
 
@@ -51,10 +51,10 @@ public interface MortalEntityView extends EntityView {
     /**
      * Make a sound when the entity jumps.
      */
-    void jumpSound();
+    void makeJumpSound();
 
     /**
      * Make a sound when the entity collides.
      */
-    void collisionSound();
+    void makeCollisionSound();
 }

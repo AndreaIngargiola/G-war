@@ -21,6 +21,7 @@ public final class EntityBodyImpl extends AbstractEntityComponent implements Ent
      *           the dimension
      */
     public EntityBodyImpl(final Body body, final Vec2 dimension) {
+    	super();
         this.body = body;
         this.dimension = dimension;
     }

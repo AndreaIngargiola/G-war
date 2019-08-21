@@ -1,4 +1,4 @@
-package viewGame;
+package view.entities;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;

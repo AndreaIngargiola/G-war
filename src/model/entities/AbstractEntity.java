@@ -25,7 +25,7 @@ public abstract class AbstractEntity implements Entity {
     private final EntityBody body;
     private final Translator<EntityComponent> components = new TranslatorImpl<>(EntityComponent.class);
     private final Faction type;
-    private boolean isAlive = true;
+    private boolean alive = true;
 
     /** 
      * @param type
@@ -134,12 +134,12 @@ public abstract class AbstractEntity implements Entity {
     }
 
     @Override
-    public final void setIsAlive(final boolean isAlive) {
-        this.isAlive = isAlive;
+    public final void setAlive(final boolean alive) {
+        this.alive = alive;
     }
 
     @Override
-    public final boolean getIsAlive() {
-        return isAlive;
+    public final boolean isAlive() {
+        return alive;
     }
 }

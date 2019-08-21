@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import enumerators.EntityState;
 import javafx.geometry.Dimension2D;

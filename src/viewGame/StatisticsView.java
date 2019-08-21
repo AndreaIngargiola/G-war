@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import javafx.scene.Node;
 
@@ -28,4 +28,12 @@ public interface StatisticsView {
      *            the number of points
      */
     void setPoints(int points);
+    
+    /**
+     * 
+     * @return currentPoint
+     */
+    int getCurrentPoint();
+    
+    void setMaxHealth();
 }

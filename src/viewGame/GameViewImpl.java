@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -14,13 +15,17 @@ import javafx.stage.Stage;
  */
 public class GameViewImpl implements GameView {
 
-    private static final StatisticsView STATISTICS = new StatisticsViewImpl();
-    private static final Group HEAD = new Group();
-    private static final Scene SCENE = new Scene(HEAD);
-    private static final Group ROOT = new Group();
+    private static StatisticsView STATISTICS = new StatisticsViewImpl();
+    private static Group HEAD = new Group();
+    private static Scene SCENE = new Scene(HEAD);
+    private static Group ROOT = new Group();
+    private final Stage stage;
     private final Group background = new Group(ROOT);
     private final Canvas canvas = new Canvas(1380, 780);
-
+    private static final double STAGE_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
+    private static final double STAGE_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
+    private static final double SCALE = STAGE_WIDTH / 300;
+    
     /**
      * 
      * @param stage
@@ -28,20 +33,25 @@ public class GameViewImpl implements GameView {
      */
     public GameViewImpl(final Stage stage) {
 
-        stage.setTitle("G-war");
-        stage.setScene(SCENE);
-        background.getChildren().add(new ImageView(new Image("/img/background.jpg")));
-        background.getTransforms().addAll(new Scale(1.35f, 1.47f));
-        ROOT.getTransforms().addAll(new Scale(5, 5));
+    	this.stage = stage;
+       // stage.setScene(SCENE);
+        background.getChildren().add(new ImageView(new Image("/img/background.jpg", STAGE_WIDTH, STAGE_HEIGHT, false, false)));
+
+        ROOT.getTransforms().addAll(new Scale(SCALE, SCALE));
 
         HEAD.getChildren().add(canvas);
         HEAD.getChildren().add(background);
-      //  HEAD.getChildren().add(STATISTICS.getRoot());
+        HEAD.getChildren().add(STATISTICS.getRoot());
         HEAD.getChildren().add(ROOT);
 
-        stage.show();
+        
     }
 
+    @Override
+    public void start() {
+    	stage.setScene(SCENE);
+    //	stage.show();
+    }
     /**
      * 
      * @return the statistics view
@@ -64,5 +74,7 @@ public class GameViewImpl implements GameView {
      */
     public static Scene getScene() {
 		return SCENE;
-	} 
+	}
+    
+
 }

@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;

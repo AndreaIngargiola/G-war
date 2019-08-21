@@ -1,7 +1,7 @@
 package controller;
 
 import model.entities.Entity;
-import view.ImmortalEntityView;
+import viewGame.ImmortalEntityView;
 
 /**
  * An extension of {@link AbstractEntityController} for immortal entity.

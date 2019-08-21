@@ -14,7 +14,10 @@ import model.events.EndCollision;
 import model.events.JumpEvent;
 import model.events.LifeChange;
 import model.events.PointsChangeEvent;
-import view.PlayerView;
+import view.MainView;
+import view.MainViewImpl;
+import viewGame.PlayerKeyboardInput;
+import viewGame.PlayerView;
 
 /**
  * A controller for the player entity.
@@ -23,6 +26,7 @@ import view.PlayerView;
 public final class PlayerController extends MortalEntityController implements PlayerInputListener {
 
     private Vec2 movement;
+    private final  PlayerKeyboardInput keyboard;
 
     /**
      * 
@@ -31,15 +35,18 @@ public final class PlayerController extends MortalEntityController implements Pl
      * @param playerView
      *            the view of the player entity
      */
-    public PlayerController(final Entity player, final PlayerView playerView) {
+    public PlayerController(final Entity player, final PlayerView playerView, final PlayerKeyboardInput keyboard) {
         super(player, playerView);
+        this.keyboard = keyboard;
+        this.keyboard.setListener(this);
+   
     }
 
     @Override
     public void deathListener(final Death event) {
-        //this.getEntityModel().get(Points.class).getCurrent();
+        this.keyboard.clearListener();
         super.deathListener(event);
-        //chiama gameover
+        
     }
 
     @Override

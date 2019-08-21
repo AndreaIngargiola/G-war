@@ -1,4 +1,4 @@
-package menu;
+package view;
 
 /**
  * The scene of the menu.
@@ -21,7 +21,7 @@ public enum SceneNode {
      */
     GAME_OVER("gameOver.fxml");
 
-    private static final String PATH = "menu/";
+    private static final String PATH = "view/";
     private final String nameFxml;
 
     /**

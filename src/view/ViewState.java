@@ -1,4 +1,4 @@
-package menu;
+package view;
 
 /**
  * The state of the application.

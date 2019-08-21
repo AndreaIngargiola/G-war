@@ -1,8 +1,10 @@
-package menu;
+package view;
 
 import java.io.IOException;
 import java.net.URL;
-import javafx.application.Application;
+
+import controller.GameController;
+import controller.GameControllerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -14,48 +16,40 @@ import javafx.stage.Stage;
 /**
  * The Main View.
  */
-public class MainViewImpl extends Application implements MainView {
+public class MainViewImpl implements MainView {
 
-    private final Controller controller;
     private Stage stage;
     private ViewState currentState;
     private ViewController viewController;
     private Node node;
     private final OrderReadFileByScore orderFileByScore = new OrderReadFileByScore();
+    private final GameController gameController;
 
     /**
-     * Create a new View.
+     * Constructor of MainViewImpl.
+     * @param primaryStage
+     *         the stage.
      */
-    public MainViewImpl() {
+    public MainViewImpl(final Stage primaryStage) {
         super();
-        this.controller = new ControllerImpl(this);
-    }
-
-    @Override
-    public final void start(final Stage primaryStage) throws Exception {
-
         this.stage = primaryStage;
+        this.gameController = new GameControllerImpl(this.stage, this);
         final Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        //this.stage.centerOnScreen();
-        //this.stage.setFullScreen(true);
         stage.setTitle("Geometric Warfare");
         stage.setResizable(false);
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
-        //stage.setFullScreen(true);
-        //stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         setViewState(ViewState.MAIN_MENU, null);
     }
 
     @Override
     public final void setViewState(final ViewState state, final Integer score) {
-
         this.currentState = state;
         if (this.currentState.equals(ViewState.GAME_OVER)) {
             GameOverController.setScore(score);
         }
-        this.uploadFxmlFile(state.getSceneNode(), this.controller, this);
-        this.getController().initializeViewController(this, this.controller);
+        this.uploadFxmlFile(state.getSceneNode(), this);
+        this.getController().initializeViewController(this);
         final Parent parent = (Parent) this.getNode();
         final Scene newScene = new Scene(parent);
         final Stage stage = this.stage;
@@ -64,24 +58,19 @@ public class MainViewImpl extends Application implements MainView {
         stage.setResizable(false);
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
-        //stage.setFullScreen(false);
-        //stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        //stage.centerOnScreen();
+
         stage.show();
-        //stage.setFullScreen(true);
-        //stage.setResizable(false);
+
     }
 
     /**
      * Method to upload the FXML file.
      * @param sceneNode
      *         the scene to upload
-     * @param controller
-     *         the controller of the application
      * @param view
      *         the view.
      */
-    public void uploadFxmlFile(final SceneNode sceneNode, final Controller controller, final MainView view) {
+    public void uploadFxmlFile(final SceneNode sceneNode, final MainView view) {
         try {
             if (this.currentState.equals(ViewState.LEADERBOARD)) {
                 this.orderFileByScore.readFileAndOrder();
@@ -98,33 +87,24 @@ public class MainViewImpl extends Application implements MainView {
         }
     }
 
-    /**
-     * Method to get ViewController.
-     * 
-     * @return ViewController
-     *         the viewController of node.
-     */
-    public ViewController getController() {
+    @Override
+    public final ViewController getController() {
         return this.viewController;
     }
 
-    /**
-     * Method to get the Node.
-     * 
-     * @return Node
-     *         the node of SceneNode. 
-     */
-    public Node getNode() {
+    @Override
+    public final Node getNode() {
         return this.node;
     }
 
-    /**
-     * Main.
-     * @param args
-     *         The args of main.
-     */
-    public static void main(final String[] args) {
-        launch(args);
+    @Override
+    public final Stage getStage() {
+        return this.stage;
+    }
+
+    @Override
+    public final GameController getGameController() {
+        return this.gameController;
     }
 
 }

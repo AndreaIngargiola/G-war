@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import java.io.File;
 

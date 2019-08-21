@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 
 import static javafx.scene.input.KeyCode.A;

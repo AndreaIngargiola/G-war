@@ -6,7 +6,7 @@ import com.google.common.eventbus.Subscribe;
 import model.entities.Entity;
 import model.events.ChangeDirectionEvent;
 import model.events.CollisionEvent;
-import view.MortalEntityView;
+import viewGame.MortalEntityView;
 
 /**
  * An extension of {@link AbstractEntityController} for mortal entity.

@@ -1,5 +1,6 @@
-package menu;
+package view;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -41,6 +42,7 @@ public class MainMenuGameController extends ViewControllerImpl {
     private static final double BUTTON_WIDTH = TITLE_WIDTH / 3;
     private static final double BUTTON_HEIGHT = TITLE_HEIGHT / 6;
 
+
     /**
      * Method to initialize any controls.
      */
@@ -71,7 +73,7 @@ public class MainMenuGameController extends ViewControllerImpl {
      */
     @FXML
     protected void newGame() {
-        this.getController().newGame();
+        this.getView().getGameController().start();
     }
 
     /**
@@ -79,7 +81,7 @@ public class MainMenuGameController extends ViewControllerImpl {
      */
     @FXML
     protected void exit() {
-        this.getController().closeApplication();
+        Platform.exit();
     }
 
     /**

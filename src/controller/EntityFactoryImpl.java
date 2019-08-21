@@ -11,15 +11,15 @@ import model.entities.Grill;
 import model.entities.Platform;
 import model.entities.Player;
 import model.physics.BodyBuilderImpl;
-import view.PlayerKeyboardInput;
-import view.PlayerView;
-import view.CowardView;
-import view.FloorView;
-import view.GameViewImpl;
-import view.GrillView;
-import view.ImmortalEntityView;
-import view.MortalEntityView;
-import view.PlatformView;
+import viewGame.CowardView;
+import viewGame.FloorView;
+import viewGame.GameViewImpl;
+import viewGame.GrillView;
+import viewGame.ImmortalEntityView;
+import viewGame.MortalEntityView;
+import viewGame.PlatformView;
+import viewGame.PlayerKeyboardInput;
+import viewGame.PlayerView;
 
 /**
  * Implementation of {@link EntityFactory}.
@@ -34,9 +34,9 @@ public class EntityFactoryImpl implements EntityFactory {
     public final EntityController createPlayer(final Vec2 position) {
         Entity playerModel = new Player(new BodyBuilderImpl(), position);
         PlayerView playerView = new PlayerView(root, GameViewImpl.getStatistics());
-        PlayerController playerController = new PlayerController(playerModel, playerView);
-        PlayerKeyboardInput keyboard = new PlayerKeyboardInput(GameViewImpl.getScene());
-        keyboard.setListener(playerController);
+        PlayerController playerController = new PlayerController(playerModel, playerView, new PlayerKeyboardInput(GameViewImpl.getScene()));
+       // PlayerKeyboardInput keyboard = new PlayerKeyboardInput(GameViewImpl.getScene());
+       // keyboard.setListener(playerController);
         return playerController;
     }
 

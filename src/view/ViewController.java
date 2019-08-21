@@ -1,4 +1,4 @@
-package menu;
+package view;
 
 /**
  * Interface for controller all views.
@@ -10,9 +10,7 @@ public interface ViewController {
      * 
      * @param view
      *          the view
-     * @param controller
-     *          the controller.
      */
-    void initializeViewController(MainView view, Controller controller);
+    void initializeViewController(MainView view);
 
 }

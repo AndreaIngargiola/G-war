@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +21,7 @@ public final class StatisticsViewImpl implements StatisticsView {
     private static final Image IMG_HEART_FULL = new Image("/img/heartFull.png");
     private static final Image IMG_HEART_EMPTY = new Image("/img/hud_heartEmpty.png");
     private static final List<Image> IMG_POINTS;
+    private static final int MAX_HEALTH = 10;
     static {
         IMG_POINTS = IntStream.range(0, 10)
                 .mapToObj(n -> "/img/hud_" + n + ".png")
@@ -32,6 +33,7 @@ public final class StatisticsViewImpl implements StatisticsView {
     private final HBox pointsBar = new HBox();
     private final HBox root = new HBox(PADDING, lifeBar, pointsBar);
     private final List<ImageView> pointsDigit = new LinkedList<>();
+    private int currentPoint = 0;
 
     /**
      * Initializes HUD images.
@@ -40,7 +42,7 @@ public final class StatisticsViewImpl implements StatisticsView {
 
         root.setPadding(new Insets(PADDING));
         pointsBar.setAlignment(Pos.CENTER_LEFT);
-        this.setMaxHealth(10);
+        this.setMaxHealth();
         this.setPoints(0);
     }
 
@@ -57,10 +59,8 @@ public final class StatisticsViewImpl implements StatisticsView {
         for (int i = life; i < hearts.size(); i++) {
             hearts.get(i).setImage(IMG_HEART_EMPTY);
         }
-        if (life > hearts.size()) {
-            setMaxHealth(life);
-        }
     }
+
 
     @Override
     public void setPoints(final int points) {
@@ -70,14 +70,22 @@ public final class StatisticsViewImpl implements StatisticsView {
             pointsDigit.add(new ImageView(IMG_POINTS.get(Integer.parseInt(ch))));
         }
         pointsDigit.forEach(view -> pointsBar.getChildren().add(view));
+        this.currentPoint = points;
+    }
+    
+    @Override
+    public int getCurrentPoint() {
+    	return this.currentPoint;
     }
 
-    private void setMaxHealth(final int max) {
+    public void setMaxHealth() {
         hearts.forEach(view -> lifeBar.getChildren().remove(view));
         hearts.clear();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < MAX_HEALTH; i++) {
             hearts.add(new ImageView(IMG_HEART_FULL));
         }
         hearts.forEach(view -> lifeBar.getChildren().add(view));
     }
+    
+
 }

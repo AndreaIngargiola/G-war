@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 import java.io.File;
 
@@ -12,6 +12,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 
 /**
  * Models the view of the player entity.
@@ -26,6 +27,8 @@ public final class PlayerView extends AbstractMortalEntityView {
     private final StatisticsView statistics;
     private final Media jumpSound = new Media(new File(new File("res/music/highUp.wav").getAbsolutePath()).toURI().toString());
     private Line punch = new Line();
+    private static final double STAGE_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
+    private static final double STAGE_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
 
     /**
      * @param group

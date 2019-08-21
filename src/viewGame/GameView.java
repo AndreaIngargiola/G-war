@@ -1,4 +1,4 @@
-package view;
+package viewGame;
 
 /**
  * Models the game view.
@@ -6,4 +6,5 @@ package view;
  */
 public interface GameView {
 
+	void start();
 }

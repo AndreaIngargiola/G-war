@@ -4,7 +4,7 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import model.entities.Entity;
 import model.events.Death;
-import view.EntityView;
+import viewGame.EntityView;
 
 /**
  * Base implementation of {@link EntityController}.

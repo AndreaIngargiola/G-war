@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox fx:id="primaryPane" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="500.0" spacing="40.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameOverController">
+         <children>
+            <Label fx:id="titleGameOver" textAlignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="48.0" />
+               </font>
+               <padding>
+         <Insets top="200.0" />
+         </padding>
+            </Label>
+            <Label fx:id="scorePlayerLeaderboard">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="usernameTextField" maxWidth="-Infinity" promptText="Enter username">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </VBox.margin>
+            </TextField>
+            <Button fx:id="toRecordBtn" mnemonicParsing="false" prefWidth="150.0" text="To record" />
+            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#showMainMenu" prefWidth="200.00" />
+            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#exitGO" prefWidth="200.0" />
+         </children>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </VBox>

@@ -34,7 +34,7 @@ public class BlockImpl implements Block {
     }
 
     @Override
-    public final Integer getOccupation() {
+    public final int getOccupation() {
         return this.vertex.size();
     }
 }

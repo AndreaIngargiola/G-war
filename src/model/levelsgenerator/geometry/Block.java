@@ -24,5 +24,5 @@ public interface Block {
      * get the number of points that compose the block.
      * @return the number of points that compose the block.
      */
-    Integer getOccupation();
+    int getOccupation();
 }

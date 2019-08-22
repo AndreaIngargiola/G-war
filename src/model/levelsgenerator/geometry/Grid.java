@@ -8,7 +8,6 @@ import model.levelsgenerator.LevelGenerationEntity;
 
 /**
  * A class for the matrix generation and blocks insertion.
- *
  */
 public interface Grid {
 
@@ -28,21 +27,21 @@ public interface Grid {
     List<Coordinate> getOverlap(Coordinate mOriginPoint, BlockImpl b);
 
     /**
-     * get the matrix element at elemCoordinates.
+     * Get the matrix element at elemCoordinates.
      * @param elemCoordinates are the integer coordinates of the desired element.
      * @return an Optional<Integer> of the matrix element at elemCoordinates if exist.
      */
     LevelGenerationEntity getElement(Coordinate elemCoordinates);
 
     /**
-     * try to place the block b in the matrix with spawnPoint as its center.
+     * Place the block b in the matrix with spawnPoint as its center.
+     * This operation doesn't control if the requested matrix tiles are free or all in bounds: 
+     * it will simply place all the in bounds blocks. 
      * @param mOriginPoint is the point in the matrix that corresponds to the spawn point of the block and in which 
      * the relative coordinates of the block will be converted in absolute coordinates of the matrix.
-     * 
      * @param b is the block to place.
-     * @return true if the block is placed, false if the placing is failed.
      */
-    Boolean place(Coordinate mOriginPoint, EntityBlock b);
+    void place(Coordinate mOriginPoint, EntityBlock b);
 
     /**
      * A getter for the grid size.
@@ -55,6 +54,13 @@ public interface Grid {
      * @return a snapshot of the grid.
      */
     Map<Coordinate, LevelGenerationEntity> getSnapshot();
+
+    /**
+     * Check if a coordinate is in matrix bounds.
+     * @param elemCoordinates is the coordinates to check.
+     * @return true if the coordinate is in matrix bounds, false otherwise.
+     */
+    Boolean isInMatrixBounds(Coordinate elemCoordinates);
 
     /**
      * Get the entity that the grid uses as placeholder for empty blocks.

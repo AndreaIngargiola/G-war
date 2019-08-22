@@ -1,10 +1,13 @@
 package model.levelsgenerator.geometry;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import enumerators.Faction;
 import model.levelsgenerator.EntityBlock;
 import model.levelsgenerator.LevelGenerationEntity;
 
@@ -14,7 +17,7 @@ import model.levelsgenerator.LevelGenerationEntity;
  */
 public class GridImpl implements Grid {
 
-    private static final LevelGenerationEntity VOID = new LevelGenerationEntity();
+    private static final LevelGenerationEntity VOID = new LevelGenerationEntity("Void", "null", new HashSet<>(), Faction.NEUTRAL_IMMORTAL);
     private final Map<Coordinate, LevelGenerationEntity> matrix;
     private final Coordinate size;
 
@@ -34,6 +37,11 @@ public class GridImpl implements Grid {
     }
 
     @Override
+    public final void reset() {
+        this.matrix.keySet().stream().forEach(k -> this.matrix.put(k, GridImpl.VOID));
+    }
+
+    @Override
     public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final BlockImpl b) {
         return b.getRelativeCoordinates().stream()
                                          .map(p -> mOriginPoint.sum(p))
@@ -42,24 +50,10 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final Boolean place(final Coordinate mOriginPoint, final EntityBlock b) {
+    public final void place(final Coordinate mOriginPoint, final EntityBlock b) {
         final List<Coordinate> overlap = this.getOverlap(mOriginPoint, b);
-
-        /*if the number of coordinates of the overlap that are in bounds and are VOID is not equals to the block size, return false*/
-        if (overlap.stream().filter(e -> this.getElement(e).equals(GridImpl.VOID)).count() != b.getOccupation()) {
-            return false;
-        } else {
-            for (final Coordinate c : overlap) {
-                this.setElement(c, b.getEntity());
-            }
-        }
-            return true;
+        overlap.forEach(c -> this.setElement(c, b.getEntity()));
      }
-
-    @Override
-    public final void reset() {
-        this.matrix.keySet().stream().forEach(k -> this.matrix.put(k, GridImpl.VOID));
-    }
 
     @Override
     public final LevelGenerationEntity getElement(final Coordinate elemCoordinates) throws IllegalArgumentException {
@@ -72,15 +66,19 @@ public class GridImpl implements Grid {
 
     @Override
     public final Coordinate getSize() {
-        return this.size;
+        return this.size.getSafeCopy();
     }
 
-    /**
-     * Check if a coordinate is in matrix bounds.
-     * @param elemCoordinates is the coordinates to check.
-     * @return true if the coordinate is in matrix bounds, false otherwise.
-     */
-    public Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
+
+    @Override
+    public final Map<Coordinate, LevelGenerationEntity> getSnapshot() {
+        final Map<Coordinate, LevelGenerationEntity> snapshot = new HashMap<>();
+        snapshot.putAll(this.matrix);
+        return snapshot;
+    }
+
+    @Override
+    public final Boolean isInMatrixBounds(final Coordinate elemCoordinates) {
         return (elemCoordinates.getPoint().x >= 0 && elemCoordinates.getPoint().x < this.getSize().getPoint().x 
                 && elemCoordinates.getPoint().y >= 0 && elemCoordinates.getPoint().y < this.getSize().getPoint().y);
     }
@@ -104,8 +102,22 @@ public class GridImpl implements Grid {
         }
     }
 
-    @Override
-    public final Map<Coordinate, LevelGenerationEntity> getSnapshot() {
-        return this.matrix;
+    /**
+     * Print on system.out the inner matrix with a cartesian representation 
+     * (the (0,0) is the bottom left and the (size x,size y) is in the upper right).
+     */
+    public final void printAsCartesianPlane() {
+        List<List<String>> mat = new ArrayList<>();
+
+        for (int i = 0; i < this.getSize().getPoint().y; i++) {
+            mat.add(new ArrayList<>());
+            for (int j = 0; j < this.getSize().getPoint().x; j++) {
+                mat.get(i).add(this.matrix.get(new Coordinate(j, i)).getCanonicalName());
+            }
+        }
+
+        for (int i = this.getSize().getPoint().y - 1; i >= 0; i--) {
+            System.out.println(mat.get(i).toString());
+        }
     }
 }

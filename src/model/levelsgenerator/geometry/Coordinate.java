@@ -23,7 +23,7 @@ public class Coordinate {
      * @return the inner point with the integer x and y coordinates.
      */
     public Point getPoint() {
-        return this.p;
+        return new Point(this.p.x, this.p.y);
     }
 
     /**
@@ -43,6 +43,14 @@ public class Coordinate {
     public Coordinate sub(final Coordinate toSubtract) {
         final Coordinate toSub = new Coordinate(-toSubtract.getPoint().x, -toSubtract.getPoint().y);
         return this.sum(toSub);
+    }
+
+    /**
+     * Get a defensive copy of the coordinate.
+     * @return a new coordinate with the same values of this.
+     */
+    public Coordinate getSafeCopy() {
+        return new Coordinate(this.getPoint().x, this.getPoint().y);
     }
 
     /* (non-Javadoc)

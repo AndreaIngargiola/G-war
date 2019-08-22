@@ -31,7 +31,7 @@ public class BlockInsertion<X extends Grid, Y extends Block, Z extends Coordinat
      * @return the snapshot of the grid.
      */
     public X getContext() {
-        return context;
+        return this.context;
     }
 
     /**
@@ -39,7 +39,7 @@ public class BlockInsertion<X extends Grid, Y extends Block, Z extends Coordinat
      * @return the block.
      */
     public Y getBlock() {
-        return block;
+        return this.block;
     }
 
     /**
@@ -47,6 +47,6 @@ public class BlockInsertion<X extends Grid, Y extends Block, Z extends Coordinat
      * @return the insertion point.
      */
     public Z getInsertionPoint() {
-        return insertionPoint;
+        return this.insertionPoint;
     }
 }

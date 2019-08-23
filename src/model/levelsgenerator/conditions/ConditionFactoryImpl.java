@@ -9,43 +9,50 @@ import model.levelsgenerator.EntityBlock;
 import model.levelsgenerator.LevelGenerationEntity;
 import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
-import model.levelsgenerator.geometry.GridImpl;
+import model.levelsgenerator.geometry.Grid;
 import model.math.Function;
 
 /**
- * An implementation of the ConditionFactory interface that uses GridImpl, Coordinate and LevelGenerationEntity.
+ * An implementation of the ConditionFactory interface that uses Grid, Coordinate and LevelGenerationEntity.
  */
 public class ConditionFactoryImpl implements ConditionFactory {
 
     private static final int VITAL_SPACE = 1;
+
     @Override
     public final Condition mustBeOnGround() {
         final Condition mustBeOnGround = new ConditionImpl();
+        mustBeOnGround.addCondition(new Function<BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
 
-        mustBeOnGround.addCondition(new Function<BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
+            public Boolean apply(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> i) {
 
-            public Boolean apply(final BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate> i) {
-
-                final GridImpl context = i.getContext();
+                final Grid context = i.getContext();
                 final EntityBlock block = i.getBlock();
                 final Coordinate enteringPoint = i.getInsertionPoint();
 
+                //find the lowest tile of the block.
                 final Integer yMin = context.getOverlap(enteringPoint, block).stream()
                                                                              .map(c -> c.getPoint().y)
                                                                              .min((y1, y2) -> Integer.compare(y1, y2))
                                                                              .get();
 
+                //find all the tiles of the block at that height.
                 final List<Coordinate> bottomSide = context.getOverlap(enteringPoint, block).stream()
-                                                                .filter(p -> p.getPoint().y == yMin).collect(Collectors.toList());
+                                                                                            .filter(p -> p.getPoint().y == yMin)
+                                                                                            .collect(Collectors.toList());
+
+                //find all the matrix coordinates in which the bottom side lays. These coordinates will be memorized in support.
                 final List<LevelGenerationEntity> support = new ArrayList<>();
-                for (final Coordinate c : bottomSide) {
-                    try {
-                        support.add(context.getElement(c.sub(new Coordinate(1, 1))));
-                    } catch (IllegalArgumentException e) {
-                        return false;
-                    }
+                try {
+                    bottomSide.stream().forEach(c -> support.add(context.getElement(c.sub(new Coordinate(0, 1)))));
+                } catch (IllegalArgumentException e) {
+                    return false;
                 }
-                return (support.stream().allMatch(e -> e.getComponentsSet().contains("Architecture")));
+
+                //return if all the supports block are architectural elements and not obstacles of some kind.
+                return (support.stream().allMatch(e -> e.getComponentsSet().contains("Architecture") 
+                                                   && (e.getType().equals(Faction.NEUTRAL_IMMORTAL) 
+                                                       || e.getType().equals(Faction.NEUTRAL_MORTAL))));
             }
         });
         return mustBeOnGround;
@@ -55,11 +62,10 @@ public class ConditionFactoryImpl implements ConditionFactory {
     public final Condition notTooNearRival() {
         final Condition notTooNearRival = new ConditionImpl();
 
-        notTooNearRival.addCondition(new Function<BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
+        notTooNearRival.addCondition(new Function<BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
+            public Boolean apply(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> i) {
 
-            public Boolean apply(final BlockInsertion<? extends GridImpl, ? extends EntityBlock, ? extends Coordinate> i) {
-
-                final GridImpl context = i.getContext();
+                final Grid context = i.getContext();
                 final EntityBlock block = i.getBlock();
                 final Coordinate enteringPoint = i.getInsertionPoint();
 
@@ -94,5 +100,51 @@ public class ConditionFactoryImpl implements ConditionFactory {
             }
         });
         return notTooNearRival;
+    }
+
+    @Override
+    public final Condition leaveMeAlone() {
+        final Condition leaveMeAlone = new ConditionImpl();
+        leaveMeAlone.addCondition(new Function<BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
+
+            public Boolean apply(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> i) {
+
+                final Grid context = i.getContext();
+                final Coordinate enteringPoint = i.getInsertionPoint();
+
+                //project the entering point of the entity in the first architectural element.
+                int yRay = enteringPoint.getPoint().y;
+                int xRay = enteringPoint.getPoint().x;
+                while (context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture") 
+                       && yRay >= 0) {
+                    yRay = yRay - 1;
+                }
+
+                //seek all the points of the platform detected by the yRay.
+                final List<Coordinate> platform = new ArrayList<>();
+
+                while (context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture") 
+                       && xRay < context.getSize().getPoint().x) {
+
+                    platform.add(new Coordinate(xRay, yRay));
+                    xRay = xRay + 1;
+                }
+
+                xRay = enteringPoint.getPoint().x;
+                while (context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture") 
+                        && xRay >= 0) {
+
+                     platform.add(new Coordinate(xRay, yRay));
+                     xRay = xRay - 1;
+                }
+
+                //return true if all the tiles above the platform are free.
+                return (platform.stream()
+                                .filter(c -> context.isInMatrixBounds(c.sum(new Coordinate(0, 1))))
+                                .map(c -> c.sum(new Coordinate(0, 1)))
+                                .allMatch(c -> context.getElement(c).equals(context.getVoid())));
+            }
+        });
+        return leaveMeAlone;
     }
 }

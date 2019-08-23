@@ -24,8 +24,9 @@ public final class ConditionGiverImpl implements ConditionGiver {
 
         case ("Life") :
             conditions.add(conditionFactory.notTooNearRival());
+            conditions.add(conditionFactory.leaveMeAlone());
         default:
-
+            //do nothing
         }
         return (conditions.isEmpty()) ? Optional.empty() : Optional.of(conditions);
     }

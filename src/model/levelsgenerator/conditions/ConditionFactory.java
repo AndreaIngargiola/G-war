@@ -17,4 +17,10 @@ public interface ConditionFactory {
      * @return true if there aren't rivals of the entity in the vital space radius, false otherwise.
      */
     Condition notTooNearRival();
+
+    /**
+     * Check if there are other non-architecture entities in the same platform of this entity.
+     * @return true if the platform is free, false if there are other non-architecture entities already placed.
+     */
+    Condition leaveMeAlone();
 }

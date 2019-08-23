@@ -9,6 +9,7 @@ import model.levelsgenerator.conditions.ConditionGiver;
 import model.levelsgenerator.geometry.BlockImpl;
 import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
+import model.levelsgenerator.geometry.Grid;
 import model.levelsgenerator.geometry.GridImpl;
 
 /**
@@ -61,9 +62,9 @@ public class EntityBlock extends BlockImpl {
      * @param insertionPoint is the point of the grid that will corresponds to the spawn point of the block.
      * @return true if all conditions are respected, false otherwise.
      */
-    public Boolean verifyPlacingConditions(final GridImpl gridSnapshot, final Coordinate insertionPoint) {
+    public Boolean verifyPlacingConditions(final Grid gridSnapshot, final Coordinate insertionPoint) {
         return this.placingConditions.stream()
-                              .map(c -> c.verify(new BlockInsertion<GridImpl, EntityBlock, Coordinate>(gridSnapshot, this, insertionPoint)))
+                              .map(c -> c.verify(new BlockInsertion<Grid, EntityBlock, Coordinate>(gridSnapshot, this, insertionPoint)))
                               .allMatch(c -> c.equals(Boolean.TRUE));
     }
 }

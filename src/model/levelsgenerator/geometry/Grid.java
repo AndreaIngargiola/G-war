@@ -7,7 +7,7 @@ import model.levelsgenerator.EntityBlock;
 import model.levelsgenerator.LevelGenerationEntity;
 
 /**
- * A class for the matrix generation and blocks insertion.
+ * A class for the matrix generation and LevelGenerationEntity manipulation that uses blocks insertion logic.
  */
 public interface Grid {
 
@@ -67,4 +67,18 @@ public interface Grid {
      * @return the entity that the grid uses as placeholder for empty blocks.
      */
     LevelGenerationEntity getVoid();
+
+    /**
+     * A setter for a single element of the matrix.
+     * @param elemCoordinates is the element's place in the matrix.
+     * @param value is the LevelGeneration entity that the block will represent from now on.
+     * @throws IllegalArgumentException if the coordinates are out of bounds.
+     */
+    void setElement(Coordinate elemCoordinates, LevelGenerationEntity value) throws IllegalArgumentException;
+
+    /**
+     * Get a copy of this grid.
+     * @return a defense copy of this grid.
+     */
+    Grid getCopy();
 }

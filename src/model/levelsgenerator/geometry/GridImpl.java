@@ -12,7 +12,7 @@ import model.levelsgenerator.EntityBlock;
 import model.levelsgenerator.LevelGenerationEntity;
 
 /**
- * Implements the Grid interface using the LevelGenerationEntity abstraction for entities placing.
+ * Implements the Grid interface using the Map<Coordinate, LevelGenerationEntity> as data structure.
  * The static private entity VOID represents a empty block of the grid. 
  */
 public class GridImpl implements Grid {
@@ -35,6 +35,18 @@ public class GridImpl implements Grid {
         }
         this.size = new Coordinate(columns, rows);
     }
+
+    
+    /**
+     * A constructor used for the creation of copies between Grids.
+     * @param matrix is the map with the matrix map entries of the original Grid.
+     * @param size is the size of the original Grid.
+     */
+    public GridImpl(Map<Coordinate, LevelGenerationEntity> matrix, Coordinate size) {
+        this.matrix = matrix;
+        this.size = size;
+    }
+
 
     @Override
     public final void reset() {
@@ -88,13 +100,8 @@ public class GridImpl implements Grid {
         return GridImpl.VOID;
     }
 
-    /**
-     * A setter for a single element of the matrix.
-     * @param elemCoordinates is the element's place in the matrix.
-     * @param value is the LevelGeneration entity that the block will represent from now on.
-     * @throws IllegalArgumentException if the coordinates are out of bounds.
-     */
-    public void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity value) throws IllegalArgumentException {
+    @Override
+    public final void setElement(final Coordinate elemCoordinates, final LevelGenerationEntity value) throws IllegalArgumentException {
         if (this.isInMatrixBounds(elemCoordinates)) {
             this.matrix.put(elemCoordinates, value);
         } else {
@@ -102,6 +109,10 @@ public class GridImpl implements Grid {
         }
     }
 
+    @Override
+    public final Grid getCopy() {
+        return new GridImpl(this.getSnapshot(), this.size.getSafeCopy());
+    }
     /**
      * Print on system.out the inner matrix with a cartesian representation 
      * (the (0,0) is the bottom left and the (size x,size y) is in the upper right).

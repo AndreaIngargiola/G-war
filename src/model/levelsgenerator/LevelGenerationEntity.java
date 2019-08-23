@@ -19,13 +19,17 @@ public class LevelGenerationEntity {
     private static final String COMPONENTS_SEPARATOR = "-"; 
 
     /**
-     * A void constructor.
+     * A constructor for manually creating a Level Generation Entity without third-party classes intervention.
+     * @param entityName is the entity name.
+     * @param fullName is the canonical name of the represented class.
+     * @param componentsSet is a set of components.
+     * @param type is the faction of the class (mandatory for all AbstractEntity subclasses).
      */
-    public LevelGenerationEntity() {
-        this.entityName = "VOID";
-        this.componentsSet = new HashSet<>();
-        this.type = Faction.NEUTRAL_IMMORTAL;
-        this.fullName = "null";
+    public LevelGenerationEntity(final String entityName, final String fullName, final Set<String> componentsSet, final Faction type) {
+        this.entityName = entityName;
+        this.fullName = fullName;
+        this.componentsSet = componentsSet;
+        this.type = type;
     }
 
     /**

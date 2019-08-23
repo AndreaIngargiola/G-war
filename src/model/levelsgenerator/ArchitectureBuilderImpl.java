@@ -22,16 +22,15 @@ import model.math.BallsUrn;
  */
 public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
-    private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 1);
+    private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 5);
     private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 75;
     private final Map<EntityBlock, BallsUrn> neutralEnv;
     private final Map<EntityBlock, BallsUrn> hostileEnv;
-    private final GridImpl level;
-    private final GridImpl trace;
+    private final Grid level;
+    private final Grid trace;
     private final BlockImpl tolerance;
     private LevelGenerationEntity floor;
     private final Random randomIterator;
-
 
    /**
     * The constructor for the architecture builder.
@@ -57,7 +56,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
         /*Create the triangular block that represents the coordinates that can be reached with a jump*/
         this.tolerance = new BlockImpl();
         for (int i = 0; i < jumpingDistance.getPoint().x; i++) {
-            for (int j = 0; j < jumpingDistance.getPoint().y; j++) {
+            for (int j = 0; j < jumpingDistance.getPoint().y - i; j++) {
                 this.tolerance.addPoint(new Coordinate(i, j));
             }
         }
@@ -78,6 +77,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
             level.setElement(new Coordinate(i, 0), this.floor);
         }
     }
+
     /**
      * Get the next random point where place an architectural element.
      * @param actualPoint
@@ -85,16 +85,35 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
      */
     private Coordinate getNextPoint(final Coordinate actualPoint) {
         final List<Coordinate> possibilities = this.level.getOverlap(actualPoint.sum(new Coordinate(1, 0)), this.tolerance);
-        return possibilities.isEmpty() ? new Coordinate(this.level.getSize().getPoint().x, 1) : possibilities.get(this.randomIterator.nextInt(possibilities.size()));
+        if (possibilities.isEmpty()) {
+            return new Coordinate(this.level.getSize().getPoint().x, 1);
+        } else {
+            //double the probability to choose an upper point
+            possibilities.addAll(possibilities.stream()
+                                              .filter(c -> c.getPoint().y > actualPoint.getPoint().y)
+                                              .collect(Collectors.toList()));
+
+            //because of gravity, all the points under the overlap are eligible of being chosen as point of origin of the next platform
+            final List<Integer> xList = possibilities.stream().map(c -> c.getPoint().x).collect(Collectors.toList());
+            for (final Integer x : xList) {
+                final int yMin = possibilities.stream()
+                                              .filter(p -> p.getPoint().x == x)
+                                              .map(p -> p.getPoint().y)
+                                              .min((y1, y2) -> Integer.compare(y1, y2))
+                                              .get();
+                for (int i = 1; i < yMin; i++) {
+                    possibilities.add(new Coordinate(x, i));
+                }
+            }
+            return possibilities.get(this.randomIterator.nextInt(possibilities.size()));
+        }
     }
 
     private Coordinate findFirstPoint() {
         final Optional<Coordinate> nearestPlatform = this.trace.getSnapshot().entrySet().stream()
-                                                                                        .filter(tiles -> !tiles.getValue().equals(this.floor))
-                                                                                        .filter(es -> es.getValue().getType().equals(Faction.NEUTRAL_IMMORTAL) 
-                                                                                                   || es.getValue().getType().equals(Faction.NEUTRAL_MORTAL))
-                                                                                        .map(e -> e.getKey())
-                                                                                        .max((c1, c2) -> c1.getPoint().x - c2.getPoint().x);
+                                                                                        .filter(tiles -> !tiles.getValue().equals(this.floor) && !tiles.getValue().equals(this.trace.getVoid()))
+                                                                                        .map(e -> e.getKey()).findFirst();
+                                                                                        //.max((c1, c2) -> c1.getPoint().x - c2.getPoint().x);
         if (nearestPlatform.equals(Optional.empty())) {
             return ArchitectureBuilderImpl.DEFAULT_STARTING_POINT;
         } else {
@@ -119,12 +138,15 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
     private void updateTrace() {
         final int minimumInterestingX = this.level.getSize().getPoint().x - this.trace.getSize().getPoint().x;
         this.level.getSnapshot().keySet().stream()
-                                         .filter(c -> c.getPoint().x > minimumInterestingX)
-                                         .forEach(c -> this.trace.setElement(c.sub(new Coordinate(minimumInterestingX, 0)), this.level.getElement(c)));
+                                         .filter(c -> c.getPoint().x >= minimumInterestingX)
+                                         .forEach(c -> {
+                                             this.trace.setElement(c.sub(new Coordinate(minimumInterestingX, 0)), this.level.getElement(c));
+                                         });
     }
 
     @Override
-    public Grid getArchitecture(final Grid grid) {
+    public Grid getArchitecture() {
+
         /*Initialize local variables*/
         this.updateTrace();
         this.level.reset();
@@ -168,7 +190,7 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
                 entityLock = Boolean.FALSE;
             }
         }
-        return this.level;
+        return this.level.getCopy();
     }
 
 }

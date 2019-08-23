@@ -19,6 +19,7 @@ import model.levelsgenerator.geometry.Grid;
 import model.levelsgenerator.geometry.GridImpl;
 
 import model.math.BallsUrn;
+import model.math.BallsUrn.Color;
 import model.math.BallsUrnImpl;
 
 /**
@@ -27,11 +28,11 @@ import model.math.BallsUrnImpl;
 public final class LevelGeneratorImpl implements LevelGenerator {
 
     private static final int BALLS_NUMBER = 10;
-    private static final int GRID_RANK = 20;
+    private static final Coordinate GRID_DIM = new Coordinate(10, 20);
     private static final Coordinate JUMP_RANGE = new Coordinate(3, 3);
-    private static final int MAX_ATTEMPTS = 20;
+    private static final int MAX_ATTEMPTS = 100;
     private static final int REPEAT_ENEMY_PERCENTAGE = 20;
-    private static final int MAX_ENTITIES = 6;
+    private static final int MAX_ENTITIES = 3;
 
     private EntityBlock player;
 
@@ -54,14 +55,14 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         this.iteration = 0;
         this.randomIterator = new Random();
         this.attemptedPoints = new ArrayList<>();
-        this.levelGrid = new GridImpl(LevelGeneratorImpl.GRID_RANK, LevelGeneratorImpl.GRID_RANK);
+        this.levelGrid = new GridImpl(LevelGeneratorImpl.GRID_DIM.getPoint().x, LevelGeneratorImpl.GRID_DIM.getPoint().y);
     }
 
     @Override
     public Map<Point, String> getNewLevel() {
         Boolean entityLock = Boolean.FALSE;
         this.levelGrid.reset();
-        this.levelGrid = this.archBuilder.getArchitecture(this.levelGrid);
+        this.levelGrid = this.archBuilder.getArchitecture();
 
         if (this.iteration.equals(0)) {
             this.placePlayer();
@@ -89,7 +90,7 @@ public final class LevelGeneratorImpl implements LevelGenerator {
             Coordinate point = this.getRandomPoint();
 
             while (attempts <= LevelGeneratorImpl.MAX_ATTEMPTS 
-                   && selectedEntity.verifyPlacingConditions((GridImpl) this.levelGrid, point).equals(Boolean.FALSE)) {
+                   && selectedEntity.verifyPlacingConditions(this.levelGrid, point).equals(Boolean.FALSE)) {
                 failedPoints.add(point);
                 attempts = attempts + 1;
                 while (failedPoints.contains(point)) {
@@ -99,11 +100,12 @@ public final class LevelGeneratorImpl implements LevelGenerator {
 
             if (attempts.equals(LevelGeneratorImpl.MAX_ATTEMPTS)) {
                 entityLock = Boolean.FALSE;
+                this.blockMap.get(selectedEntity).insertSingleBall(Color.BLACK);
             } else {
                 this.levelGrid.place(point, selectedEntity);
-                entitiesPlaced = entitiesPlaced + 1;
                 entityLock = (this.randomIterator.nextInt(100) < LevelGeneratorImpl.REPEAT_ENEMY_PERCENTAGE) ? Boolean.TRUE : Boolean.FALSE;
             }
+            entitiesPlaced = entitiesPlaced + 1;
         }
 
         final Map<Point, String> results = new HashMap<>();
@@ -124,7 +126,8 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         Coordinate point = new Coordinate(0, 0);
         this.attemptedPoints.clear();
 
-        while (this.player.verifyPlacingConditions((GridImpl) this.levelGrid, point).equals(Boolean.FALSE)) {
+        while (this.player.verifyPlacingConditions(this.levelGrid, point).equals(Boolean.FALSE)) {
+            this.attemptedPoints.add(point);
             while (this.attemptedPoints.contains(point)) {
                 point = this.getRandomPoint();
             }
@@ -206,8 +209,8 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         });
 
         /*pass all the architecture blocks to the Architecture Builder*/
-        this.archBuilder = new ArchitectureBuilderImpl(architecture, 
-                                                       new Coordinate(LevelGeneratorImpl.GRID_RANK, LevelGeneratorImpl.GRID_RANK), 
+        this.archBuilder = new ArchitectureBuilderImpl(architecture,
+                                                       LevelGeneratorImpl.GRID_DIM.getSafeCopy(), 
                                                        LevelGeneratorImpl.JUMP_RANGE);
 
         /*remove all the possible player blocks from the spawn table, keeping one for the player placing*/

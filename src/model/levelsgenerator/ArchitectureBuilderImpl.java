@@ -24,10 +24,13 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
 
     private static final Coordinate DEFAULT_STARTING_POINT = new Coordinate(0, 5);
     private static final int CONTIGUOUS_ELEMENTS_PERCENTAGE = 75;
+
     private final Map<EntityBlock, BallsUrn> neutralEnv;
     private final Map<EntityBlock, BallsUrn> hostileEnv;
+
     private final Grid level;
     private final Grid trace;
+
     private final BlockImpl tolerance;
     private LevelGenerationEntity floor;
     private final Random randomIterator;
@@ -67,81 +70,6 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
                               .collect(Collectors.toList());
         floors.stream().peek(f -> this.floor = f.getEntity()).forEach(f -> this.hostileEnv.remove(f));
         this.placeFloor();
-    }
-
-    private void placeFloor() {
-        for (int i = 0; i < this.level.getSize().getPoint().x; i++) {
-            if (i < this.trace.getSize().getPoint().x) {
-                trace.setElement(new Coordinate(i, 0), this.floor);
-            }
-            level.setElement(new Coordinate(i, 0), this.floor);
-        }
-    }
-
-    /**
-     * Get the next random point where place an architectural element.
-     * @param actualPoint
-     * @return
-     */
-    private Coordinate getNextPoint(final Coordinate actualPoint) {
-        final List<Coordinate> possibilities = this.level.getOverlap(actualPoint.sum(new Coordinate(1, 0)), this.tolerance);
-        if (possibilities.isEmpty()) {
-            return new Coordinate(this.level.getSize().getPoint().x, 1);
-        } else {
-            //double the probability to choose an upper point
-            possibilities.addAll(possibilities.stream()
-                                              .filter(c -> c.getPoint().y > actualPoint.getPoint().y)
-                                              .collect(Collectors.toList()));
-
-            //because of gravity, all the points under the overlap are eligible of being chosen as point of origin of the next platform
-            final List<Integer> xList = possibilities.stream().map(c -> c.getPoint().x).collect(Collectors.toList());
-            for (final Integer x : xList) {
-                final int yMin = possibilities.stream()
-                                              .filter(p -> p.getPoint().x == x)
-                                              .map(p -> p.getPoint().y)
-                                              .min((y1, y2) -> Integer.compare(y1, y2))
-                                              .get();
-                for (int i = 1; i < yMin; i++) {
-                    possibilities.add(new Coordinate(x, i));
-                }
-            }
-            return possibilities.get(this.randomIterator.nextInt(possibilities.size()));
-        }
-    }
-
-    private Coordinate findFirstPoint() {
-        final Optional<Coordinate> nearestPlatform = this.trace.getSnapshot().entrySet().stream()
-                                                                                        .filter(tiles -> !tiles.getValue().equals(this.floor) && !tiles.getValue().equals(this.trace.getVoid()))
-                                                                                        .map(e -> e.getKey()).findFirst();
-                                                                                        //.max((c1, c2) -> c1.getPoint().x - c2.getPoint().x);
-        if (nearestPlatform.equals(Optional.empty())) {
-            return ArchitectureBuilderImpl.DEFAULT_STARTING_POINT;
-        } else {
-            return new Coordinate(-(nearestPlatform.get().getPoint().x - this.trace.getSize().getPoint().x), 
-                                  nearestPlatform.get().getPoint().y); 
-        }
-    }
-
-    private EntityBlock chooseEntity(final Map<EntityBlock, BallsUrn> blockList) {
-        BallsUrn.Color ball = BallsUrn.Color.WHITE;
-        while (ball.equals(BallsUrn.Color.WHITE)) {
-            for (final EntityBlock b : blockList.keySet()) {
-                ball = blockList.get(b).getBall();
-                if (ball.equals(BallsUrn.Color.BLACK)) {
-                    return b;
-                }
-            }
-        }
-        return null;
-    }
-
-    private void updateTrace() {
-        final int minimumInterestingX = this.level.getSize().getPoint().x - this.trace.getSize().getPoint().x;
-        this.level.getSnapshot().keySet().stream()
-                                         .filter(c -> c.getPoint().x >= minimumInterestingX)
-                                         .forEach(c -> {
-                                             this.trace.setElement(c.sub(new Coordinate(minimumInterestingX, 0)), this.level.getElement(c));
-                                         });
     }
 
     @Override
@@ -193,4 +121,90 @@ public final class ArchitectureBuilderImpl implements ArchitectureBuilder {
         return this.level.getCopy();
     }
 
+    private void placeFloor() {
+        for (int i = 0; i < this.level.getSize().getPoint().x; i++) {
+            if (i < this.trace.getSize().getPoint().x) {
+                trace.setElement(new Coordinate(i, 0), this.floor);
+            }
+            level.setElement(new Coordinate(i, 0), this.floor);
+        }
+    }
+
+    /**
+     * Get the next random point where place an architectural element.
+     * @param actualPoint
+     * @return
+     */
+    private Coordinate getNextPoint(final Coordinate actualPoint) {
+        final List<Coordinate> possibilities = this.level.getOverlap(actualPoint.sum(new Coordinate(1, 0)), this.tolerance);
+        if (possibilities.isEmpty()) {
+            return new Coordinate(this.level.getSize().getPoint().x, 1);
+        } else {
+            //double the probability to choose an upper point
+            possibilities.addAll(possibilities.stream()
+                                              .filter(c -> c.getPoint().y > actualPoint.getPoint().y)
+                                              .collect(Collectors.toList()));
+
+            //because of gravity, all the points under the overlap are eligible of being chosen as point of origin of the next platform
+            final List<Integer> xList = possibilities.stream().map(c -> c.getPoint().x).collect(Collectors.toList());
+            for (final Integer x : xList) {
+                final int yMin = possibilities.stream()
+                                              .filter(p -> p.getPoint().x == x)
+                                              .map(p -> p.getPoint().y)
+                                              .min((y1, y2) -> Integer.compare(y1, y2))
+                                              .get();
+                for (int i = 1; i < yMin; i++) {
+                    possibilities.add(new Coordinate(x, i));
+                }
+            }
+            return possibilities.get(this.randomIterator.nextInt(possibilities.size()));
+        }
+    }
+
+    /**
+     * Find the first point in a new iteration of the Architecture builder: lookup in the trace of the previous level where to place the first platform of the current level.
+     * @return the first point in the current level where a platform can be reached.
+     */
+    private Coordinate findFirstPoint() {
+        final Optional<Coordinate> nearestPlatform = this.trace.getSnapshot().entrySet().stream()
+                                                                                        .filter(tiles -> !tiles.getValue().equals(this.floor) && !tiles.getValue().equals(this.trace.getVoid()))
+                                                                                        .map(e -> e.getKey())
+                                                                                        .max((c1, c2) -> Integer.compare(c1.getPoint().x, c2.getPoint().x));
+        if (nearestPlatform.equals(Optional.empty())) {
+            return ArchitectureBuilderImpl.DEFAULT_STARTING_POINT;
+        } else {
+            return new Coordinate(-(nearestPlatform.get().getPoint().x - this.trace.getSize().getPoint().x), 
+                                  nearestPlatform.get().getPoint().y); 
+        }
+    }
+
+    /**
+     * Choose witch entity place via balls extraction.
+     * @param blockList is the list of entities used as source.
+     * @return the chosen entityBlock.
+     */
+    private EntityBlock chooseEntity(final Map<EntityBlock, BallsUrn> blockList) {
+        BallsUrn.Color ball = BallsUrn.Color.WHITE;
+        while (ball.equals(BallsUrn.Color.WHITE)) {
+            for (final EntityBlock b : blockList.keySet()) {
+                ball = blockList.get(b).getBall();
+                if (ball.equals(BallsUrn.Color.BLACK)) {
+                    return b;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Update the trace of the level with the current level grid status.
+     */
+    private void updateTrace() {
+        final int minimumInterestingX = this.level.getSize().getPoint().x - this.trace.getSize().getPoint().x;
+        this.level.getSnapshot().keySet().stream()
+                                         .filter(c -> c.getPoint().x >= minimumInterestingX)
+                                         .forEach(c -> {
+                                             this.trace.setElement(c.sub(new Coordinate(minimumInterestingX, 0)), this.level.getElement(c));
+                                         });
+    }
 }

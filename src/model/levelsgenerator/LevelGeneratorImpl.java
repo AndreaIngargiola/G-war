@@ -60,24 +60,26 @@ public final class LevelGeneratorImpl implements LevelGenerator {
 
     @Override
     public Map<Point, String> getNewLevel() {
+        //reset the local variables and get architecture.
         Boolean entityLock = Boolean.FALSE;
         this.levelGrid.reset();
         this.levelGrid = this.archBuilder.getArchitecture();
-
-        if (this.iteration.equals(0)) {
-            this.placePlayer();
-        }
-
         Integer entitiesPlaced = 0; 
         BallsUrn.Color ball = BallsUrn.Color.WHITE;
         EntityBlock selectedEntity = this.blockMap.keySet().iterator().next();
 
+        //if is the the first iteration, place the player.
+        if (this.iteration.equals(0)) {
+            this.placePlayer();
+        }
+
+        //start the main placing cycle.
         while (entitiesPlaced < LevelGeneratorImpl.MAX_ENTITIES) {
-            if (entityLock.equals(Boolean.FALSE)) {
+            if (entityLock.equals(Boolean.FALSE)) {                             //if the entity lock is false, choose a new entity via balls sort.
                 while (ball.equals(BallsUrn.Color.WHITE)) {
                     for (final EntityBlock e : this.blockMap.keySet()) {
                         ball = this.blockMap.get(e).getBall();
-                        if (ball.equals(BallsUrn.Color.BLACK)) {
+                        if (ball.equals(BallsUrn.Color.BLACK)) {                //continue until a black ball is extracted.
                             selectedEntity = e;
                             break;
                         }
@@ -85,10 +87,13 @@ public final class LevelGeneratorImpl implements LevelGenerator {
                 }
             }
 
+            //reset iteration variable and try to place the selected entity.
             Integer attempts = 0;
             final List<Coordinate> failedPoints = new ArrayList<>();
             Coordinate point = this.getRandomPoint();
 
+            //while the selected point does not respect the placing condition, choose a new point; 
+            //the iteration of this cycle are limited by max attempts.
             while (attempts <= LevelGeneratorImpl.MAX_ATTEMPTS 
                    && selectedEntity.verifyPlacingConditions(this.levelGrid, point).equals(Boolean.FALSE)) {
                 failedPoints.add(point);
@@ -98,16 +103,22 @@ public final class LevelGeneratorImpl implements LevelGenerator {
                 }
             }
 
+            //if the program reached this point exiting the cycle at the max-th attempt, the entity cannot be placed, so restore the black ball and deactivate the entity lock.
             if (attempts.equals(LevelGeneratorImpl.MAX_ATTEMPTS)) {
                 entityLock = Boolean.FALSE;
                 this.blockMap.get(selectedEntity).insertSingleBall(Color.BLACK);
             } else {
-                this.levelGrid.place(point, selectedEntity);
-                entityLock = (this.randomIterator.nextInt(100) < LevelGeneratorImpl.REPEAT_ENEMY_PERCENTAGE) ? Boolean.TRUE : Boolean.FALSE;
+                if (selectedEntity.verifyPlacingConditions(this.levelGrid, point).equals(Boolean.TRUE)) {   //else, place it only if surpass another check of the placing conditions.
+                    this.levelGrid.place(point, selectedEntity);
+
+                    //roll a dice if the next entity to place will be the same or will be sorted again via balls extraction.
+                    entityLock = (this.randomIterator.nextInt(100) < LevelGeneratorImpl.REPEAT_ENEMY_PERCENTAGE) ? Boolean.TRUE : Boolean.FALSE;
+                }
             }
-            entitiesPlaced = entitiesPlaced + 1;
+            entitiesPlaced = entitiesPlaced + 1;        //increment the entitiesPLaced whenever the entity is placed or not: prevents infinite cycle.
         }
 
+        //print the result in output without the empty grid slots.
         final Map<Point, String> results = new HashMap<>();
         this.levelGrid.getSnapshot().entrySet().stream()
                                                .filter(e -> !e.getValue().equals(this.levelGrid.getVoid()))

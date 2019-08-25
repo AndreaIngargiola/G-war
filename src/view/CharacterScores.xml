@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><characters>
-<character>
+
+   
+   
+
+    <character>
         <player>Edoardo</player>
         <score>50</score>
     </character><character>
@@ -20,17 +24,7 @@
     </character><character>
         <player>Caterina</player>
         <score>20</score>
-    </character><character>
+    </character><character><player>Elisa</player><score>20</score></character><character>
         <player>Jessica</player>
         <score>18</score>
-   </character>
-   <character>
-       <player>Sabrina</player>
-       <score>15</score>
-   </character>
-   <character>
-       <player>Giada</player>
-       <score>10</score>
-   </character>
-</characters>
-
+   </character></characters>

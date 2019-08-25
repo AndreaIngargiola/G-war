@@ -137,7 +137,7 @@ public class GameModelImpl implements GameModel {
                     } else {
                         m = this.entityFactory.getClass().getMethod("create" + levelDraft.get(p), Vec2.class);
                         m.setAccessible(true);
-                        EntityController ent = (EntityController) m.invoke(this.entityFactory, convertedCoordinate);
+                        final EntityController ent = (EntityController) m.invoke(this.entityFactory, convertedCoordinate);
                         GameModelImpl.ENTITIES.get(this.lg.getIteration() - 1).add(ent);
                     }
                 } catch (NoSuchMethodException | SecurityException e) {
@@ -203,7 +203,7 @@ public class GameModelImpl implements GameModel {
                     GameModelImpl.ENTITIES.get(desideredLevelNumber).clear();
 
                     //place an invisible wall so the player cannot reach deallocated areas.
-                    BodyBuilder bodyWall = new BodyBuilderImpl();
+                    final BodyBuilder bodyWall = new BodyBuilderImpl();
                     new InvisibleWall(bodyWall, new Vec2((desideredLevelNumber + 1) * GameModelImpl.LEVEL_EXTENSION, GameModelImpl.LEVEL_EXTENSION));
                 }
             }

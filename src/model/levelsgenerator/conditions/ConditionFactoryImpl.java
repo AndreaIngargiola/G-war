@@ -50,9 +50,9 @@ public class ConditionFactoryImpl implements ConditionFactory {
                 }
 
                 //return if all the supports block are architectural elements and not obstacles of some kind.
-                return (support.stream().allMatch(e -> (e.getComponentsSet().contains("Architecture") 
-                                                   && (e.getType().equals(Faction.NEUTRAL_IMMORTAL) 
-                                                       || e.getType().equals(Faction.NEUTRAL_MORTAL)))));
+                return (support.stream().allMatch(t -> (t.getComponentsSet().contains("Architecture") 
+                                                   && (t.getType().equals(Faction.NEUTRAL_IMMORTAL) 
+                                                       || t.getType().equals(Faction.NEUTRAL_MORTAL)))));
             }
         });
         return mustBeOnGround;

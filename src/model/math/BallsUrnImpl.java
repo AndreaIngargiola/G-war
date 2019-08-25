@@ -35,7 +35,7 @@ public final class BallsUrnImpl implements BallsUrn {
 
     @Override
     public void refill(final int ballsNumber) {
-        final int realBallsNumber = (ballsNumber % 2 == 1) ? ballsNumber + 1 : ballsNumber;
+        final int realBallsNumber = (ballsNumber % 2 != 0) ? ballsNumber + 1 : ballsNumber;
         for (int i = 0; i < (realBallsNumber / 2); i++) {
             this.insertSingleBall(Color.BLACK);
             this.insertSingleBall(Color.WHITE);

@@ -36,13 +36,13 @@ public class GridImpl implements Grid {
         this.size = new Coordinate(columns, rows);
     }
 
-    
+
     /**
      * A constructor used for the creation of copies between Grids.
      * @param matrix is the map with the matrix map entries of the original Grid.
      * @param size is the size of the original Grid.
      */
-    public GridImpl(Map<Coordinate, LevelGenerationEntity> matrix, Coordinate size) {
+    public GridImpl(final Map<Coordinate, LevelGenerationEntity> matrix, final Coordinate size) {
         this.matrix = matrix;
         this.size = size;
     }
@@ -118,7 +118,7 @@ public class GridImpl implements Grid {
      * (the (0,0) is the bottom left and the (size x,size y) is in the upper right).
      */
     public final void printAsCartesianPlane() {
-        List<List<String>> mat = new ArrayList<>();
+        final List<List<String>> mat = new ArrayList<>();
 
         for (int i = 0; i < this.getSize().getPoint().y; i++) {
             mat.add(new ArrayList<>());

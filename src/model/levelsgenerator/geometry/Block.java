@@ -9,20 +9,26 @@ import java.util.List;
 public interface Block {
 
     /**
-     * add a point to the block.
+     * Add a point to the block.
      * @param c is the point to add to the block.
      */
     void addPoint(Coordinate c);
 
     /**
-     * get the relative coordinates of the points that form the block based on the spawn point.
+     * Get the relative coordinates of the points that form the block based on the spawn point.
      * @return the list of relative coordinates.
      */
     List<Coordinate> getRelativeCoordinates();
 
     /**
-     * get the number of points that compose the block.
+     * Get the number of points that compose the block.
      * @return the number of points that compose the block.
      */
     int getOccupation();
+
+    /**
+     * Get a defensive copy of the block.
+     * @return a defensive copy of the block.
+     */
+    Block getCopy();
 }

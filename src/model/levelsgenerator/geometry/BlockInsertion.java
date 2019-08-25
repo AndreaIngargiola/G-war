@@ -20,7 +20,6 @@ public class BlockInsertion<X extends Grid, Y extends Block, Z extends Coordinat
      * @param insertionPoint is the insertion point in the grid of the block.
      */
     public BlockInsertion(final X context, final Y block, final Z insertionPoint) {
-        super();
         this.context = context;
         this.block = block;
         this.insertionPoint = insertionPoint;

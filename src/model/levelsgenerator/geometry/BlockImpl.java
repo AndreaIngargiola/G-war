@@ -37,4 +37,14 @@ public class BlockImpl implements Block {
     public final int getOccupation() {
         return this.vertex.size();
     }
+
+    /**
+     * @allowed extension that respects the safe copies paradigm and the accuracy of the fields.
+     */
+    @Override
+    public Block getCopy() {
+        final Block copy = new BlockImpl();
+        this.vertex.stream().forEach(c -> copy.addPoint(c.getSafeCopy()));
+        return copy;
+    }
 }

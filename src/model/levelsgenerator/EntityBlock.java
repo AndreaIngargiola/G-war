@@ -6,11 +6,11 @@ import java.util.Optional;
 
 import model.levelsgenerator.conditions.Condition;
 import model.levelsgenerator.conditions.ConditionGiver;
+import model.levelsgenerator.geometry.Block;
 import model.levelsgenerator.geometry.BlockImpl;
 import model.levelsgenerator.geometry.BlockInsertion;
 import model.levelsgenerator.geometry.Coordinate;
 import model.levelsgenerator.geometry.Grid;
-import model.levelsgenerator.geometry.GridImpl;
 
 /**
  * An extension of the Block class that implements the Entity handler.
@@ -29,6 +29,17 @@ public class EntityBlock extends BlockImpl {
         super();
         this.entity = e;
         this.buildConditions(cg);
+    }
+
+    /**
+     * A manual constructor for safe copying.
+     * @param e is the entity to associate.
+     * @param condList is a list of already built placing conditions.
+     */
+    private EntityBlock(final LevelGenerationEntity e, final List<Condition> condList) {
+        super();
+        this.entity = e;
+        this.placingConditions = condList;
     }
 
     /**
@@ -53,7 +64,7 @@ public class EntityBlock extends BlockImpl {
      * @return the entity associated with this block.
      */
     public LevelGenerationEntity getEntity() {
-        return this.entity;
+        return this.entity.getCopy();
     }
 
     /**
@@ -66,5 +77,10 @@ public class EntityBlock extends BlockImpl {
         return this.placingConditions.stream()
                               .map(c -> c.verify(new BlockInsertion<Grid, EntityBlock, Coordinate>(gridSnapshot, this, insertionPoint)))
                               .allMatch(c -> c.equals(Boolean.TRUE));
+    }
+
+    @Override
+    public final Block getCopy() {
+        return new EntityBlock(this.getEntity(), this.placingConditions);
     }
 }

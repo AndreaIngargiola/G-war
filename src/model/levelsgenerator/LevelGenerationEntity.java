@@ -74,7 +74,9 @@ public class LevelGenerationEntity {
      * @return the set of components names.
      */
     public Set<String> getComponentsSet() {
-        return this.componentsSet;
+        final Set<String> copy = new HashSet<>();
+        copy.addAll(this.componentsSet);
+        return copy;
     }
 
     /**
@@ -93,6 +95,13 @@ public class LevelGenerationEntity {
         return this.fullName;
     }
 
+    /**
+     * A getter for a defensive copy of this entity.
+     * @return a defensive copy of this entity.
+     */
+    public LevelGenerationEntity getCopy() {
+        return new LevelGenerationEntity(this.getEntityName(), this.getCanonicalName(), this.getComponentsSet(), this.getType());
+    }
     /* 
      * The hashCode implementation for this class.
      */

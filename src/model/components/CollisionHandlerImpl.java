@@ -36,13 +36,13 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
 
            case PSYCO_MORTAL:
                if (side == CollisionSide.OTHERS) {
-                   this.getEntity().get(Life.class).demage(other.get(Attack.class).getDamage());
+                   this.getEntity().get(Life.class).damage(other.get(Attack.class).getDamage());
                    other.get(Movement.class).changeDirection();
                    post(new CollisionEvent(this.getEntity()));
                } else {
                    this.getEntity().get(Points.class).addPoints(POINTS);
                    other.post(new CollisionEvent(other));
-                   other.get(Life.class).demage(source.get(Attack.class).getDamage());
+                   other.get(Life.class).damage(source.get(Attack.class).getDamage());
                    this.getEntity().getBody().applyImpulse(new Vec2(0, jumpSpeed));
                }
                break;
@@ -51,11 +51,11 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
                if (other.toString().equals("Grill")) {
                    if (other.get(TimerGrill.class).isDangerous()) {
                        post(new CollisionEvent(this.getEntity()));
-                       this.getEntity().get(Life.class).demage(LIFE_PENALITY);
+                       this.getEntity().get(Life.class).damage(other.get(Attack.class).getDamage());
                    }
                } else {
                    post(new CollisionEvent(this.getEntity()));
-                   this.getEntity().get(Life.class).demage(LIFE_PENALITY);
+                   this.getEntity().get(Life.class).damage(LIFE_PENALITY);
                }
                break;
 

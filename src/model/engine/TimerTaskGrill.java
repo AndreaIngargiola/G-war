@@ -1,6 +1,7 @@
 package model.engine;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -21,8 +22,14 @@ public class TimerTaskGrill  extends  TimerTask implements EntityEventSubscriber
     public final void run() {
 
         if (!grills.isEmpty()) {
-            grills.forEach(g -> g.get(TimerGrill.class).changeState());
-        }
+        	
+            grills.stream().forEach(g -> { try {
+            	g.get(TimerGrill.class).changeState();
+            } catch (ConcurrentModificationException e) {
+                //
+              }
+            });
+         }
     }
 
     /**

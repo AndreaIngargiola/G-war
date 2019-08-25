@@ -4,9 +4,10 @@ import org.jbox2d.common.Vec2;
 
 //import test.Main;
 import enumerators.Faction;
+import model.GameModelImpl;
 import model.components.ArchitectureImpl;
+import model.components.AttackImpl;
 import model.components.TimerGrillImpl;
-import model.engine.GameModelImpl;
 import model.physics.BodyBuilder;
 
 
@@ -18,6 +19,7 @@ public final class Grill extends AbstractEntity {
 
     private static final Faction TYPE = Faction.PSYCO_IMMORTAL;
     private static final Vec2 SIZE = new Vec2(10.5f, 10.5f);
+    private static final int DEFAULT_ATTACK = 1;
     /**
      * Used for the importation of the entity by reflection.
      */
@@ -41,6 +43,7 @@ public final class Grill extends AbstractEntity {
         GameModelImpl.getTimer().add(this);
         register(GameModelImpl.getTimer());
         add(new TimerGrillImpl());
+        add(new AttackImpl(DEFAULT_ATTACK));
         add(new ArchitectureImpl());
     }
 

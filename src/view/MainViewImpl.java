@@ -40,6 +40,7 @@ public class MainViewImpl implements MainView {
         stage.setResizable(false);
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
+        stage.setOnCloseRequest(e -> System.exit(0));
         setViewState(ViewState.MAIN_MENU, null);
     }
 

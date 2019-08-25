@@ -1,6 +1,5 @@
 package view;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -81,7 +80,7 @@ public class MainMenuGameController extends ViewControllerImpl {
      */
     @FXML
     protected void exit() {
-        Platform.exit();
+        System.exit(0);
     }
 
     /**

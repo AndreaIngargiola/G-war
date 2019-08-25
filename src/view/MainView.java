@@ -1,6 +1,5 @@
 package view;
 
-
 import controller.GameController;
 import javafx.scene.Node;
 import javafx.stage.Stage;

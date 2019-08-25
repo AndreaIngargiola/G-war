@@ -16,6 +16,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
+import view.model.OrderReadFileByScore;
+import view.model.RecordScore;
 
 /**
  * Controller of game over view.
@@ -61,14 +63,14 @@ public class GameOverController extends ViewControllerImpl {
         this.primaryPane.setBackground(myBg);
         this.primaryPane.setMinSize(STAGE_WIDTH, STAGE_HEIGHT);
         this.primaryPane.setMaxSize(STAGE_WIDTH, STAGE_WIDTH);
-        this.titleGameOver.setGraphic(new ImageView(new Image("/gameOver.png", TITLE_WIDTH, TITLE_HEIGHT, false, false)));
+        this.titleGameOver.setGraphic(new ImageView(new Image("imgMenu/gameOver.png", TITLE_WIDTH, TITLE_HEIGHT, false, false)));
         this.titleGameOver.setPadding(new Insets(TOP_PANE, 0, 0, 0));
         this.titleGameOver.setMinSize(TITLE_WIDTH, TITLE_HEIGHT);
         this.titleGameOver.setMaxSize(TITLE_WIDTH, TITLE_HEIGHT_MAX);
         this.menuButton.setBackground(myBg);
-        this.menuButton.setGraphic(new ImageView(new Image("/menuButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.menuButton.setGraphic(new ImageView(new Image("imgMenu/menuButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
         this.quitButton.setBackground(myBg);
-        this.quitButton.setGraphic(new ImageView(new Image("/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.quitButton.setGraphic(new ImageView(new Image("imgMenu/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
 
 
         orderFile.readFileAndOrder();

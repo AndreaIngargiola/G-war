@@ -21,7 +21,7 @@ public enum SceneNode {
      */
     GAME_OVER("gameOver.fxml");
 
-    private static final String PATH = "view/";
+    private static final String PATH = "";
     private final String nameFxml;
 
     /**

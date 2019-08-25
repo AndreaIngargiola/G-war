@@ -93,14 +93,14 @@ public class LeaderboardController extends ViewControllerImpl {
         this.playerNameColumn.setMaxWidth(CLM_TABLE_WIDTH);
         this.playerScoreColumn.setMaxWidth(CLM_TABLE_WIDTH);
 
-        this.titleLeaderboard.setGraphic(new ImageView(new Image("/leaderboard.png", TITLE_WIDTH, TITLE_HEIGHT, false, false)));
+        this.titleLeaderboard.setGraphic(new ImageView(new Image("imgMenu/leaderboard.png", TITLE_WIDTH, TITLE_HEIGHT, false, false)));
         this.titleLeaderboard.setPadding(new Insets(TOP_PANE, 0, 0, 0));
         this.titleLeaderboard.setMinSize(TITLE_WIDTH, SEC_PANE_HEIGHT);
         this.titleLeaderboard.setMaxSize(TITLE_WIDTH, SEC_PANE_HEIGHT);
         this.menuButton.setBackground(myBg);
-        this.menuButton.setGraphic(new ImageView(new Image("/menuButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.menuButton.setGraphic(new ImageView(new Image("imgMenu/menuButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
         this.exitBtn.setBackground(myBg);
-        this.exitBtn.setGraphic(new ImageView(new Image("/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
+        this.exitBtn.setGraphic(new ImageView(new Image("imgMenu/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
 
         playerNameColumn.setCellValueFactory(cellData -> cellData.getValue().playerNameProperty());
         playerScoreColumn.setCellValueFactory(cellData -> cellData.getValue().playerScoreProperty().asObject());
@@ -108,7 +108,7 @@ public class LeaderboardController extends ViewControllerImpl {
         playerTable.setItems(playerList);
 
         try {
-            final File inputFile = new File("src/view/CharacterScores.xml"); 
+            final File inputFile = new File("CharacterScores.xml"); 
             final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.parse(inputFile);

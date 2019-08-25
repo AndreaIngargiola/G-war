@@ -2,8 +2,7 @@ package controller;
 
 import com.google.common.eventbus.Subscribe;
 
-import model.engine.GameModelImpl;
-//import test.Main;
+import model.GameModelImpl;
 import model.entities.Entity;
 import model.events.ChangeStateEvent;
 import model.events.Death;

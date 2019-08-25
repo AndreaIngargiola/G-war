@@ -2,9 +2,8 @@ package model.components;
 
 import org.jbox2d.common.Vec2;
 
-//import test.Main;
 import enumerators.HorizontalDirection;
-import model.engine.GameModelImpl;
+import model.GameModelImpl;
 import model.events.PunchEvent;
 
 /**

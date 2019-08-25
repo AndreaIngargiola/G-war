@@ -1,6 +1,5 @@
 package model.physics;
 
-//import test.Main;
 import java.util.Optional;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -10,9 +9,9 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
+import model.GameModelImpl;
 import model.components.EntityBody;
 import model.components.EntityBodyImpl;
-import model.engine.GameModelImpl;
 
 /**
  * Implementation of {@link BodyBuilder}.

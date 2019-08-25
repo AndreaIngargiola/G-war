@@ -4,11 +4,10 @@ import org.jbox2d.common.Vec2;
 
 import com.google.common.eventbus.EventBus;
 
-//import test.Main;
+import model.GameModelImpl;
 import model.components.EntityBody;
 import enumerators.Faction;
 import model.components.EntityComponent;
-import model.engine.GameModelImpl;
 import model.events.Death;
 import model.events.EntityEvent;
 import model.events.EntityEventSubscriber;

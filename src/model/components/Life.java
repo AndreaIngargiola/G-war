@@ -12,6 +12,6 @@ public interface Life extends EntityComponent {
      * @param loss
      *            the number of health points that the entity loses 
      */
-    void demage(int loss);
+    void damage(int loss);
 
 }

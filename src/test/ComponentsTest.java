@@ -42,7 +42,7 @@ public class ComponentsTest {
      */
     @Test
     public void test2() {
-        player.get(Life.class).demage(10);
+        player.get(Life.class).damage(10);
 
         assertFalse("Dead", player.isAlive());
     }

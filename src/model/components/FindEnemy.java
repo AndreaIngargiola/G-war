@@ -21,7 +21,7 @@ public class FindEnemy implements RayCastCallback {
         final Entity entity = (Entity) fixture.getBody().getUserData();
             if (entity.getType().equals(Faction.PSYCO_MORTAL)) {
             entity.post(new CollisionEvent(entity));
-            entity.get(Life.class).demage(4);
+            entity.get(Life.class).damage(4);
             this.hit = true;
         }
         return -1;

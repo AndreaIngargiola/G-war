@@ -2,8 +2,8 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.stage.Stage;
-import model.engine.GameModel;
-import model.engine.GameModelImpl;
+import model.GameModel;
+import model.GameModelImpl;
 import view.MainView;
 import view.ViewState;
 import view.world.GameView;
@@ -41,7 +41,6 @@ public class GameControllerImpl implements GameController {
         animationTimer.start();
         model.start();
         view.start();
-        System.out.println("start");
     }
 
     @Override

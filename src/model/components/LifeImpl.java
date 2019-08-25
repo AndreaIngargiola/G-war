@@ -24,7 +24,7 @@ public class LifeImpl extends AbstractEntityComponent implements Life {
     }
 
     @Override
-    public final void demage(final int loss) {
+    public final void damage(final int loss) {
         this.current -= loss;
 
         if (this.current <= 0) {

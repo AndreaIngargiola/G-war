@@ -26,9 +26,9 @@ public class ConditionFactoryImpl implements ConditionFactory {
 
             public Boolean apply(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> i) {
 
-                final Grid context = i.getContext();
-                final EntityBlock block = i.getBlock();
-                final Coordinate enteringPoint = i.getInsertionPoint();
+                final Grid context = i.getContext().getCopy();
+                final EntityBlock block = (EntityBlock) i.getBlock().getCopy();
+                final Coordinate enteringPoint = i.getInsertionPoint().getSafeCopy();
 
                 //find the lowest tile of the block.
                 final Integer yMin = context.getOverlap(enteringPoint, block).stream()
@@ -45,14 +45,14 @@ public class ConditionFactoryImpl implements ConditionFactory {
                 final List<LevelGenerationEntity> support = new ArrayList<>();
                 try {
                     bottomSide.stream().forEach(c -> support.add(context.getElement(c.sub(new Coordinate(0, 1)))));
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException exeption) {
                     return false;
                 }
 
                 //return if all the supports block are architectural elements and not obstacles of some kind.
-                return (support.stream().allMatch(e -> e.getComponentsSet().contains("Architecture") 
+                return (support.stream().allMatch(e -> (e.getComponentsSet().contains("Architecture") 
                                                    && (e.getType().equals(Faction.NEUTRAL_IMMORTAL) 
-                                                       || e.getType().equals(Faction.NEUTRAL_MORTAL))));
+                                                       || e.getType().equals(Faction.NEUTRAL_MORTAL)))));
             }
         });
         return mustBeOnGround;
@@ -65,9 +65,9 @@ public class ConditionFactoryImpl implements ConditionFactory {
         notTooNearRival.addCondition(new Function<BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate>, Boolean>() {
             public Boolean apply(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> i) {
 
-                final Grid context = i.getContext();
-                final EntityBlock block = i.getBlock();
-                final Coordinate enteringPoint = i.getInsertionPoint();
+                final Grid context = i.getContext().getCopy();
+                final EntityBlock block = (EntityBlock) i.getBlock().getCopy();
+                final Coordinate enteringPoint = i.getInsertionPoint().getSafeCopy();
 
                 final List<Coordinate> vitalSpace = context.getOverlap(enteringPoint, block);
 
@@ -109,30 +109,28 @@ public class ConditionFactoryImpl implements ConditionFactory {
 
             public Boolean apply(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> i) {
 
-                final Grid context = i.getContext();
-                final Coordinate enteringPoint = i.getInsertionPoint();
+                final Grid context = i.getContext().getCopy();
+                final Coordinate enteringPoint = i.getInsertionPoint().getSafeCopy();
 
                 //project the entering point of the entity in the first architectural element.
                 int yRay = enteringPoint.getPoint().y;
                 int xRay = enteringPoint.getPoint().x;
-                while (context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture") 
-                       && yRay >= 0) {
+                while (yRay >= 0 && !context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture")) {
                     yRay = yRay - 1;
                 }
 
                 //seek all the points of the platform detected by the yRay.
                 final List<Coordinate> platform = new ArrayList<>();
 
-                while (context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture") 
-                       && xRay < context.getSize().getPoint().x) {
+                while (xRay < context.getSize().getPoint().x
+                       && context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture")) {
 
                     platform.add(new Coordinate(xRay, yRay));
                     xRay = xRay + 1;
                 }
 
                 xRay = enteringPoint.getPoint().x;
-                while (context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture") 
-                        && xRay >= 0) {
+                while (xRay >= 0 && context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture")) {
 
                      platform.add(new Coordinate(xRay, yRay));
                      xRay = xRay - 1;

@@ -1,10 +1,13 @@
-package model.levelsgenerator;
+package model.levelsgenerator.conditions;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import model.levelsgenerator.EntityBlock;
+import model.levelsgenerator.geometry.BlockInsertion;
+import model.levelsgenerator.geometry.Coordinate;
+import model.levelsgenerator.geometry.Grid;
 import model.math.Function;
-import model.utility.Pair;
 
 /**
  * ConditionImpl is the implementation of the interface Condition that uses the class Function from a 2013 OOP exam.
@@ -13,7 +16,7 @@ import model.utility.Pair;
  */
 public class ConditionImpl implements Condition {
 
-    private final List<Function<Pair<EntityBlock, ? extends GridImpl>, Boolean>> mapper;
+    private final List<Function<BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate>, Boolean>> mapper;
 
     /**
      * Initialize the condition list.
@@ -23,10 +26,10 @@ public class ConditionImpl implements Condition {
     }
 
     @Override
-    public final boolean verify(final Pair<EntityBlock, ? extends GridImpl> c) {
+    public final boolean verify(final BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate> c) {
         return this.mapper.stream()
                           .map(f -> f.apply(c))
-                          .allMatch(f -> f.equals(Boolean.FALSE));
+                          .allMatch(f -> f.equals(Boolean.TRUE));
     }
 
     @Override
@@ -34,7 +37,7 @@ public class ConditionImpl implements Condition {
      * Add a function in this condition.
      * @param newFunction is the new function to add.
      */
-    public void addCondition(final Function<Pair<EntityBlock, ? extends GridImpl>, Boolean> newFunction) {
+    public void addCondition(final Function<BlockInsertion<? extends Grid, ? extends EntityBlock, ? extends Coordinate>, Boolean> newFunction) {
         mapper.add(newFunction);
     }
 }

@@ -30,7 +30,7 @@ import model.physics.BodyBuilder;
 import model.physics.BodyBuilderImpl;
 import model.physics.MyContactListener;
 
-import view.GameViewImpl;
+import view.world.GameViewImpl;
 
 /**
  * An implementation of the game loop model that uses a dynamic creation of levels via LevelGeneratorImpl and EntityFactoryImpl.
@@ -58,8 +58,8 @@ public class GameModelImpl implements GameModel {
     private static final int TIMER_TIME = 3000;
 
     private final Timeline gameLoop = new Timeline();
-    private final LevelGenerator lg;
-    private final EntityFactory entityFactory = new EntityFactoryImpl(GameViewImpl.getRoot());
+    private LevelGenerator lg;
+    private final EntityFactory entityFactory = new EntityFactoryImpl();
     private EntityController player;
     private float previousPosition;
  
@@ -79,7 +79,6 @@ public class GameModelImpl implements GameModel {
      */
     public  GameModelImpl() {
             GameModelImpl.TIMER.schedule(TIMER_TASK, 0, GameModelImpl.TIMER_TIME);
-            this.lg = new LevelGeneratorImpl();
             MYWORLD.setContactListener(new MyContactListener());
             gameLoop.setCycleCount(Timeline.INDEFINITE);
             GameModelImpl.ENTITIES.add(new ArrayList<>());
@@ -90,7 +89,7 @@ public class GameModelImpl implements GameModel {
     public final void start() {
         final BodyBuilder bodyWall = new BodyBuilderImpl();
         new InvisibleWall(bodyWall, new Vec2(-GameModelImpl.INVISIBLE_WALL_DIM.x, GameModelImpl.INVISIBLE_WALL_DIM.y / 2));
-
+        this.lg = new LevelGeneratorImpl();
         gameLoop.play();
         try {
             this.generateLevel();
@@ -112,7 +111,9 @@ public class GameModelImpl implements GameModel {
     private void reset() {
         GameModelImpl.ENTITIES.stream()
         .forEach(e -> e.stream().forEach(i -> i.getEntityModel().destroy()));
+        GameModelImpl.ENTITIES.stream().forEach(e -> e.clear());
         GameModelImpl.ENTITIES.clear();
+        this.player.getEntityModel().destroy();
         GameViewImpl.getStatistics().setMaxHealth();
     }
 
@@ -131,9 +132,7 @@ public class GameModelImpl implements GameModel {
                 Method m;
                 try {
                     if (levelDraft.get(p).equals("Player")) {
-                        this.player = this.entityFactory.createPlayer(GameViewImpl.getScene(), 
-                                                                      GameViewImpl.getStatistics(), 
-                                                                      convertedCoordinate);
+                        this.player = this.entityFactory.createPlayer(convertedCoordinate);
                     } else {
                         m = this.entityFactory.getClass().getMethod("create" + levelDraft.get(p), Vec2.class);
                         m.setAccessible(true);

@@ -108,7 +108,7 @@ public class LeaderboardController extends ViewControllerImpl {
         playerTable.setItems(playerList);
 
         try {
-            final File inputFile = new File("src/view/CharacterScores.xml"); 
+            final File inputFile = new File("CharacterScores.xml"); 
             final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.parse(inputFile);

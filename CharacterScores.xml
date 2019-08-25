@@ -3,6 +3,7 @@
    
    
 
+    
     <character>
         <player>Edoardo</player>
         <score>50</score>
@@ -24,7 +25,8 @@
     </character><character>
         <player>Caterina</player>
         <score>20</score>
-    </character><character><player>Elisa</player><score>20</score></character><character>
+    </character>
+    <character>
         <player>Jessica</player>
         <score>18</score>
    </character></characters>

@@ -35,7 +35,7 @@ public class RecordScore {
      */
     public void addRecord(final String playerName, final int scorePlayer) {
         try {
-            final File inputFile = new File("src/view/CharacterScores.xml"); 
+            final File inputFile = new File("CharacterScores.xml"); 
             final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             final Document doc = docBuilder.parse(inputFile);

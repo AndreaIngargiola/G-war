@@ -124,7 +124,7 @@ public interface Entity {
 
     /**
      * 
-     * @param isAlive
+     * @param alive
      *               true if the entity is alive
      */
     void setAlive(boolean alive);

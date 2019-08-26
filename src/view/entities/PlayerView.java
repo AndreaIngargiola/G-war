@@ -19,8 +19,12 @@ import javafx.scene.transform.Scale;
  */
 public final class PlayerView extends AbstractMortalEntityView {
 
-    private static final int ADDICTIONAL_PUNCH_1 = 5, ADDICTIONAL_PUNCH_2 = 10, ADDICTIONAL_PUNCH_3 = 15;
-    private static final int WIDTH = 9, HEIGHT = 9;
+    private static final double ADDICTIONAL_PUNCH_1 = 0.5;
+    private static final double ADDICTIONAL_PUNCH_2 = 4.5;
+    private static final double ADDICTIONAL_PUNCH_3 = 5.5;
+    private static final double ADDICTIONAL_PUNCH_4 = 9.5; 
+    private static final double ADDICTIONAL_PUNCH_5 = 14.5;
+    private static final double WIDTH = 9, HEIGHT = 9;
     private final StatisticsView statistics;
     private final Media jumpSound = new Media(new File(new File("res/music/highUp.wav").getAbsolutePath()).toURI().toString());
     private final Line punchView = new Line();
@@ -49,25 +53,33 @@ public final class PlayerView extends AbstractMortalEntityView {
 
     @Override
     public void punch() {
+
         this.changeState(EntityState.ANGRY);
-        if (this.getDirection().equals(HorizontalDirection.RIGHT)) {
-            this.punchView.setStartX(this.getPosition().getX() + ADDICTIONAL_PUNCH_2);
-            this.punchView.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
-            this.punchView.setEndX(this.getPosition().getX() + ADDICTIONAL_PUNCH_3);
-            this.punchView.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
-        } else {
-            this.punchView.setStartX(this.getPosition().getX());
-            this.punchView.setStartY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
-            this.punchView.setEndX(this.getPosition().getX() - ADDICTIONAL_PUNCH_1);
-            this.punchView.setEndY(this.getPosition().getY() + ADDICTIONAL_PUNCH_1);
-        }
-        this.getParentView().getChildren().add(punchView);
+        this.updatePunch();
+        this.getParentView().getChildren().add(this.punchView);
     }
 
     @Override
     public void stopPunch() {
-        this.changeState(EntityState.WALKING);
-        this.getParentView().getChildren().remove(punchView);
+        if (this.getParentView().getChildren().contains(this.punchView)) {
+            this.changeState(EntityState.WALKING);
+            this.getParentView().getChildren().remove(this.punchView);
+        }
+    }
+
+    @Override
+    public void updatePunch() {
+        if (this.getDirection().equals(HorizontalDirection.RIGHT)) {
+            this.punchView.setStartX(this.getPosition().getX() + PlayerView.ADDICTIONAL_PUNCH_4);
+            this.punchView.setStartY(this.getPosition().getY() + PlayerView.ADDICTIONAL_PUNCH_2);
+            this.punchView.setEndX(this.getPosition().getX() + PlayerView.ADDICTIONAL_PUNCH_5);
+            this.punchView.setEndY(this.getPosition().getY() + PlayerView.ADDICTIONAL_PUNCH_2);
+        } else {
+            this.punchView.setStartX(this.getPosition().getX() - PlayerView.ADDICTIONAL_PUNCH_1);
+            this.punchView.setStartY(this.getPosition().getY() + PlayerView.ADDICTIONAL_PUNCH_2);
+            this.punchView.setEndX(this.getPosition().getX() - PlayerView.ADDICTIONAL_PUNCH_3);
+            this.punchView.setEndY(this.getPosition().getY() + PlayerView.ADDICTIONAL_PUNCH_2);
+        }
     }
 
     @Override

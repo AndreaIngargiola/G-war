@@ -15,7 +15,7 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
 
     private final Media collisionSound = new Media(new File(new File("res/music/collision.wav").getAbsolutePath()).toURI().toString());
     private MediaPlayer mediaPlayer;
-    private HorizontalDirection direction;
+    private HorizontalDirection direction = HorizontalDirection.RIGHT;
     /**
      * 
      * @param group
@@ -71,12 +71,16 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
     public void makeJumpSound()  {
     }
 
+    @Override
+    public void updatePunch() {
+    }
+
     /**
      * 
      * @return the face direction
      */
     protected final HorizontalDirection getDirection() {
-    	return this.direction;
+        return this.direction;
     }
 
     /**

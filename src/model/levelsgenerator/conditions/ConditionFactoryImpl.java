@@ -18,6 +18,7 @@ import model.math.Function;
 public class ConditionFactoryImpl implements ConditionFactory {
 
     private static final int VITAL_SPACE = 1;
+    private static final String ARCH_NAME = "Architecture";
 
     @Override
     public final Condition mustBeOnGround() {
@@ -50,7 +51,7 @@ public class ConditionFactoryImpl implements ConditionFactory {
                 }
 
                 //return if all the supports block are architectural elements and not obstacles of some kind.
-                return (support.stream().allMatch(t -> (t.getComponentsSet().contains("Architecture") 
+                return (support.stream().allMatch(t -> (t.getComponentsSet().contains(ConditionFactoryImpl.ARCH_NAME) 
                                                    && (t.getType().equals(Faction.NEUTRAL_IMMORTAL) 
                                                        || t.getType().equals(Faction.NEUTRAL_MORTAL)))));
             }
@@ -115,7 +116,7 @@ public class ConditionFactoryImpl implements ConditionFactory {
                 //project the entering point of the entity in the first architectural element.
                 int yRay = enteringPoint.getPoint().y;
                 int xRay = enteringPoint.getPoint().x;
-                while (yRay >= 0 && !context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture")) {
+                while (yRay >= 0 && !context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains(ConditionFactoryImpl.ARCH_NAME)) {
                     yRay = yRay - 1;
                 }
 
@@ -123,14 +124,14 @@ public class ConditionFactoryImpl implements ConditionFactory {
                 final List<Coordinate> platform = new ArrayList<>();
 
                 while (xRay < context.getSize().getPoint().x
-                       && context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture")) {
+                       && context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains(ConditionFactoryImpl.ARCH_NAME)) {
 
                     platform.add(new Coordinate(xRay, yRay));
                     xRay = xRay + 1;
                 }
 
                 xRay = enteringPoint.getPoint().x;
-                while (xRay >= 0 && context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains("Architecture")) {
+                while (xRay >= 0 && context.getElement(new Coordinate(xRay, yRay)).getComponentsSet().contains(ConditionFactoryImpl.ARCH_NAME)) {
 
                      platform.add(new Coordinate(xRay, yRay));
                      xRay = xRay - 1;

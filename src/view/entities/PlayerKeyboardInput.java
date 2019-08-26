@@ -58,15 +58,15 @@ public final class PlayerKeyboardInput {
         if (event.getEventType().equals(KeyEvent.KEY_PRESSED)) {
             pressedKeys.add(event.getCode());
             notifyDirectionChange();
-    } else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
-            pressedKeys.remove(event.getCode());
-            if (!event.getCode().equals(W) && !event.getCode().equals(UP)) {
-                notify(listener -> listener.stop());
-                if (event.getCode().equals(SPACE)) {
-                    notify(listener -> listener.stopPunch());
+        } else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
+                pressedKeys.remove(event.getCode());
+                if (!event.getCode().equals(W) && !event.getCode().equals(UP)) {
+                    notify(listener -> listener.stop());
+                    if (event.getCode().equals(SPACE)) {
+                        notify(listener -> listener.stopPunch());
+                    }
                 }
-            }
-       }
+         }
     }
 
     private void notifyDirectionChange() {

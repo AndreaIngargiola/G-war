@@ -6,8 +6,8 @@ package view.world;
  */
 public interface GameView {
 
-	/**
-	 * To start the gameView
-	 */
-	void start();
+    /**
+     * To start the gameView.
+     */
+    void start();
 }

@@ -24,45 +24,63 @@ import view.entities.PlayerView;
 public final class PlayerController extends MortalEntityController implements PlayerInputListener {
 
     private final  PlayerKeyboardInput keyboard;
-
+    private Boolean isPunching = Boolean.FALSE;
     /**
      * 
      * @param player
      *            the model of the player entity
      * @param playerView
      *            the view of the player entity
+     * @param keyboard
+     *            the class that manages the keyboard input
      */
     public PlayerController(final Entity player, final PlayerView playerView, final PlayerKeyboardInput keyboard) {
         super(player, playerView);
         this.keyboard = keyboard;
         this.keyboard.setListener(this);
-   
+   }
+
+    @Override
+    public void update(final double dt) {
+        if (!this.getEntityModel().isAlive()) {
+            this.getEntityModel().destroy();
+        } else {
+            super.update(dt);
+            this.getEntityView().updatePunch();
+        }
     }
 
     @Override
     public void deathListener(final Death event) {
         this.keyboard.clearListener();
         super.deathListener(event);
-        
     }
 
     @Override
     public void move(final Point2D movement) {
-    	final Vec2 mov = new Vec2((float) movement.getX(), (float) movement.getY());
-        this.getEntityModel().get(Movement.class).move(mov);
+        if (!this.isPunching) {
+            final Vec2 mov = new Vec2((float) movement.getX(), (float) movement.getY());
+            this.getEntityModel().get(Movement.class).move(mov);
+        }
     }
 
     @Override
     public void punch() {
-        System.out.println("PUNCH");
-        this.getEntityModel().get(Punch.class).punch();
-        getEntityView().punch();
+        if (this.getEntityModel().get(Movement.class).isOnGround()) {
+            if (!this.isPunching) {
+                this.getEntityModel().get(Punch.class).punch();
+                getEntityView().punch();
+                this.isPunching = Boolean.TRUE;
+            } else {
+                getEntityView().stopPunch();
+            }
+        }
     }
 
     @Override
     public void stopPunch() {
-        this.getEntityModel().get(Punch.class).punch();
         getEntityView().stopPunch();
+        this.isPunching = Boolean.FALSE;
     }
 
     @Override

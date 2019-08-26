@@ -20,7 +20,7 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
      *                the walking speed 
      */
     public AbstractMovement(final float walkSpeed) {
-    	super();
+        super();
         this.walkSpeed = walkSpeed;
         this.jumpSpeed = 0f;
     }
@@ -32,7 +32,7 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
      *                the jumping speed
      */
     public AbstractMovement(final float walkSpeed, final float jumpSpeed) {
-    	super();
+        super();
         this.walkSpeed = walkSpeed;
         this.jumpSpeed = jumpSpeed;
     }
@@ -71,6 +71,14 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
 
     @Override
     public void changeDirection() {
+    }
+
+    /**
+     * @allowed if the extended class does not utilize it, keep returning false, implement the method otherwise.
+     */
+    @Override
+    public boolean isOnGround() {
+        return false;
     }
 
     /**

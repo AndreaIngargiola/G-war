@@ -12,7 +12,7 @@ import view.world.GameViewImpl;
 /**
  * Implementation of {@link GameController}.
  */
-public class GameControllerImpl implements GameController {
+public final class GameControllerImpl implements GameController {
 
     private static final double FRAMERATE = 1.0 / 60;
     private final  GameModel model;
@@ -29,6 +29,8 @@ public class GameControllerImpl implements GameController {
      * 
      * @param stage
      *           the stage
+     * @param mainView
+     *           the view of the game world
      */
     public GameControllerImpl(final Stage stage, final MainView mainView) {
         this.mainView = mainView;
@@ -50,7 +52,7 @@ public class GameControllerImpl implements GameController {
     }
 
     private void update() {
-        boolean deadPlayer = this.model.updateEntity(FRAMERATE);
+        final boolean deadPlayer = this.model.updateEntity(FRAMERATE);
 
         if (deadPlayer) {
             stop();

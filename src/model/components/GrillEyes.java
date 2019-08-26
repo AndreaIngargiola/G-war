@@ -14,15 +14,15 @@ import model.events.CollisionEvent;
  */
 public class GrillEyes implements RayCastCallback {
 
-	private boolean hit;
-    
+    private boolean hit;
+
     @Override
     public final float reportFixture(final Fixture fixture, final Vec2 arg1, final Vec2 arg2, final float arg3) {
 
         final Entity entity = (Entity) fixture.getBody().getUserData();
         if (entity.getType().equals(Faction.NEUTRAL_MORTAL)) {
             entity.post(new CollisionEvent(entity));
-            if(entity.getComponents().getInterfaces().contains(Life.class)) {
+            if (entity.getComponents().getInterfaces().contains(Life.class)) {
                 entity.get(Life.class).damage(1);
                 this.hit = true;
             }

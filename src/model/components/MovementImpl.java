@@ -30,12 +30,8 @@ public class MovementImpl extends AbstractMovement {
     @Override
     public final void move(final Vec2 movement) {
         final Vec2 vel = this.getEntity().getBody().getLinearVelocity();
-        this.getRayCast().setHit(false);
 
-        GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
-                new Vec2(this.getEntity().getCenter().x, this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
-
-        if (this.getRayCast().isHit()) {
+        if (this.isOnGround()) {
 
             if (movement.y == 1) {
                 this.setLinearVelocity(vel.x, vel.y - this.getJumpSpeed());
@@ -75,6 +71,16 @@ public class MovementImpl extends AbstractMovement {
                 this.setLinearVelocity(vel.x - this.getWalkSpeed() * FRICTION, vel.y);
             }
         }
+    }
+    
+    @Override
+    public boolean isOnGround() {
+        this.getRayCast().setHit(false);
+
+        GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
+                new Vec2(this.getEntity().getCenter().x, this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
+        
+        return this.getRayCast().isHit();
     }
 
 }

@@ -74,6 +74,14 @@ public abstract class AbstractMovement extends AbstractEntityComponent implement
     }
 
     /**
+     * @allowed if the extended class does not utilize it, keep returning false, implement the method otherwise.
+     */
+    @Override
+    public boolean isOnGround() {
+        return false;
+    }
+
+    /**
      * 
      * @param direction
      *              (RIGHT or LEFT)

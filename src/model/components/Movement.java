@@ -49,4 +49,10 @@ public interface Movement extends EntityComponent {
      * @return the direction of the entity
      */
     HorizontalDirection getFaceDirection();
+    
+    /**
+     * 
+     * @return true if the entity is not jumping
+     */
+    boolean isOnGround();
 }

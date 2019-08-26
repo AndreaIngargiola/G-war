@@ -57,4 +57,9 @@ public interface MortalEntityView extends EntityView {
      * Make a sound when the entity collides.
      */
     void makeCollisionSound();
+
+    /**
+     * Update punch view.
+     */
+    void updatePunch();
 }

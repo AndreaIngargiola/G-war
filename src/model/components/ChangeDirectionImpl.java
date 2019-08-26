@@ -28,27 +28,27 @@ public class ChangeDirectionImpl extends AbstractMovement {
     public final void move() {
         final Vec2 vel = this.getEntity().getBody().getLinearVelocity();
         this.getRayCast().setHit(false);
-        
+
         if (this.getFaceDirection().equals(HorizontalDirection.RIGHT)) {
             this.setLinearVelocity(this.getWalkSpeed(), vel.y);
 
             GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getRightSide(), this.getEntity().getCenter().y), 
                      new Vec2(this.getEntity().getRightSide(), this.getEntity().getBottomSide() +  ADDICTIONAL_Y));
-            
+
             GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getRightSide() + ADDICTIONAL_X, this.getEntity().getCenter().y), 
                     new Vec2(this.getEntity().getRightSide() + ADDICTIONAL_X, this.getEntity().getBottomSide() +  ADDICTIONAL_Y));
         } else {
-            this.setLinearVelocity(- this.getWalkSpeed(), vel.y);
+            this.setLinearVelocity(-this.getWalkSpeed(), vel.y);
             this.getEntity().getBody().getBody().setTransform(this.getEntity().getBody().getPosition().add(new Vec2((float) -0.5, 0)), 0);
 
             GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getLeftSide(), this.getEntity().getCenter().y), 
                     new Vec2(this.getEntity().getLeftSide(), this.getEntity().getBottomSide() +  ADDICTIONAL_Y));
-            
+
             GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getLeftSide() - ADDICTIONAL_X, this.getEntity().getCenter().y), 
                     new Vec2(this.getEntity().getLeftSide() - ADDICTIONAL_X, this.getEntity().getBottomSide() +  ADDICTIONAL_Y));
         }
 
-        
+
         if (!this.getRayCast().isHit()) {
             changeDirection();
         }

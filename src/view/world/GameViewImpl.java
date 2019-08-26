@@ -15,7 +15,7 @@ import view.entities.StatisticsViewImpl;
  * Implementation of {@link GameView}.
  *
  */
-public class GameViewImpl implements GameView {
+public final class GameViewImpl implements GameView {
 
     private static final StatisticsView STATISTICS = new StatisticsViewImpl();
     private static final Group HEAD = new Group();
@@ -27,7 +27,7 @@ public class GameViewImpl implements GameView {
     private final Stage stage;
     private final Group background = new Group(ROOT);
     private final Canvas canvas = new Canvas(1380, 780);
-    
+
     /**
      * 
      * @param stage
@@ -35,7 +35,7 @@ public class GameViewImpl implements GameView {
      */
     public GameViewImpl(final Stage stage) {
 
-    	this.stage = stage;
+        this.stage = stage;
         background.getChildren().add(new ImageView(new Image("/img/background.jpg", STAGE_WIDTH, STAGE_HEIGHT, false, false)));
 
         ROOT.getTransforms().addAll(new Scale(SCALE, SCALE));
@@ -45,36 +45,34 @@ public class GameViewImpl implements GameView {
         HEAD.getChildren().add(STATISTICS.getRoot());
         HEAD.getChildren().add(ROOT);
 
-        
     }
 
     @Override
     public void start() {
-    	stage.setScene(SCENE);
+        stage.setScene(SCENE);
     }
     /**
      * 
      * @return the statistics view
      */
     public static StatisticsView getStatistics() {
-		return STATISTICS;
-	}
+            return STATISTICS;
+    }
 
     /**
      * 
      * @return the root for the entities view
      */
     public static Group getRoot() {
-		return ROOT;
-	} 
+        return ROOT;
+    } 
 
     /**
      * 
      * @return the scene
      */
     public static Scene getScene() {
-		return SCENE;
-	}
-    
+        return SCENE;
+    }
 
 }

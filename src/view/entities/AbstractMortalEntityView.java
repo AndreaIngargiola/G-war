@@ -76,7 +76,7 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
      * @return the face direction
      */
     protected final HorizontalDirection getDirection() {
-    	return this.direction;
+        return this.direction;
     }
 
     /**

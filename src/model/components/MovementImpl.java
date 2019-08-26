@@ -35,7 +35,6 @@ public class MovementImpl extends AbstractMovement {
         GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
                 new Vec2(this.getEntity().getCenter().x, this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
 
-        
         if (this.getRayCast().isHit()) {
 
             if (movement.y == 1) {

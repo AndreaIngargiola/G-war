@@ -72,10 +72,10 @@ public final class StatisticsViewImpl implements StatisticsView {
         pointsDigit.forEach(view -> pointsBar.getChildren().add(view));
         this.currentPoint = points;
     }
-    
+
     @Override
     public int getCurrentPoint() {
-    	return this.currentPoint;
+        return this.currentPoint;
     }
 
     @Override
@@ -87,6 +87,5 @@ public final class StatisticsViewImpl implements StatisticsView {
         }
         hearts.forEach(view -> lifeBar.getChildren().add(view));
     }
-    
 
 }

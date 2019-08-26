@@ -28,13 +28,13 @@ public interface StatisticsView {
      *            the number of points
      */
     void setPoints(int points);
-    
+
     /**
      * 
      * @return currentPoint
      */
     int getCurrentPoint();
-    
+
     /**
      * Set the maximum number of health points.
      */

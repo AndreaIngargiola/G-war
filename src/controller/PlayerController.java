@@ -31,24 +31,24 @@ public final class PlayerController extends MortalEntityController implements Pl
      *            the model of the player entity
      * @param playerView
      *            the view of the player entity
+     * @param keyboard
+     *            the class that manages the keyboard input
      */
     public PlayerController(final Entity player, final PlayerView playerView, final PlayerKeyboardInput keyboard) {
         super(player, playerView);
         this.keyboard = keyboard;
         this.keyboard.setListener(this);
-   
-    }
+   }
 
     @Override
     public void deathListener(final Death event) {
         this.keyboard.clearListener();
         super.deathListener(event);
-        
     }
 
     @Override
     public void move(final Point2D movement) {
-    	final Vec2 mov = new Vec2((float) movement.getX(), (float) movement.getY());
+        final Vec2 mov = new Vec2((float) movement.getX(), (float) movement.getY());
         this.getEntityModel().get(Movement.class).move(mov);
     }
 

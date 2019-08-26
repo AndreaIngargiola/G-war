@@ -39,31 +39,31 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final EntityController createCoward(final Vec2 position) {
-    	final Entity cowardModel = new Coward(new BodyBuilderImpl(), position);
-    	final MortalEntityView cowardView = new CowardView(root);
-    	return new MortalEntityController(cowardModel, cowardView);
+        final Entity cowardModel = new Coward(new BodyBuilderImpl(), position);
+        final MortalEntityView cowardView = new CowardView(root);
+        return new MortalEntityController(cowardModel, cowardView);
     }
 
     @Override
     public final EntityController createPlatform(final Vec2 position) {
-    	final Entity platformModel = new Platform(new BodyBuilderImpl(), position);
-    	final ImmortalEntityView platformView = new PlatformView(root);
-    	platformView.setPosition(new Point2D(position.x, position.y));
+        final Entity platformModel = new Platform(new BodyBuilderImpl(), position);
+        final ImmortalEntityView platformView = new PlatformView(root);
+        platformView.setPosition(new Point2D(position.x, position.y));
         return new ImmortalEntityController(platformModel, platformView);
     }
 
     @Override
     public final EntityController createGrill(final Vec2 position) {
-    	final Entity grillModel = new Grill(new BodyBuilderImpl(), position);
-    	final GrillView grillView = new GrillView(root);
+        final Entity grillModel = new Grill(new BodyBuilderImpl(), position);
+        final GrillView grillView = new GrillView(root);
         grillView.setPosition(new Point2D(position.x, position.y));
         return new GrillController(grillModel, grillView);
     }
 
     @Override
     public final EntityController createFloor(final Vec2 position) {
-    	final Entity floorModel = new Floor(new BodyBuilderImpl(), position);
-    	final ImmortalEntityView floorView = new FloorView(root);
+        final Entity floorModel = new Floor(new BodyBuilderImpl(), position);
+        final ImmortalEntityView floorView = new FloorView(root);
         floorView.setPosition(new Point2D(position.x, position.y));
         return new ImmortalEntityController(floorModel, floorView);
     }

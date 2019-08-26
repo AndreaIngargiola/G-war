@@ -23,7 +23,7 @@ public class CollisionHandlerImpl extends AbstractEntityComponent implements Col
      *               the jumping speed
      */
     public CollisionHandlerImpl(final float jumpSpeed) {
-    	super();
+        super();
         this.jumpSpeed = jumpSpeed;
     }
 

@@ -76,7 +76,7 @@ public class OrderReadFileByScore {
                 arrayScore.remove(MAXPLAYER);
             }
             this.arrayPlayer = new ArrayList<>(arrayScore);
-            arrayScore.removeAll(arrayScore);
+            arrayScore.clear();
 
 
             final TransformerFactory transformerFactory = TransformerFactory.newInstance();

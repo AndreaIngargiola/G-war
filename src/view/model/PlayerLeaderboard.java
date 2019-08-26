@@ -5,20 +5,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 /**
- * Model class for a player in loaderboard.
+ * Model class for a player in leaderboard.
  */
 public class PlayerLeaderboard {
 
     private final StringProperty playerName;
     private final IntegerProperty playerScore;
-
-    /**
-     * Default constructor.
-     */
-    public PlayerLeaderboard() {
-
-        this(null, null);
-    }
 
     /**
      * Constructor with some initial data.

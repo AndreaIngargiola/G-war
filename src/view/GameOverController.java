@@ -1,5 +1,7 @@
 package view;
 
+import java.io.File;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,6 +43,7 @@ public class GameOverController extends ViewControllerImpl {
     private String playerName;
     private final OrderReadFileByScore orderFile = new OrderReadFileByScore();
     private final RecordScore addPlayerLeaderboard = new RecordScore();
+    private final File inputFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "CharacterScores.xml");
     private static final int MAXPLAYER = 10;
     private static Integer scoreTest;
     private static final double STAGE_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
@@ -72,14 +75,20 @@ public class GameOverController extends ViewControllerImpl {
         this.quitButton.setGraphic(new ImageView(new Image("imgMenu/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
 
 
-        orderFile.readFileAndOrder();
-        this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
-        if ((this.orderFile.getNumberPlayerInLeaderboard() < MAXPLAYER) || (scoreTest > this.orderFile.getLastScore())) {
+        if (!this.inputFile.exists()) {
+            this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
             this.toRecordBtn.setOnAction(event);
         } else {
-            this.usernameTextField.setVisible(false);
-            this.toRecordBtn.setVisible(false);
+            orderFile.readFileAndOrder();
+            this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
+            if ((this.orderFile.getNumberPlayerInLeaderboard() < MAXPLAYER) || (scoreTest > this.orderFile.getLastScore())) {
+                this.toRecordBtn.setOnAction(event);
+            } else {
+                this.usernameTextField.setVisible(false);
+                this.toRecordBtn.setVisible(false);
         }
+        }
+
     }
 
     private final EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {

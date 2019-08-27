@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import view.model.OrderReadFileByScore;
 
 /**
  * The Main View.
@@ -20,10 +19,8 @@ import view.model.OrderReadFileByScore;
 public class MainViewImpl implements MainView {
 
     private final Stage stage;
-    private ViewState currentState;
     private ViewController viewController;
     private Node node;
-    private final OrderReadFileByScore orderFileByScore = new OrderReadFileByScore();
     private final GameController gameController;
 
     /**
@@ -46,8 +43,7 @@ public class MainViewImpl implements MainView {
 
     @Override
     public final void setViewState(final ViewState state, final Integer score) {
-        this.currentState = state;
-        if (this.currentState.equals(ViewState.GAME_OVER)) {
+        if (state.equals(ViewState.GAME_OVER)) {
             GameOverController.setScore(score);
         }
         this.uploadFxmlFile(state.getSceneNode());
@@ -70,9 +66,6 @@ public class MainViewImpl implements MainView {
      */
     public void uploadFxmlFile(final SceneNode sceneNode) {
         try {
-            if (this.currentState.equals(ViewState.LEADERBOARD)) {
-                this.orderFileByScore.readFileAndOrder();
-            }
             final FXMLLoader loader = new FXMLLoader();
             final URL location = ClassLoader.getSystemClassLoader().getResource(sceneNode.getPath());
             loader.setLocation(location);

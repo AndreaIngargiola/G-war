@@ -34,6 +34,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
+import view.model.OrderReadFileByScore;
 import view.model.PlayerLeaderboard;
 
 /**
@@ -58,6 +59,8 @@ public class LeaderboardController extends ViewControllerImpl {
     @FXML
     private VBox secondPane;
 
+    private final OrderReadFileByScore orderFile = new OrderReadFileByScore();
+    private final File inputFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "CharacterScores.xml");
     private static final double STAGE_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
     private static final double STAGE_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
     private static final double TOP_PANE = STAGE_HEIGHT / 8;
@@ -106,34 +109,38 @@ public class LeaderboardController extends ViewControllerImpl {
         final ObservableList<PlayerLeaderboard> playerList = FXCollections.observableArrayList();
         playerTable.setItems(playerList);
 
-        try {
-            final File inputFile = new File("CharacterScores.xml"); 
-            final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            final Document doc = docBuilder.parse(inputFile);
-            final NodeList nList = doc.getElementsByTagName("character");
+        if (this.inputFile.exists()) {
+            this.orderFile.readFileAndOrder();
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-            final Node nNode = nList.item(temp);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    final Element eElement = (Element) nNode;
-                    playerList.add(new PlayerLeaderboard(eElement.getElementsByTagName("player").item(0).getTextContent(), Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent())));
+            try {
+                final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                final Document doc = docBuilder.parse(inputFile);
+                final NodeList nList = doc.getElementsByTagName("character");
+
+                for (int temp = 0; temp < nList.getLength(); temp++) {
+                final Node nNode = nList.item(temp);
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        final Element eElement = (Element) nNode;
+                        playerList.add(new PlayerLeaderboard(eElement.getElementsByTagName("player").item(0).getTextContent(), Integer.parseInt(eElement.getElementsByTagName("score").item(0).getTextContent())));
+                    }
                 }
-            }
 
-            final TransformerFactory trFactory = TransformerFactory.newInstance();
-            final Transformer transformer = trFactory.newTransformer();
-            final DOMSource source = new DOMSource(doc);
-            final StreamResult result = new StreamResult(inputFile);
-            transformer.transform(source, result);
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
-        } catch (TransformerException tfe) {
-            tfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } catch (SAXException sae) {
-            sae.printStackTrace();
+                final TransformerFactory trFactory = TransformerFactory.newInstance();
+                final Transformer transformer = trFactory.newTransformer();
+                final DOMSource source = new DOMSource(doc);
+                final StreamResult result = new StreamResult(inputFile);
+                transformer.transform(source, result);
+
+            } catch (ParserConfigurationException pce) {
+                pce.printStackTrace();
+            } catch (TransformerException tfe) {
+                tfe.printStackTrace();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } catch (SAXException sae) {
+                sae.printStackTrace();
+            } 
         }
     }
 

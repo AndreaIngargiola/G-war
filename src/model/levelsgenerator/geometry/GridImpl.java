@@ -54,7 +54,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final BlockImpl b) {
+    public final List<Coordinate> getOverlap(final Coordinate mOriginPoint, final Block b) {
         return b.getRelativeCoordinates().stream()
                                          .map(p -> mOriginPoint.sum(p))
                                          .filter(p -> this.isInMatrixBounds(p))

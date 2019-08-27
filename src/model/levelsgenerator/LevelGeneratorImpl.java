@@ -190,14 +190,19 @@ public final class LevelGeneratorImpl implements LevelGenerator {
         try (ScanResult scanResult = new ClassGraph().enableAllInfo().scan()) {
 
             final ClassInfoList filtered = scanResult.getAllClasses().filter(
-                    classInfo -> (classInfo.implementsInterface("ConditionGiver") 
-                               && !classInfo.hasAnnotation("model.levelgenerator.conditions.DefaultConditionGiver")));
+                    classInfo -> (classInfo.implementsInterface("model.levelsgenerator.conditions.ConditionGiver") 
+                               && !classInfo.hasAnnotation("model.levelsgenerator.conditions.DefaultConditionGiver")));
             if (filtered.isEmpty()) {
                 this.cg = new ConditionGiverImpl();
             } else {
-                filtered.stream()
-                        .sorted((c1, c2) -> c1.getSimpleName().compareTo(c2.getSimpleName()))
-                        .findFirst().get().loadClass().cast(this.cg);
+                try {
+                    this.cg = (ConditionGiver) filtered.stream()
+                                                       .sorted((c1, c2) -> c1.getSimpleName().compareTo(c2.getSimpleName()))
+                                                       .findFirst().get()
+                                                       .loadClass().newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

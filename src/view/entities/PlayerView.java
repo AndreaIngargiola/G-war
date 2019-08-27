@@ -1,7 +1,5 @@
 package view.entities;
 
-import java.io.File;
-
 import enumerators.EntityState;
 import enumerators.HorizontalDirection;
 import javafx.geometry.Dimension2D;
@@ -26,7 +24,7 @@ public final class PlayerView extends AbstractMortalEntityView {
     private static final double ADDICTIONAL_PUNCH_5 = 14.5;
     private static final double WIDTH = 9, HEIGHT = 9;
     private final StatisticsView statistics;
-    private final Media jumpSound = new Media(new File(new File("res/music/highUp.wav").getAbsolutePath()).toURI().toString());
+    private final Media jumpSound = new Media(getClass().getResource("/music/highUp.wav").toExternalForm());
     private final Line punchView = new Line();
 
     /**

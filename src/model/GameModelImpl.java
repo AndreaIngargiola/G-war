@@ -44,7 +44,7 @@ public class GameModelImpl implements GameModel {
     private static final Vec2 GRAVITY =  new Vec2(0, 60);
     private static final World MYWORLD = new World(GRAVITY, true);
     private static final int LEVEL_EXTENSION = 200;
-    private static final double FRAMERATE = 1.0 / 60;
+    private static final double FRAMERATE = 1.0 / 60;             // 60 FPS
     private static final int ENTITIES_PIXEL_DIMENSION = 10;
     private static final int POINTS = 50;
     private static final float TIMESTEP = 0.017f;
@@ -53,6 +53,7 @@ public class GameModelImpl implements GameModel {
     private static final Vec2 INVISIBLE_WALL_DIM = new Vec2(10, 400);
     private static final int LEVELS_IN_STACK = 3;
     private static final int TIMER_TIME = 200;
+
     private InvisibleWall levelLimit;
     private final Timeline gameLoop = new Timeline();
     private final EntityFactory entityFactory = new EntityFactoryImpl();
@@ -62,7 +63,7 @@ public class GameModelImpl implements GameModel {
     private int iterationBeforeChange;
  
     private final KeyFrame kf = new KeyFrame(
-                Duration.seconds(GameModelImpl.FRAMERATE),                // 60 FPS
+                Duration.seconds(GameModelImpl.FRAMERATE),
                 new EventHandler<ActionEvent>() {
                     public void handle(final ActionEvent ae) {
                         MYWORLD.step(GameModelImpl.TIMESTEP, 
@@ -73,10 +74,9 @@ public class GameModelImpl implements GameModel {
 );
 
     /**
-     * An implementation for the game model that uses this.
+     * A constructor without parameters that initialize the local variables.
      */
-    public  GameModelImpl() {
-            //GameModelImpl.TIMER.schedule(TIMER_TASK, 0, GameModelImpl.TIMER_TIME);
+    public GameModelImpl() {
             MYWORLD.setContactListener(new MyContactListener());
             gameLoop.setCycleCount(Timeline.INDEFINITE);
             GameModelImpl.ENTITIES.add(new ArrayList<>());
@@ -90,13 +90,13 @@ public class GameModelImpl implements GameModel {
     public final void start() {
         this.iterationBeforeChange = 0;
         this.lg = new LevelGeneratorImpl();
-        gameLoop.play();
         try {
             this.generateLevel();
             this.generateLevel();
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) { 
             e.printStackTrace();
         }
+        gameLoop.play();
 
         //a little override of previous position that prevents delays in the level spawn.
         this.previousPosition = 0;
@@ -141,7 +141,6 @@ public class GameModelImpl implements GameModel {
                         GameModelImpl.ENTITIES.get(this.lg.getIteration() - 1).add(ent);
                     }
                 } catch (NoSuchMethodException | SecurityException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -186,30 +185,34 @@ public class GameModelImpl implements GameModel {
                                   .forEach(l -> l.stream().forEach(e -> e.update(dt)));
             this.player.update(dt);
 
-            //check if another level must be created
-            if (this.player.getEntityModel().getBody().getPosition().x - this.previousPosition > GameModelImpl.LEVEL_EXTENSION) {
-                try {
-                    this.generateLevel();
-                    this.player.getEntityModel().get(Points.class).addPoints(POINTS);
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
+            //manage level creation and destruction
+            this.manageLevels();
 
-                //check if the past levels must be erased.
-                if (this.lg.getIteration() > GameModelImpl.LEVELS_IN_STACK) {
-                    final int desideredLevelNumber = this.lg.getIteration() - (GameModelImpl.LEVELS_IN_STACK + 1);
-
-
-                    GameModelImpl.ENTITIES.get(desideredLevelNumber).stream().forEach(e -> e.getEntityModel().destroy());
-                    GameModelImpl.ENTITIES.get(desideredLevelNumber).clear();
-
-                    //place an invisible wall so the player cannot reach deallocated areas.
-                    this.setLevelDelimiter(new Vec2((desideredLevelNumber + 1) * GameModelImpl.LEVEL_EXTENSION, GameModelImpl.LEVEL_EXTENSION));
-                }
-            }
             return false;
         }
         return true;
+    }
+
+    private void manageLevels() {
+      //check if another level must be created
+        if (this.player.getEntityModel().getBody().getPosition().x - this.previousPosition > GameModelImpl.LEVEL_EXTENSION) {
+            try {
+                this.generateLevel();
+                this.player.getEntityModel().get(Points.class).addPoints(POINTS);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+            //check if the past levels must be erased.
+            if (this.lg.getIteration() > GameModelImpl.LEVELS_IN_STACK) {
+                final int desideredLevelNumber = this.lg.getIteration() - (GameModelImpl.LEVELS_IN_STACK + 1);
+                GameModelImpl.ENTITIES.get(desideredLevelNumber).stream().forEach(e -> e.getEntityModel().destroy());
+                GameModelImpl.ENTITIES.get(desideredLevelNumber).clear();
+
+                //place an invisible wall so the player cannot reach deallocated areas.
+                this.setLevelDelimiter(new Vec2((desideredLevelNumber + 1) * GameModelImpl.LEVEL_EXTENSION, GameModelImpl.LEVEL_EXTENSION));
+            }
+        }
     }
 
     private void setLevelDelimiter(final Vec2 newPosition) {

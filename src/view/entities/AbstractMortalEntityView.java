@@ -1,7 +1,5 @@
 package view.entities;
 
-import java.io.File;
-
 import enumerators.HorizontalDirection;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
@@ -13,7 +11,7 @@ import javafx.scene.media.MediaPlayer;
  */
 public abstract class AbstractMortalEntityView extends AbstractEntityView implements MortalEntityView {
 
-    private final Media collisionSound = new Media(new File(new File("res/music/collision.wav").getAbsolutePath()).toURI().toString());
+    private final Media collisionSound = new Media(getClass().getResource("/music/collision.wav").toExternalForm());
     private MediaPlayer mediaPlayer;
     private HorizontalDirection direction = HorizontalDirection.RIGHT;
     /**

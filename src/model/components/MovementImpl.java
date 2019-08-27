@@ -72,14 +72,14 @@ public class MovementImpl extends AbstractMovement {
             }
         }
     }
-    
+
     @Override
-    public boolean isOnGround() {
+    public final boolean isOnGround() {
         this.getRayCast().setHit(false);
 
         GameModelImpl.getWorld().raycast(this.getRayCast(), new Vec2(this.getEntity().getCenter().x, this.getEntity().getCenter().y), 
                 new Vec2(this.getEntity().getCenter().x, this.getEntity().getBottomSide() +  ADDICTIONAL_LENGTH));
-        
+
         return this.getRayCast().isHit();
     }
 

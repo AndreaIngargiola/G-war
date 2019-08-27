@@ -66,14 +66,12 @@ public final class PlayerController extends MortalEntityController implements Pl
 
     @Override
     public void punch() {
-        if (this.getEntityModel().get(Movement.class).isOnGround()) {
-            if (!this.isPunching) {
-                this.getEntityModel().get(Punch.class).punch();
-                getEntityView().punch();
-                this.isPunching = Boolean.TRUE;
-            } else {
-                getEntityView().stopPunch();
-            }
+        if (!this.isPunching) {
+           this.getEntityModel().get(Punch.class).punch();
+           getEntityView().punch();
+           this.isPunching = Boolean.TRUE;
+        } else {
+            getEntityView().stopPunch();
         }
     }
 

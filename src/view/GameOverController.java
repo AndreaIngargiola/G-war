@@ -75,18 +75,17 @@ public class GameOverController extends ViewControllerImpl {
         this.quitButton.setGraphic(new ImageView(new Image("imgMenu/quitButton.png", BUTTON_WIDTH, BUTTON_HEIGHT, false, false)));
 
 
+        this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
         if (!this.inputFile.exists()) {
-            this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
             this.toRecordBtn.setOnAction(event);
         } else {
             orderFile.readFileAndOrder();
-            this.scorePlayerLeaderboard.setText("Score:  " + scoreTest);
             if ((this.orderFile.getNumberPlayerInLeaderboard() < MAXPLAYER) || (scoreTest > this.orderFile.getLastScore())) {
                 this.toRecordBtn.setOnAction(event);
             } else {
                 this.usernameTextField.setVisible(false);
                 this.toRecordBtn.setVisible(false);
-        }
+            }
         }
 
     }

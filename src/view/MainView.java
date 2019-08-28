@@ -20,7 +20,7 @@ public interface MainView {
 
     /**
      * Method to get the stage.
-     * @return
+     * @return Stage
      *         the stage.
      */
     Stage getStage();

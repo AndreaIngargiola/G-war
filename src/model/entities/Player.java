@@ -39,7 +39,6 @@ public final class Player extends AbstractEntity {
         super(TYPE, bodyBuilder
                 .setPosition(position)
                 .setSize(SIZE)
-                //.setFriction(20)
                 .build());
         add(new LifeImpl(DEFAULT_HEALTH));
         add(new AttackImpl(DEFAULT_ATTACK));

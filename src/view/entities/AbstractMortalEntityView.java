@@ -5,7 +5,6 @@ import java.util.Optional;
 import enumerators.HorizontalDirection;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 /**
@@ -13,7 +12,6 @@ import javafx.scene.media.MediaPlayer;
  */
 public abstract class AbstractMortalEntityView extends AbstractEntityView implements MortalEntityView {
 
-    private final Media collisionSound = new Media(getClass().getResource("/music/collision.wav").toExternalForm());
     private Optional<MediaPlayer> mediaPlayer = Optional.empty();
     private HorizontalDirection direction = HorizontalDirection.RIGHT;
     /**
@@ -35,12 +33,6 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
         } else {
             getView().setScaleX(1);
         }
-    }
-
-    @Override
-    public final void makeCollisionSound() {
-        this.setMediaPlayer(new MediaPlayer(this.collisionSound));
-        this.getMediaPlayer().play();
     }
 
     @Override
@@ -72,6 +64,10 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
     }
 
     @Override
+    public void makeCollisionSound()  {
+    }
+
+    @Override
     public void updatePunch() {
     }
 
@@ -98,7 +94,7 @@ public abstract class AbstractMortalEntityView extends AbstractEntityView implem
      */
     protected final void setMediaPlayer(final MediaPlayer sound) {
         if (!this.mediaPlayer.equals(Optional.empty())) {
-            this.mediaPlayer.get().stop();
+            this.mediaPlayer.get().dispose();
         }
         this.mediaPlayer = Optional.of(sound);
     }

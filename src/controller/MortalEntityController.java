@@ -40,7 +40,7 @@ public class MortalEntityController extends AbstractEntityController<MortalEntit
      */
     @Subscribe
     public void collisionListener(final CollisionEvent event) {
-        getEntityView().makeCollisionSound();
+         getEntityView().makeCollisionSound();
     }
 
 }

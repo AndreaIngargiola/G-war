@@ -24,7 +24,9 @@ public final class PlayerView extends AbstractMortalEntityView {
     private static final double ADDICTIONAL_PUNCH_5 = 14.5;
     private static final double WIDTH = 9, HEIGHT = 9;
     private final StatisticsView statistics;
+    private final Media collisionSound = new Media(getClass().getResource("/music/collision.wav").toExternalForm());
     private final Media jumpSound = new Media(getClass().getResource("/music/highUp.wav").toExternalForm());
+
     private final Line punchView = new Line();
 
     /**
@@ -103,6 +105,12 @@ public final class PlayerView extends AbstractMortalEntityView {
     @Override
     public void makeJumpSound()  {
         this.setMediaPlayer(new MediaPlayer(this.jumpSound));
+        this.getMediaPlayer().play();
+    }
+
+    @Override
+    public void makeCollisionSound() {
+        this.setMediaPlayer(new MediaPlayer(this.collisionSound));
         this.getMediaPlayer().play();
     }
 

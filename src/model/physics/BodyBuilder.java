@@ -2,62 +2,51 @@ package model.physics;
 
 import org.jbox2d.common.Vec2;
 
+import model.components.EntityBody;
+
 /**
- * Builder for {@link EntityPhysic}. 
+ * Models a body builder for the entities. 
+ *
  */
 public interface BodyBuilder {
+
     /**
-     * @param pos The position of the spawn point of the entity.
-     * @return The {@link BodyBuilder} instance.
-    */
-    BodyBuilder position(Vec2 pos);
-    /**
-     * A body not subject to forces will not respond to forces nor impulses and
-     * won't be pushed by other bodies. This includes the normal force so the body
-     * will be able to pass through others and it's especially true for collisions
-     * with other bodies of the same type.
-     * 
-     * Default true.
-     * 
-     * @param isSubjectToForces true if subject to forces.
-     * @return the {@link BodyBuilder} instance.
-    */
-    BodyBuilder subjectToForces(boolean isSubjectToForces);
-    /**
-     * Default true.
-     * 
-     * @param isMoveable If false the body won't move.
-     * @return The {@link BodyBuilder} instance.
-    */
-    BodyBuilder moveable(boolean isMoveable);
-    /**
-     * Default true.
-     * 
-     * @param isSolid If false the body can pass through other bodies.
-     * @return The {@link BodyBuilder} instance.
-    */
-    BodyBuilder solid(boolean isSolid);
-    /**
-     * 
-     * @param friction The friction applied during contact with other bodies.
-     * @return The {@link BodyBuilder} instance.
+     * @param position
+     *            the position  of the BodyBuilder
+     * @return the {@link BodyBuilderBuilder} instance.
      */
-    BodyBuilder friction(float friction);
+    BodyBuilder setPosition(Vec2 position);
+
     /**
+     * @param size
+     *            the size of the BodyBuilder.
+     * @return the {@link BodyBuilderBuilder} instance.
+     */
+    BodyBuilder setSize(Vec2 size);
+
+    /**
+     * A BodyBuilder not subject to forces will not respond to forces and impulses and won't be pushed by other bodies.
      * 
-     * @param gravity The gravity scale to apply to the body.
-     * @return The {@link BodyBuilder} instance.
-     */
-    BodyBuilder gravity(float gravity);
-    /**
+     * Defaults to true.
      * 
-     * @param density The body density to be applied.
-     * @return The {@link BodyBuilder} instance.
+     * @param opt
+     *           set to false to disable forces for this BodyBuilder.
+     * @return the {@link BodyBuilderBuilder} instance.
      */
-    BodyBuilder density(float density);
+    BodyBuilder setSubjectToForces(boolean opt);
+
+
     /**
-     *
-     * @return The built {@link EntityPhysic} instance.
+     * Defaults to true.
+     * 
+     * @param moveable
+     *            set to false if the BodyBuilder won't move from its position.
+     * @return the {@link BodyBuilderBuilder} instance.
      */
-    EntityPhysic build();
+    BodyBuilder setIsMoveable(boolean moveable);
+
+    /**
+     * @return the built {@link EntityBodyBuilder} instance.
+     */
+    EntityBody build();
 }
